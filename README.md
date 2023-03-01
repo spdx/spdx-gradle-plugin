@@ -50,4 +50,6 @@ Current source control information is only determined from git
 
 Task is not very configurable, no user injection of sbom parameters
 
+Cannot determine information from dependencies pulled from private repositories
+
 Output is always json
