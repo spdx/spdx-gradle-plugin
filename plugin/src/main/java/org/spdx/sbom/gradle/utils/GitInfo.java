@@ -35,11 +35,12 @@ public interface GitInfo {
 
   @Derived
   default String asSourceInfo() {
-    return getOrigin().map(String::trim).orElse("<no-origin>")
-        + ":"
-        + getCommitHash().map(String::trim).orElse("<no-commit>")
-        + ":"
-        + getTag().map(String::trim).orElse("<no-tag>");
+    return
+        getOrigin().map(String::trim).orElse("<no-origin>")
+            + ":"
+            + getCommitHash().map(String::trim).orElse("<no-commit>")
+            + ":"
+            + getTag().map(String::trim).orElse("<no-tag>");
   }
 
   static GitInfo extractGitInfo(Project project) {

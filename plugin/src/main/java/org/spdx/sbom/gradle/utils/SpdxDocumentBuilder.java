@@ -84,8 +84,8 @@ public class SpdxDocumentBuilder {
   }
 
   public void addSourceSet(SourceSet sourceSet) {
-    add(sourceSet.getAllSource(), sourceFiles);
-    add(sourceSet.getResources(), resourceFiles);
+    //add(sourceSet.getAllSource(), sourceFiles);
+    //add(sourceSet.getResources(), resourceFiles);
     Configuration configuration =
         project.getConfigurations().getByName(sourceSet.getRuntimeClasspathConfigurationName());
     add(configuration);
@@ -102,7 +102,7 @@ public class SpdxDocumentBuilder {
         .forEachOrdered(target::add);
   }
 
-  private void add(Configuration configuration) {
+  public void add(Configuration configuration) {
     for (ResolvedDependency dep :
         configuration.getResolvedConfiguration().getFirstLevelModuleDependencies()) {
       add(null, dep);

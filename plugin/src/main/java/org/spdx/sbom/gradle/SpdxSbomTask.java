@@ -20,6 +20,7 @@ import java.io.IOException;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
+import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.plugins.JavaPluginExtension;
 import org.gradle.api.provider.ListProperty;
@@ -37,11 +38,9 @@ import org.spdx.storage.simple.InMemSpdxStore;
 
 public abstract class SpdxSbomTask extends DefaultTask {
 
-  @Input
-  public abstract ListProperty<String> getSourceSets();
 
-  // @Input
-  // public abstract Property<String> getComponent();
+  @Input
+  public abstract ListProperty<String> getConfigurations();
 
   @OutputDirectory
   public abstract DirectoryProperty getOutputDirectory();
@@ -50,22 +49,17 @@ public abstract class SpdxSbomTask extends DefaultTask {
   public void generateSbom()
       throws InvalidSPDXAnalysisException, IOException, XmlPullParserException,
           InterruptedException {
-    if (!getSourceSets().isPresent()) {
-      throw new GradleException("No sourceSets were configured for sbom generation");
+    if (!getConfigurations().isPresent()) {
+      throw new GradleException("No configurations were specified for sbom generation");
     }
     ISerializableModelStore modelStore =
         new MultiFormatStore(new InMemSpdxStore(), Format.JSON_PRETTY);
     SpdxDocumentBuilder documentBuilder =
         new SpdxDocumentBuilder(getProject(), modelStore, getProject().getName());
 
-    for (String sourceSetName : getSourceSets().get()) {
-      SourceSet sourceSet =
-          getProject()
-              .getExtensions()
-              .getByType(JavaPluginExtension.class)
-              .getSourceSets()
-              .getByName(sourceSetName);
-      documentBuilder.addSourceSet(sourceSet);
+    for (String configurationName : getConfigurations().get()) {
+      Configuration configuration = getProject().getConfigurations().getByName(configurationName);
+      documentBuilder.add(configuration);
     }
     FileOutputStream out =
         new FileOutputStream(getOutputDirectory().file("spdx.sbom.json").get().getAsFile());

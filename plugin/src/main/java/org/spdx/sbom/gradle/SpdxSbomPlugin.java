@@ -18,6 +18,7 @@ package org.spdx.sbom.gradle;
 import java.util.Collections;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.plugins.JavaPluginExtension;
 
 /** A simple 'hello world' plugin. */
 public class SpdxSbomPlugin implements Plugin<Project> {
@@ -29,7 +30,7 @@ public class SpdxSbomPlugin implements Plugin<Project> {
             "spdxSbom",
             SpdxSbomTask.class,
             spdxSbomTask -> {
-              spdxSbomTask.getSourceSets().set(Collections.singleton("main"));
+              spdxSbomTask.getConfigurations().set(Collections.singleton("runtimeClasspath"));
               spdxSbomTask
                   .getOutputDirectory()
                   .set(project.getLayout().getBuildDirectory().dir("spdx"));
