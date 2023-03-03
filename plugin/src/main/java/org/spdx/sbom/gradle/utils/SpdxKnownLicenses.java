@@ -22,8 +22,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpClient.Redirect;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +50,11 @@ public class SpdxKnownLicenses {
   public static SpdxKnownLicenses fromRemote()
       throws IOException, InterruptedException, JsonParseException {
     var licenseReq = HttpRequest.newBuilder(URI.create(REMOTE_LICENSES)).GET().build();
-    var httpClient = HttpClients.newClient(30);
+    var httpClient =
+        HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(30))
+            .followRedirects(Redirect.NORMAL)
+            .build();
     try (BufferedReader reader =
         new BufferedReader(
             new InputStreamReader(

@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.maven.model.License;
-import org.gradle.api.Project;
+import org.gradle.api.logging.Logger;
 import org.spdx.library.InvalidSPDXAnalysisException;
 import org.spdx.library.ModelCopyManager;
 import org.spdx.library.model.SpdxDocument;
@@ -35,31 +35,31 @@ import org.spdx.storage.IModelStore.IdType;
 
 public class SpdxLicenses {
 
+  private final Logger logger;
   private final Map<String, AnyLicenseInfo> projectLicenses = new HashMap<>();
 
-  private final Project project;
   private final SpdxDocument doc;
   private final IModelStore modelStore;
   private final ModelCopyManager copyManager;
   private final SpdxKnownLicenses knownLicenses;
 
   private SpdxLicenses(
-      Project project,
+      Logger logger,
       SpdxDocument doc,
       IModelStore modelStore,
       ModelCopyManager copyManager,
       SpdxKnownLicenses knownLicenses) {
-    this.project = project;
+    this.logger = logger;
     this.doc = doc;
     this.modelStore = modelStore;
     this.copyManager = copyManager;
     this.knownLicenses = knownLicenses;
   }
 
-  public static SpdxLicenses newSpdxLicenes(Project project, SpdxDocument doc)
+  public static SpdxLicenses newSpdxLicenes(Logger logger, SpdxDocument doc)
       throws IOException, InterruptedException {
     return new SpdxLicenses(
-        project, doc, doc.getModelStore(), doc.getCopyManager(), SpdxKnownLicenses.fromRemote());
+        logger, doc, doc.getModelStore(), doc.getCopyManager(), SpdxKnownLicenses.fromRemote());
   }
 
   public AnyLicenseInfo asSpdxLicense(List<License> licenses) throws InvalidSPDXAnalysisException {
@@ -80,7 +80,7 @@ public class SpdxLicenses {
     // convert all license
 
     if (license.getUrl() == null) {
-      project.getLogger().warn("Unusable found license " + license);
+      logger.warn("Ignoring unusual license " + license);
       return new SpdxNoAssertionLicense();
     }
 
@@ -99,6 +99,7 @@ public class SpdxLicenses {
 
     // handle new unknown licenses
     // this is maybe not preferable, alternative is the user defining all the licenses
+    logger.warn("Non spdx-standard license detected in package: " + license);
     var unknownLicense = createNewUnknownLicense(license);
     projectLicenses.put(normalizedLicenseUrl, unknownLicense);
     return unknownLicense;

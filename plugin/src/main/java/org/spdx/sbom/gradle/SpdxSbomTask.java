@@ -15,59 +15,85 @@
  */
 package org.spdx.sbom.gradle;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import javax.inject.Inject;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.gradle.api.DefaultTask;
-import org.gradle.api.GradleException;
-import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.artifacts.component.ComponentArtifactIdentifier;
+import org.gradle.api.artifacts.result.ResolvedComponentResult;
 import org.gradle.api.file.DirectoryProperty;
-import org.gradle.api.plugins.JavaPluginExtension;
-import org.gradle.api.provider.ListProperty;
+import org.gradle.api.provider.MapProperty;
+import org.gradle.api.provider.Property;
+import org.gradle.api.provider.SetProperty;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.OutputDirectory;
-import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.process.ExecOperations;
 import org.spdx.jacksonstore.MultiFormatStore;
 import org.spdx.jacksonstore.MultiFormatStore.Format;
 import org.spdx.library.InvalidSPDXAnalysisException;
 import org.spdx.library.model.SpdxDocument;
+import org.spdx.sbom.gradle.utils.ProjectInfo;
 import org.spdx.sbom.gradle.utils.SpdxDocumentBuilder;
 import org.spdx.storage.ISerializableModelStore;
 import org.spdx.storage.simple.InMemSpdxStore;
 
 public abstract class SpdxSbomTask extends DefaultTask {
 
+  @Inject
+  protected abstract ExecOperations getExecOperations();
 
   @Input
-  public abstract ListProperty<String> getConfigurations();
+  public abstract Property<ResolvedComponentResult> getRootComponent();
+
+  @Input
+  public abstract MapProperty<ComponentArtifactIdentifier, File> getResolvedArtifacts();
 
   @OutputDirectory
   public abstract DirectoryProperty getOutputDirectory();
+
+  @Input
+  abstract Property<ProjectInfo> getProjectInfo();
+
+  @Input
+  abstract SetProperty<ProjectInfo> getAllProjects();
+
+  @Input
+  abstract MapProperty<String, URI> getMavenRepositories();
+
+  @Input
+  abstract MapProperty<ComponentArtifactIdentifier, File> getPoms();
 
   @TaskAction
   public void generateSbom()
       throws InvalidSPDXAnalysisException, IOException, XmlPullParserException,
           InterruptedException {
-    if (!getConfigurations().isPresent()) {
-      throw new GradleException("No configurations were specified for sbom generation");
-    }
     ISerializableModelStore modelStore =
         new MultiFormatStore(new InMemSpdxStore(), Format.JSON_PRETTY);
     SpdxDocumentBuilder documentBuilder =
-        new SpdxDocumentBuilder(getProject(), modelStore, getProject().getName());
+        new SpdxDocumentBuilder(
+            getAllProjects().get(),
+            getProjectInfo().get(),
+            getExecOperations(),
+            getLogger(),
+            modelStore,
+            getProjectInfo().get().getName(),
+            getResolvedArtifacts().get(),
+            getMavenRepositories().get(),
+            getPoms().get());
 
-    for (String configurationName : getConfigurations().get()) {
-      Configuration configuration = getProject().getConfigurations().getByName(configurationName);
-      documentBuilder.add(configuration);
-    }
-    FileOutputStream out =
-        new FileOutputStream(getOutputDirectory().file("spdx.sbom.json").get().getAsFile());
-    SpdxDocument doc = documentBuilder.asSpdxDocument();
+    documentBuilder.add(null, getRootComponent().get());
+
+    SpdxDocument doc = documentBuilder.getSpdxDocument();
 
     // shows verification errors in the final doc
     System.out.println(doc.verify());
 
+    FileOutputStream out =
+        new FileOutputStream(getOutputDirectory().file("spdx.sbom.json").get().getAsFile());
     modelStore.serialize(doc.getDocumentUri(), out);
   }
 }

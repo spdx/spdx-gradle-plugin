@@ -21,14 +21,8 @@ import org.apache.maven.model.License;
 import org.immutables.value.Value.Immutable;
 
 @Immutable
-public interface ArtifactInfo {
+public interface PomInfo {
   List<License> getLicenses();
-
-  URI getSourceURL();
-
-  String getSha256();
-  // dumb spdx sha1 requirement
-  String getSha1();
 
   URI getHomepage();
 }

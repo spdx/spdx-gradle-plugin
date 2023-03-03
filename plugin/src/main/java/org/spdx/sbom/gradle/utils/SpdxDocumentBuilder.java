@@ -15,216 +15,199 @@
  */
 package org.spdx.sbom.gradle.utils;
 
+import com.google.common.hash.Hashing;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import javax.annotation.Nullable;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-import org.gradle.api.Project;
-import org.gradle.api.artifacts.Configuration;
-import org.gradle.api.artifacts.ResolvedDependency;
-import org.gradle.api.file.SourceDirectorySet;
-import org.gradle.api.tasks.SourceSet;
+import org.gradle.api.artifacts.ModuleVersionIdentifier;
+import org.gradle.api.artifacts.component.ComponentArtifactIdentifier;
+import org.gradle.api.artifacts.component.ComponentIdentifier;
+import org.gradle.api.artifacts.component.ModuleComponentIdentifier;
+import org.gradle.api.artifacts.component.ProjectComponentIdentifier;
+import org.gradle.api.artifacts.result.DependencyResult;
+import org.gradle.api.artifacts.result.ResolvedComponentResult;
+import org.gradle.api.artifacts.result.ResolvedDependencyResult;
+import org.gradle.api.internal.artifacts.result.ResolvedComponentResultInternal;
+import org.gradle.api.logging.Logger;
+import org.gradle.process.ExecOperations;
 import org.spdx.library.InvalidSPDXAnalysisException;
 import org.spdx.library.ModelCopyManager;
 import org.spdx.library.model.SpdxDocument;
-import org.spdx.library.model.SpdxFile;
 import org.spdx.library.model.SpdxModelFactory;
 import org.spdx.library.model.SpdxPackage;
-import org.spdx.library.model.SpdxPackageVerificationCode;
+import org.spdx.library.model.SpdxPackage.SpdxPackageBuilder;
 import org.spdx.library.model.enumerations.RelationshipType;
-import org.spdx.library.model.license.AnyLicenseInfo;
 import org.spdx.library.model.license.SpdxNoAssertionLicense;
 import org.spdx.storage.IModelStore;
 import org.spdx.storage.IModelStore.IdType;
 
 public class SpdxDocumentBuilder {
   private final SpdxDocument doc;
-  private final Project project;
+  private final SpdxLicenses licenses;
+  private final Map<String, ProjectInfo> knownProjects;
+  private final HashMap<ComponentIdentifier, SpdxPackage> processedPackages = new HashMap<>();
+  private final String sourceInfo;
+  private final Map<ComponentIdentifier, File> resolvedArtifacts;
+  private final Map<String, URI> mavenArtifactRepositories;
+  private final PomInfoFactory pomInfoFactory;
 
-  private final Map<String, Project> knownProjects;
-
-  private final Set<Path> sourceFiles = new HashSet<>();
-  private final Set<Path> resourceFiles = new HashSet<>();
-
-  private final HashMap<ResolvedDependency, ArrayList<ResolvedDependency>> tree = new HashMap<>();
-  private final ArrayList<ResolvedDependency> directDependencies = new ArrayList<>();
-  private final ArtifactInfoFactory artifactInfoFactory;
-
-  public SpdxDocumentBuilder(Project project, IModelStore modelStore, String documentUri)
-      throws InvalidSPDXAnalysisException {
-    this.project = project;
+  public SpdxDocumentBuilder(
+      Set<ProjectInfo> allProjects,
+      ProjectInfo projectInfo,
+      ExecOperations execOperations,
+      Logger logger,
+      IModelStore modelStore,
+      String documentUri,
+      Map<ComponentArtifactIdentifier, File> resolvedArtifacts,
+      Map<String, URI> mavenArtifactRepositories,
+      Map<ComponentArtifactIdentifier, File> poms)
+      throws InvalidSPDXAnalysisException, IOException, InterruptedException {
+    GitInfoProvider gitInfoProvider = new GitInfoProvider(execOperations, logger);
     doc = SpdxModelFactory.createSpdxDocument(modelStore, documentUri, new ModelCopyManager());
-    doc.setName(project.getName());
+    doc.setName(projectInfo.getName());
     doc.setCreationInfo(
         doc.createCreationInfo(
             Collections.singletonList("Tool:spdx-gradle-plugin"),
             ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_DATE_TIME)));
-    this.artifactInfoFactory = ArtifactInfoFactory.newFactory(project);
+    this.licenses = SpdxLicenses.newSpdxLicenes(logger, doc);
 
+    this.sourceInfo = gitInfoProvider.getGitInfo().asSourceInfo();
     this.knownProjects =
-        project
-            .getRootProject()
-            .getSubprojects()
+        allProjects.stream().collect(Collectors.toMap(ProjectInfo::getPath, Function.identity()));
+
+    this.resolvedArtifacts =
+        resolvedArtifacts
+            .entrySet()
             .stream()
-            .collect(
-                Collectors.toMap(
-                    p -> p.getGroup() + ":" + p.getName() + ":" + p.getVersion(),
-                    Function.identity()));
+            .collect(Collectors.toMap(e -> e.getKey().getComponentIdentifier(), Entry::getValue));
+    this.mavenArtifactRepositories = mavenArtifactRepositories;
+    this.pomInfoFactory = PomInfoFactory.newFactory(poms);
   }
 
-  public void addSourceSet(SourceSet sourceSet) {
-    //add(sourceSet.getAllSource(), sourceFiles);
-    //add(sourceSet.getResources(), resourceFiles);
-    Configuration configuration =
-        project.getConfigurations().getByName(sourceSet.getRuntimeClasspathConfigurationName());
-    add(configuration);
-  }
-
-  private void add(SourceDirectorySet sourceDirectorySet, Set<Path> target) {
-    sourceDirectorySet
-        .getSourceDirectories()
-        .getAsFileTree()
-        .getFiles()
-        .stream()
-        .filter(File::isFile)
-        .map(File::toPath)
-        .forEachOrdered(target::add);
-  }
-
-  public void add(Configuration configuration) {
-    for (ResolvedDependency dep :
-        configuration.getResolvedConfiguration().getFirstLevelModuleDependencies()) {
-      add(null, dep);
-    }
-  }
-
-  private void add(ResolvedDependency parent, ResolvedDependency resolvedDependency) {
-    if (resolvedDependency.getModuleArtifacts().size() == 0) {
-      // we're not dealing with objects that aren't resolved to files
-      // this might mean we don't see boms in the sbom
-      return;
-    }
-    if (tree.containsKey(resolvedDependency)) {
-      // item already processed, return
-      return;
-    }
-    if (parent == null) {
-      directDependencies.add(resolvedDependency);
-    } else {
-      tree.get(parent).add(resolvedDependency);
-    }
-    tree.put(resolvedDependency, new ArrayList<>());
-    for (ResolvedDependency child : resolvedDependency.getChildren()) {
-      add(resolvedDependency, child);
-    }
-  }
-
-  public SpdxDocument asSpdxDocument()
-      throws InvalidSPDXAnalysisException, XmlPullParserException, IOException,
+  public void add(@Nullable SpdxPackage parent, ResolvedComponentResult resolvedComponentResult)
+      throws InvalidSPDXAnalysisException, IOException, XmlPullParserException,
           InterruptedException {
-    SpdxLicenses licenses = SpdxLicenses.newSpdxLicenes(project, doc);
-
-    String sourceInfo = GitInfo.extractGitInfo(project).asSourceInfo();
-
-    // create project under analysis object
-    SpdxPackage projectPackage =
-        doc.createPackage(
-                doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
-                project.getName(),
-                new SpdxNoAssertionLicense(),
-                "",
-                new SpdxNoAssertionLicense())
-            .setFilesAnalyzed(false)
-            .setDescription("" + project.getDescription())
-            .setVersionInfo("" + project.getVersion())
-            .setSourceInfo(sourceInfo)
-            .setDownloadLocation("NOASSERTION")
-            .build();
-    doc.setDocumentDescribes(Collections.singletonList(projectPackage));
-
-    SpdxFileFactory fileFactory = new SpdxFileFactory(doc, project.getProjectDir());
-
-    for (Path src : sourceFiles) {
-      SpdxFile spdxFile = fileFactory.newFile(src);
-      spdxFile.addRelationship(
-          doc.createRelationship(projectPackage, RelationshipType.GENERATES, null));
-      projectPackage.addFile(spdxFile);
-    }
-
-    for (Path res : resourceFiles) {
-      SpdxFile spdxFile = fileFactory.newFile(res);
-      spdxFile.addRelationship(
-          doc.createRelationship(projectPackage, RelationshipType.CONTAINED_BY, null));
-      projectPackage.addFile(spdxFile);
-    }
-
-    // create all dependencies
-    Map<ResolvedDependency, SpdxPackage> spdxrefs = new HashMap<>();
-    for (ResolvedDependency pkg : tree.keySet()) {
-      String moduleReference = getModuleReference(pkg);
-      // handle project dependencies
-      if (knownProjects.containsKey(moduleReference)) {
-        Project subProject = knownProjects.get(moduleReference);
-        SpdxPackage subProjectPkg =
-            doc.createPackage(
-                    doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
-                    subProject.getName(),
-                    new SpdxNoAssertionLicense(),
-                    "",
-                    new SpdxNoAssertionLicense())
-                .setFilesAnalyzed(false)
-                .setDescription("" + subProject.getDescription())
-                .setVersionInfo("" + subProject.getVersion())
-                .setSourceInfo(subProject.getPath() + " in " + sourceInfo)
-                .setDownloadLocation("NOASSERTION")
-                .build();
-        spdxrefs.put(pkg, subProjectPkg);
+    if (!processedPackages.containsKey(resolvedComponentResult.getId())) {
+      SpdxPackage pkg;
+      if (resolvedComponentResult.getId() instanceof ProjectComponentIdentifier) {
+        pkg = createProjectPackage(resolvedComponentResult);
+      } else if (resolvedComponentResult.getId() instanceof ModuleComponentIdentifier) {
+        var result = createMavenModulePackage(resolvedComponentResult);
+        if (result.isEmpty()) {
+          System.out.println("ignoring: " + resolvedComponentResult.getId());
+          return; // ignore this package (maybe it's a bom?)
+        }
+        pkg = result.get();
+      } else {
+        throw new RuntimeException(
+            "Unknown package type: "
+                + resolvedComponentResult.getClass().getName()
+                + " "
+                + resolvedComponentResult.getId().getClass().getName()
+                + " "
+                + resolvedComponentResult.getId());
       }
-      // external dependencies
-      else {
-        ArtifactInfo info = artifactInfoFactory.getInfo(pkg);
-        SpdxPackageVerificationCode vc =
-            doc.createPackageVerificationCode(info.getSha1(), new ArrayList<>());
-        AnyLicenseInfo licenseInfo = licenses.asSpdxLicense(info.getLicenses());
-        SpdxPackage spdxPkg =
-            doc.createPackage(
-                    doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
-                    pkg.getName(),
-                    licenseInfo,
-                    "NOASSERTION",
-                    licenseInfo)
-                .setPackageVerificationCode(vc)
-                .build();
-        spdxrefs.put(pkg, spdxPkg);
+      processedPackages.put(resolvedComponentResult.getId(), pkg);
+    }
+
+    SpdxPackage pkg = processedPackages.get(resolvedComponentResult.getId());
+    if (parent == null) {
+      doc.setDocumentDescribes(Collections.singletonList(pkg));
+    } else {
+      var rel = doc.createRelationship(parent, RelationshipType.DEPENDENCY_OF, null);
+      pkg.addRelationship(rel);
+    }
+
+    for (DependencyResult dep : resolvedComponentResult.getDependencies()) {
+      if (dep instanceof ResolvedDependencyResult) {
+        add(pkg, ((ResolvedDependencyResult) dep).getSelected());
       }
     }
-    // create relationships between dependencies
-    for (ResolvedDependency pkg : tree.keySet()) {
-      for (ResolvedDependency child : tree.get(pkg)) {
-        var rel = doc.createRelationship(spdxrefs.get(child), RelationshipType.DEPENDS_ON, null);
-        spdxrefs.get(pkg).addRelationship(rel);
-      }
-    }
-    // special handling for direct dependencies of the project being analyzed
-    for (ResolvedDependency dep : directDependencies) {
-      var rel = doc.createRelationship(spdxrefs.get(dep), RelationshipType.DEPENDS_ON, null);
-      projectPackage.addRelationship(rel);
-    }
-    return doc;
   }
 
-  private String getModuleReference(ResolvedDependency dep) {
-    return dep.getModuleGroup() + ":" + dep.getModuleName() + ":" + dep.getModuleVersion();
+  private SpdxPackage createProjectPackage(ResolvedComponentResult resolvedComponentResult)
+      throws InvalidSPDXAnalysisException {
+    var projectId = (ProjectComponentIdentifier) resolvedComponentResult.getId();
+
+    ProjectInfo pi = knownProjects.get(projectId.getProjectPath());
+    return doc.createPackage(
+            doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
+            pi.getName(),
+            new SpdxNoAssertionLicense(),
+            "",
+            new SpdxNoAssertionLicense())
+        .setFilesAnalyzed(false)
+        .setDescription("" + pi.getDescription().orElse(""))
+        .setVersionInfo("" + pi.getVersion())
+        .setSourceInfo(pi.getPath() + " in " + sourceInfo)
+        .setDownloadLocation("NOASSERTION")
+        .build();
+  }
+
+  private Optional<SpdxPackage> createMavenModulePackage(
+      ResolvedComponentResult resolvedComponentResult)
+      throws InvalidSPDXAnalysisException, IOException, XmlPullParserException,
+          InterruptedException {
+
+    // if the project doesn't resolve to anything, ignore it
+    File dependencyFile = resolvedArtifacts.get(resolvedComponentResult.getId());
+    if (dependencyFile != null) {
+
+      ModuleVersionIdentifier moduleId = resolvedComponentResult.getModuleVersion();
+
+      PomInfo pomInfo = pomInfoFactory.getInfo(resolvedComponentResult.getId());
+
+      SpdxPackageBuilder spdxPkgBuilder =
+          doc.createPackage(
+              doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
+              moduleId.getGroup() + ":" + moduleId.getName() + ":" + moduleId.getVersion(),
+              new SpdxNoAssertionLicense(),
+              "NOASSERTION",
+              licenses.asSpdxLicense(pomInfo.getLicenses()));
+
+      String sourceRepo =
+          ((ResolvedComponentResultInternal) resolvedComponentResult).getRepositoryName();
+      if (sourceRepo == null) {
+        throw new RuntimeException("Source repo was null?");
+      }
+
+      var baseURI = mavenArtifactRepositories.get(sourceRepo);
+      String modulePath =
+          moduleId.getGroup().replace(".", "/")
+              + "/"
+              + moduleId.getName()
+              + "/"
+              + moduleId.getVersion()
+              + "/"
+              + URLEncoder.encode(dependencyFile.getName(), StandardCharsets.UTF_8);
+      spdxPkgBuilder.setDownloadLocation(baseURI.resolve(modulePath).toString());
+
+      String sha1 =
+          com.google.common.io.Files.asByteSource(dependencyFile).hash(Hashing.sha1()).toString();
+      spdxPkgBuilder.setPackageVerificationCode(
+          doc.createPackageVerificationCode(sha1, Collections.emptyList()));
+
+      return Optional.of(spdxPkgBuilder.build());
+    }
+    return Optional.empty();
+  }
+
+  public SpdxDocument getSpdxDocument() {
+    return doc;
   }
 }

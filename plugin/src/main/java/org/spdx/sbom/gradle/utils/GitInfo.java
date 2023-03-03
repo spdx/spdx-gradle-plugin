@@ -15,12 +15,7 @@
  */
 package org.spdx.sbom.gradle.utils;
 
-import java.io.ByteArrayOutputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Optional;
-import org.gradle.api.Project;
-import org.gradle.process.internal.ExecException;
 import org.immutables.value.Value.Derived;
 import org.immutables.value.Value.Immutable;
 
@@ -35,37 +30,10 @@ public interface GitInfo {
 
   @Derived
   default String asSourceInfo() {
-    return
-        getOrigin().map(String::trim).orElse("<no-origin>")
-            + ":"
-            + getCommitHash().map(String::trim).orElse("<no-commit>")
-            + ":"
-            + getTag().map(String::trim).orElse("<no-tag>");
-  }
-
-  static GitInfo extractGitInfo(Project project) {
-    Optional<String> commitHash = exec(project, "rev-parse", "HEAD");
-    Optional<String> origin = exec(project, "config", "--get", "remote.origin.url");
-    Optional<String> tag = exec(project, "describe", "--tags", "--always", "--dirty");
-
-    return ImmutableGitInfo.builder().tag(tag).commitHash(commitHash).origin(origin).build();
-  }
-
-  private static Optional<String> exec(Project project, String... args) {
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    ByteArrayOutputStream err = new ByteArrayOutputStream();
-    try {
-      project.exec(
-          execSpec -> {
-            execSpec.executable("git");
-            execSpec.args(Arrays.stream(args).toArray());
-            execSpec.setStandardOutput(out);
-            execSpec.setErrorOutput(err);
-          });
-    } catch (ExecException e) {
-      project.getLogger().warn(e.getMessage() + " " + Arrays.asList(args));
-      return Optional.empty();
-    }
-    return Optional.of(out.toString(StandardCharsets.UTF_8));
+    return getOrigin().map(String::trim).orElse("<no-origin>")
+        + ":"
+        + getCommitHash().map(String::trim).orElse("<no-commit>")
+        + ":"
+        + getTag().map(String::trim).orElse("<no-tag>");
   }
 }
