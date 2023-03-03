@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 import javax.inject.Inject;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.gradle.api.DefaultTask;
@@ -90,7 +91,8 @@ public abstract class SpdxSbomTask extends DefaultTask {
     SpdxDocument doc = documentBuilder.getSpdxDocument();
 
     // shows verification errors in the final doc
-    System.out.println(doc.verify());
+    List<String> verificationErrors = doc.verify();
+    verificationErrors.forEach(errors -> getLogger().warn(errors));
 
     FileOutputStream out =
         new FileOutputStream(getOutputDirectory().file("spdx.sbom.json").get().getAsFile());

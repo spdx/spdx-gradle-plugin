@@ -65,6 +65,7 @@ public class SpdxDocumentBuilder {
   private final Map<ComponentIdentifier, File> resolvedArtifacts;
   private final Map<String, URI> mavenArtifactRepositories;
   private final PomInfoFactory pomInfoFactory;
+  private final Logger logger;
 
   public SpdxDocumentBuilder(
       Set<ProjectInfo> allProjects,
@@ -86,6 +87,7 @@ public class SpdxDocumentBuilder {
             ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_DATE_TIME)));
     this.licenses = SpdxLicenses.newSpdxLicenes(logger, doc);
 
+    this.logger = logger;
     this.sourceInfo = gitInfoProvider.getGitInfo().asSourceInfo();
     this.knownProjects =
         allProjects.stream().collect(Collectors.toMap(ProjectInfo::getPath, Function.identity()));
@@ -109,7 +111,7 @@ public class SpdxDocumentBuilder {
       } else if (resolvedComponentResult.getId() instanceof ModuleComponentIdentifier) {
         var result = createMavenModulePackage(resolvedComponentResult);
         if (result.isEmpty()) {
-          System.out.println("ignoring: " + resolvedComponentResult.getId());
+          logger.info("ignoring: " + resolvedComponentResult.getId());
           return; // ignore this package (maybe it's a bom?)
         }
         pkg = result.get();
