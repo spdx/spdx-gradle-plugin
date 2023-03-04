@@ -103,6 +103,38 @@ class SpdxSbomPluginFunctionalTest {
     System.out.println(Files.readString(outputFile));
   }
 
+  @Test
+  public void canRunOnPluginProject() throws IOException {
+    writeString(getSettingsFile(), "rootProject.name = 'spdx-functional-test-project'");
+    writeString(
+        getBuildFile(),
+        "plugins {\n"
+            + "  id('org.spdx.sbom')\n"
+            + "  id('java-gradle-plugin')\n"
+            + "}\n"
+            + "repositories {\n"
+            + "  google()\n"
+            + "  mavenCentral()\n"
+            + "}\n"
+            + "dependencies {\n"
+            + "  implementation 'dev.sigstore:sigstore-java:0.3.0'\n"
+            + ""
+            + "}\n");
+
+    GradleRunner runner = GradleRunner.create();
+    runner.forwardOutput();
+    runner.withPluginClasspath();
+    runner.withDebug(true);
+    runner.withArguments("spdxSbom", "--stacktrace");
+    runner.withProjectDir(projectDir);
+    runner.build();
+
+    Path outputFile = projectDir.toPath().resolve(Paths.get("build/spdx/spdx.sbom.json"));
+
+    // Verify the result
+    assertTrue(Files.isRegularFile(outputFile));
+  }
+
   private void writeString(File file, String string) throws IOException {
     try (Writer writer = new FileWriter(file)) {
       writer.write(string);
