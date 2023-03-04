@@ -33,6 +33,7 @@ import org.gradle.api.artifacts.result.ArtifactResult;
 import org.gradle.api.artifacts.result.ResolvedArtifactResult;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
 import org.gradle.api.provider.Provider;
+import org.gradle.internal.component.local.model.OpaqueComponentIdentifier;
 import org.spdx.sbom.gradle.utils.ProjectInfo;
 
 /** A plugin to generate spdx sboms. */
@@ -118,6 +119,8 @@ public class SpdxSbomPlugin implements Plugin<Project> {
         Collection<ResolvedArtifactResult> resolvedArtifactResults) {
       return resolvedArtifactResults
           .stream()
+          // ignore gradle API components
+          .filter(x -> !(x.getId().getComponentIdentifier() instanceof OpaqueComponentIdentifier))
           .collect(Collectors.toMap(ArtifactResult::getId, ResolvedArtifactResult::getFile));
     }
   }

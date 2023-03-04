@@ -2,7 +2,7 @@
   "SPDXID" : "SPDXRef-DOCUMENT",
   "spdxVersion" : "SPDX-2.3",
   "creationInfo" : {
-    "created" : "2023-03-01T20:05:32.661862726Z",
+    "created" : "2023-03-04T19:55:31.663418Z",
     "creators" : [ "Tool:spdx-gradle-plugin" ]
   },
   "name" : "plugin",
@@ -31,44 +31,26 @@
   "documentDescribes" : [ "SPDXRef-gnrtd0" ],
   "documentNamespace" : "plugin",
   "packages" : [ {
-    "SPDXID" : "SPDXRef-gnrtd60",
+    "SPDXID" : "SPDXRef-gnrtd8",
     "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.8.9/gson-2.8.9.jar",
     "filesAnalyzed" : true,
     "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.codehaus.plexus:plexus-cipher:2.0",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "425ea8e534716b4bff1ea90f39bd76be951d651b"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd61",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "Apache-2.0",
     "licenseDeclared" : "Apache-2.0",
-    "name" : "org.yaml:snakeyaml:1.32",
+    "name" : "com.google.code.gson:gson:2.8.9",
     "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "e80612549feb5c9191c498de628c1aa80693cf0b"
+      "packageVerificationCodeValue" : "8a432c1d6825781e21a02db2e2c33c5fde2833b9"
     }
   }, {
-    "SPDXID" : "SPDXRef-gnrtd62",
+    "SPDXID" : "SPDXRef-gnrtd9",
     "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar",
     "filesAnalyzed" : true,
     "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.codehaus.plexus:plexus-component-annotations:2.1.0",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "com.google.code.findbugs:jsr305:3.0.2",
     "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "2f2147a6cc6a119a1b51a96f31d45c557f6244b9"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd63",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.apache.maven:maven-plugin-api:3.9.0",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "b61f5020f1ef78ddf061fb119f70d23dd0e6efeb"
+      "packageVerificationCodeValue" : "25ea2e8b0c338a877313bd4672d3fe056ea78f0d"
     }
   }, {
     "SPDXID" : "SPDXRef-gnrtd0",
@@ -80,42 +62,56 @@
     "licenseDeclared" : "NOASSERTION",
     "licenseInfoFromFiles" : [ ],
     "name" : "plugin",
-    "hasFiles" : [ "SPDXRef-gnrtd1", "SPDXRef-gnrtd8", "SPDXRef-gnrtd5", "SPDXRef-gnrtd7", "SPDXRef-gnrtd3", "SPDXRef-gnrtd4", "SPDXRef-gnrtd2", "SPDXRef-gnrtd9", "SPDXRef-gnrtd10", "SPDXRef-gnrtd6" ],
-    "sourceInfo" : "git@github.com:loosebazooka/spdx-gradle-plugin:226e56b8f7dd7724ab92bfab99ac2e17a1bee552:226e56b-dirty",
+    "sourceInfo" : ":plugin in git@github.com:loosebazooka/spdx-gradle-plugin:f7fbc72ccb0163c9f743de134b3efcdf52aed6aa:f7fbc72-dirty",
     "versionInfo" : "0.0.1"
   }, {
-    "SPDXID" : "SPDXRef-gnrtd20",
+    "SPDXID" : "SPDXRef-gnrtd1",
     "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/spdx/java-spdx-library/1.1.4/java-spdx-library-1.1.4.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "org.spdx:java-spdx-library:1.1.4",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "7ae01b38d7c752f66a7f62123e86a12bb1517d58"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd2",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/logging/log4j/log4j-slf4j18-impl/2.18.0/log4j-slf4j18-impl-2.18.0.jar",
     "filesAnalyzed" : true,
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "NOASSERTION",
-    "name" : "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.14.0-rc1",
+    "name" : "org.apache.logging.log4j:log4j-slf4j18-impl:2.18.0",
     "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "9d0a0b20717fb372ab935df734033c310e0a53fc"
+      "packageVerificationCodeValue" : "12ac9a08c4115746d8f52f9b01d32c25d9a41add"
     }
   }, {
-    "SPDXID" : "SPDXRef-gnrtd21",
+    "SPDXID" : "SPDXRef-gnrtd3",
     "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/slf4j/slf4j-api/1.8.0-beta4/slf4j-api-1.8.0-beta4.jar",
     "filesAnalyzed" : true,
-    "licenseConcluded" : "Apache-2.0",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.fasterxml.woodstox:woodstox-core:6.3.1",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.slf4j:slf4j-api:1.8.0-beta4",
     "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "bf29b07ca4dd81ef3c0bc18c8bd5617510a81c5d"
+      "packageVerificationCodeValue" : "83b0359d847ee053d745be7ec0d8e9e8a44304b4"
     }
   }, {
-    "SPDXID" : "SPDXRef-gnrtd24",
+    "SPDXID" : "SPDXRef-gnrtd4",
     "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/logging/log4j/log4j-api/2.18.0/log4j-api-2.18.0.jar",
     "filesAnalyzed" : true,
-    "licenseConcluded" : "LicenseRef-gnrtd1",
-    "licenseDeclared" : "LicenseRef-gnrtd1",
-    "name" : "org.codehaus.woodstox:stax2-api:4.2.1",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.apache.logging.log4j:log4j-api:2.18.0",
     "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "a3f7325c52240418c2ba257b103c3c550e140c83"
+      "packageVerificationCodeValue" : "c72ad9b1d8d42e4ea7befd8248bf05877af4c63d"
     }
   }, {
-    "SPDXID" : "SPDXRef-gnrtd25",
+    "SPDXID" : "SPDXRef-gnrtd5",
     "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/logging/log4j/log4j-core/2.18.0/log4j-core-2.18.0.jar",
     "filesAnalyzed" : true,
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "NOASSERTION",
@@ -124,218 +120,42 @@
       "packageVerificationCodeValue" : "07c1882ede137548925eadb750615edab2f6e13c"
     }
   }, {
-    "SPDXID" : "SPDXRef-gnrtd22",
+    "SPDXID" : "SPDXRef-gnrtd6",
     "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "Apache-2.0",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "javax.inject:javax.inject:1",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "6975da39a7040257bd51d21a231b76c915872d38"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd23",
-    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar",
     "filesAnalyzed" : true,
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "NOASSERTION",
-    "name" : "org.eclipse.sisu:org.eclipse.sisu.inject:0.3.5",
+    "name" : "org.apache.commons:commons-lang3:3.12.0",
     "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "d4265dd4f0f1d7a06d80df5a5f475d5ff9c17140"
+      "packageVerificationCodeValue" : "c6842c86792ff03b9f1d1fe2aab8dc23aa6c6f0e"
     }
   }, {
-    "SPDXID" : "SPDXRef-gnrtd28",
+    "SPDXID" : "SPDXRef-gnrtd7",
     "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/jsoup/jsoup/1.15.3/jsoup-1.15.3.jar",
     "filesAnalyzed" : true,
-    "licenseConcluded" : "MIT",
-    "licenseDeclared" : "MIT",
-    "name" : "org.checkerframework:checker-qual:3.12.0",
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "LicenseRef-gnrtd0",
+    "name" : "org.jsoup:jsoup:1.15.3",
     "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "d5692f0526415fcc6de94bb5bfbd3afd9dd3b3e5"
+      "packageVerificationCodeValue" : "f6e1d8a8819f854b681c8eaa57fd59a42329e10c"
     }
   }, {
-    "SPDXID" : "SPDXRef-gnrtd29",
+    "SPDXID" : "SPDXRef-gnrtd20",
     "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "Apache-2.0",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.google.j2objc:j2objc-annotations:1.3",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "ba035118bc8bac37d7eff77700720999acd9986d"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd26",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "Apache-2.0",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.spdx:java-spdx-library:1.1.4",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "7ae01b38d7c752f66a7f62123e86a12bb1517d58"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd27",
-    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-core/3.9.0/maven-core-3.9.0.jar",
     "filesAnalyzed" : true,
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "NOASSERTION",
-    "name" : "org.apache.maven:maven-settings:3.9.0",
+    "name" : "org.apache.maven:maven-core:3.9.0",
     "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "16ab0d2021005ef88099299d00fbeeb119602efb"
+      "packageVerificationCodeValue" : "23693fcd7456be6c8235e0cf86cd41db7a7b2cdd"
     }
   }, {
-    "SPDXID" : "SPDXRef-gnrtd31",
+    "SPDXID" : "SPDXRef-gnrtd21",
     "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "LicenseRef-gnrtd2",
-    "licenseDeclared" : "LicenseRef-gnrtd2",
-    "name" : "org.json:json:20190722",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "07bce7bacf0ab5e9f894d307a3de8b7f540064d5"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd32",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "com.google.inject:guice:5.1.0",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "da25056c694c54ba16e78e4fc35f17fc60f0d1b4"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd30",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.codehaus.plexus:plexus-classworlds:2.6.0",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "8587e80fcb38e70b70fae8d5914b6376bfad6259"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd35",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "com.google.guava:guava:31.1-jre",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "60458f877d055d0c9114d9e1a2efb737b4bc282c"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd36",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.apache.maven.resolver:maven-resolver-api:1.9.4",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "e5d1d93ef97ccb74cd16e81ecf58e4c244439a40"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd33",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "Apache-2.0",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.spdx:spdx-jackson-store:1.1.4",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "859fe903873f7c68e9a13006880178e711808118"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd34",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "Apache-2.0",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.fasterxml.jackson.core:jackson-core:2.14.0-rc1",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "a5d9b5fa8d49aea385608f14d0cc269bf9489525"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd39",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "Apache-2.0",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.fasterxml.jackson.core:jackson-databind:2.14.0-rc1",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "e89ac425a32c3e59653df69ee2050734577d1357"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd37",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "b421526c5f297295adef1c886e5246c39d4ac629"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd38",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "Apache-2.0",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.google.code.gson:gson:2.8.9",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "8a432c1d6825781e21a02db2e2c33c5fde2833b9"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd42",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.codehaus.plexus:plexus-utils:3.4.2",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "82445e007f9009ac5ba6ae5d6b6898c4ce54dcf6"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd43",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.apache.maven:maven-model-builder:3.9.0",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "2e2ce2011395e20af5df89f8c6eec4f463f8e002"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd40",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.apache.maven:maven-settings-builder:3.9.0",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "88478895a4912e61c2644023261431b721b71e1c"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd41",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.codehaus.plexus:plexus-interpolation:1.26",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "25b919c664b79795ccde0ede5cee0fd68b544197"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd46",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.apache.maven:maven-repository-metadata:3.9.0",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "1f6441ae5ba4f4426802e93fb37795cafdbf3230"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd47",
-    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-model/3.9.0/maven-model-3.9.0.jar",
     "filesAnalyzed" : true,
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "NOASSERTION",
@@ -344,8 +164,273 @@
       "packageVerificationCodeValue" : "83ffee8fb7c986acfd3e14ad869a6f3c4c0c25a5"
     }
   }, {
+    "SPDXID" : "SPDXRef-gnrtd24",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-settings-builder/3.9.0/maven-settings-builder-3.9.0.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.apache.maven:maven-settings-builder:3.9.0",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "88478895a4912e61c2644023261431b721b71e1c"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd25",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-builder-support/3.9.0/maven-builder-support-3.9.0.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.apache.maven:maven-builder-support:3.9.0",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "b04431d0bc7c0b71efa4f6307d70dfaa865c804c"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd22",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-utils/3.4.2/plexus-utils-3.4.2.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.codehaus.plexus:plexus-utils:3.4.2",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "82445e007f9009ac5ba6ae5d6b6898c4ce54dcf6"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd23",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-settings/3.9.0/maven-settings-3.9.0.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.apache.maven:maven-settings:3.9.0",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "16ab0d2021005ef88099299d00fbeeb119602efb"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd28",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-sec-dispatcher/2.0/plexus-sec-dispatcher-2.0.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.codehaus.plexus:plexus-sec-dispatcher:2.0",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "f89c5080614ffd0764e49861895dbedde1b47237"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd29",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-cipher/2.0/plexus-cipher-2.0.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.codehaus.plexus:plexus-cipher:2.0",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "425ea8e534716b4bff1ea90f39bd76be951d651b"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd26",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/javax/inject/javax.inject/1/javax.inject-1.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "javax.inject:javax.inject:1",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "6975da39a7040257bd51d21a231b76c915872d38"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd27",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-interpolation/1.26/plexus-interpolation-1.26.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.codehaus.plexus:plexus-interpolation:1.26",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "25b919c664b79795ccde0ede5cee0fd68b544197"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd31",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-artifact/3.9.0/maven-artifact-3.9.0.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.apache.maven:maven-artifact:3.9.0",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "25be39b22d1ce6e2f8e07036d3580e506431b0d4"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd32",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-plugin-api/3.9.0/maven-plugin-api-3.9.0.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.apache.maven:maven-plugin-api:3.9.0",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "b61f5020f1ef78ddf061fb119f70d23dd0e6efeb"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd30",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-repository-metadata/3.9.0/maven-repository-metadata-3.9.0.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.apache.maven:maven-repository-metadata:3.9.0",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "1f6441ae5ba4f4426802e93fb37795cafdbf3230"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd35",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/eclipse/sisu/org.eclipse.sisu.inject/0.3.5/org.eclipse.sisu.inject-0.3.5.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.eclipse.sisu:org.eclipse.sisu.inject:0.3.5",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "d4265dd4f0f1d7a06d80df5a5f475d5ff9c17140"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd36",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-component-annotations/2.1.0/plexus-component-annotations-2.1.0.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.codehaus.plexus:plexus-component-annotations:2.1.0",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "2f2147a6cc6a119a1b51a96f31d45c557f6244b9"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd33",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/eclipse/sisu/org.eclipse.sisu.plexus/0.3.5/org.eclipse.sisu.plexus-0.3.5.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.eclipse.sisu:org.eclipse.sisu.plexus:0.3.5",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "d71996bb2e536f966b3b70e647067fff3b73d32f"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd34",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/javax/annotation/javax.annotation-api/1.2/javax.annotation-api-1.2.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "LicenseRef-gnrtd3",
+    "name" : "javax.annotation:javax.annotation-api:1.2",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "479c1e06db31c432330183f5cae684163f186146"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd39",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-resolver-provider/3.9.0/maven-resolver-provider-3.9.0.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.apache.maven:maven-resolver-provider:3.9.0",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "30ff35e3293c9991a14022294ca8556db74d3096"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd37",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-classworlds/2.6.0/plexus-classworlds-2.6.0.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.codehaus.plexus:plexus-classworlds:2.6.0",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "8587e80fcb38e70b70fae8d5914b6376bfad6259"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd38",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-model-builder/3.9.0/maven-model-builder-3.9.0.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.apache.maven:maven-model-builder:3.9.0",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "2e2ce2011395e20af5df89f8c6eec4f463f8e002"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd42",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-util/1.9.4/maven-resolver-util-1.9.4.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.apache.maven.resolver:maven-resolver-util:1.9.4",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "d8e8476fffba77d4fc193b60cff03e414c78a580"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd43",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-impl/1.9.4/maven-resolver-impl-1.9.4.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.apache.maven.resolver:maven-resolver-impl:1.9.4",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "4b935e5b8e2928ccd4fda8d9ebb357158534571f"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd40",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-api/1.9.4/maven-resolver-api-1.9.4.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.apache.maven.resolver:maven-resolver-api:1.9.4",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "e5d1d93ef97ccb74cd16e81ecf58e4c244439a40"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd41",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-spi/1.9.4/maven-resolver-spi-1.9.4.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "org.apache.maven.resolver:maven-resolver-spi:1.9.4",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "9a73fd22d92e9ee80785920fd36efa0585f7818b"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd46",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/inject/guice/5.1.0/guice-5.1.0.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "com.google.inject:guice:5.1.0",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "da25056c694c54ba16e78e4fc35f17fc60f0d1b4"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd47",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/aopalliance/aopalliance/1.0/aopalliance-1.0.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "aopalliance:aopalliance:1.0",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "0235ba8b489512805ac13a8f9ea77a1ca5ebe3e8"
+    }
+  }, {
     "SPDXID" : "SPDXRef-gnrtd44",
     "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-named-locks/1.9.4/maven-resolver-named-locks-1.9.4.jar",
     "filesAnalyzed" : true,
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "NOASSERTION",
@@ -356,196 +441,7 @@
   }, {
     "SPDXID" : "SPDXRef-gnrtd45",
     "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "Apache-2.0",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.google.errorprone:error_prone_annotations:2.11.0",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "c5a0ace696d3f8b1c1d8cc036d8c03cc0cbe6b69"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd48",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.apache.maven:maven-resolver-provider:3.9.0",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "30ff35e3293c9991a14022294ca8556db74d3096"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd49",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.apache.maven.resolver:maven-resolver-util:1.9.4",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "d8e8476fffba77d4fc193b60cff03e414c78a580"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd50",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "aopalliance:aopalliance:1.0",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "0235ba8b489512805ac13a8f9ea77a1ca5ebe3e8"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd53",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.eclipse.sisu:org.eclipse.sisu.plexus:0.3.5",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "d71996bb2e536f966b3b70e647067fff3b73d32f"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd54",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.apache.maven:maven-builder-support:3.9.0",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "b04431d0bc7c0b71efa4f6307d70dfaa865c804c"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd51",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.14.0-rc1",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "ca08ca565e2bf35292be9f8ee32cf406b3a01a22"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd52",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.apache.maven.resolver:maven-resolver-spi:1.9.4",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "9a73fd22d92e9ee80785920fd36efa0585f7818b"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd57",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "LicenseRef-gnrtd3",
-    "licenseDeclared" : "LicenseRef-gnrtd3",
-    "name" : "javax.annotation:javax.annotation-api:1.2",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "479c1e06db31c432330183f5cae684163f186146"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd58",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "com.google.guava:failureaccess:1.0.1",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "1dcf1de382a0bf95a3d8b0849546c88bac1292c9"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd55",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.apache.maven.resolver:maven-resolver-impl:1.9.4",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "4b935e5b8e2928ccd4fda8d9ebb357158534571f"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd56",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.apache.commons:commons-lang3:3.12.0",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "c6842c86792ff03b9f1d1fe2aab8dc23aa6c6f0e"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd59",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "Apache-2.0",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.google.code.findbugs:jsr305:3.0.2",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "25ea2e8b0c338a877313bd4672d3fe056ea78f0d"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd19",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "LicenseRef-gnrtd0",
-    "licenseDeclared" : "LicenseRef-gnrtd0",
-    "name" : "org.jsoup:jsoup:1.15.3",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "f6e1d8a8819f854b681c8eaa57fd59a42329e10c"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd13",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.apache.logging.log4j:log4j-slf4j18-impl:2.18.0",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "12ac9a08c4115746d8f52f9b01d32c25d9a41add"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd14",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "Apache-2.0",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.fasterxml.jackson.core:jackson-annotations:2.14.0-rc1",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "baee36be5fe485569d34dacf40536bc668dc1891"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd11",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.apache.maven:maven-core:3.9.0",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "23693fcd7456be6c8235e0cf86cd41db7a7b2cdd"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd12",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.codehaus.plexus:plexus-sec-dispatcher:2.0",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "f89c5080614ffd0764e49861895dbedde1b47237"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd17",
-    "copyrightText" : "NOASSERTION",
-    "filesAnalyzed" : true,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.apache.maven:maven-artifact:3.9.0",
-    "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "25be39b22d1ce6e2f8e07036d3580e506431b0d4"
-    }
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd18",
-    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/shared/maven-shared-utils/3.3.4/maven-shared-utils-3.3.4.jar",
     "filesAnalyzed" : true,
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "NOASSERTION",
@@ -554,368 +450,641 @@
       "packageVerificationCodeValue" : "f87a61adb1e12a00dcc6cc6005a51e693aa7c4ac"
     }
   }, {
-    "SPDXID" : "SPDXRef-gnrtd15",
+    "SPDXID" : "SPDXRef-gnrtd48",
     "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/guava/guava/31.1-jre/guava-31.1-jre.jar",
     "filesAnalyzed" : true,
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "NOASSERTION",
-    "name" : "org.slf4j:slf4j-api:1.8.0-beta4",
+    "name" : "com.google.guava:guava:31.1-jre",
     "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "83b0359d847ee053d745be7ec0d8e9e8a44304b4"
+      "packageVerificationCodeValue" : "60458f877d055d0c9114d9e1a2efb737b4bc282c"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd49",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "com.google.guava:failureaccess:1.0.1",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "1dcf1de382a0bf95a3d8b0849546c88bac1292c9"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd50",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "b421526c5f297295adef1c886e5246c39d4ac629"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd53",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/j2objc/j2objc-annotations/1.3/j2objc-annotations-1.3.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "com.google.j2objc:j2objc-annotations:1.3",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "ba035118bc8bac37d7eff77700720999acd9986d"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd51",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/checkerframework/checker-qual/3.12.0/checker-qual-3.12.0.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "MIT",
+    "name" : "org.checkerframework:checker-qual:3.12.0",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "d5692f0526415fcc6de94bb5bfbd3afd9dd3b3e5"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd52",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.11.0/error_prone_annotations-2.11.0.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "com.google.errorprone:error_prone_annotations:2.11.0",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "c5a0ace696d3f8b1c1d8cc036d8c03cc0cbe6b69"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd10",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/spdx/spdx-jackson-store/1.1.4/spdx-jackson-store-1.1.4.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "org.spdx:spdx-jackson-store:1.1.4",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "859fe903873f7c68e9a13006880178e711808118"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd19",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/json/json/20190722/json-20190722.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "LicenseRef-gnrtd2",
+    "name" : "org.json:json:20190722",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "07bce7bacf0ab5e9f894d307a3de8b7f540064d5"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd13",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-core/2.14.0-rc1/jackson-core-2.14.0-rc1.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "com.fasterxml.jackson.core:jackson-core:2.14.0-rc1",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "a5d9b5fa8d49aea385608f14d0cc269bf9489525"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd14",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-xml/2.14.0-rc1/jackson-dataformat-xml-2.14.0-rc1.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.14.0-rc1",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "ca08ca565e2bf35292be9f8ee32cf406b3a01a22"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd11",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.14.0-rc1/jackson-databind-2.14.0-rc1.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "com.fasterxml.jackson.core:jackson-databind:2.14.0-rc1",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "e89ac425a32c3e59653df69ee2050734577d1357"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd12",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.14.0-rc1/jackson-annotations-2.14.0-rc1.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "com.fasterxml.jackson.core:jackson-annotations:2.14.0-rc1",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "baee36be5fe485569d34dacf40536bc668dc1891"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd17",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.14.0-rc1/jackson-dataformat-yaml-2.14.0-rc1.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "name" : "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.14.0-rc1",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "9d0a0b20717fb372ab935df734033c310e0a53fc"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd18",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/yaml/snakeyaml/1.32/snakeyaml-1.32.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "org.yaml:snakeyaml:1.32",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "e80612549feb5c9191c498de628c1aa80693cf0b"
+    }
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd15",
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/woodstox/stax2-api/4.2.1/stax2-api-4.2.1.jar",
+    "filesAnalyzed" : true,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "LicenseRef-gnrtd1",
+    "name" : "org.codehaus.woodstox:stax2-api:4.2.1",
+    "packageVerificationCode" : {
+      "packageVerificationCodeValue" : "a3f7325c52240418c2ba257b103c3c550e140c83"
     }
   }, {
     "SPDXID" : "SPDXRef-gnrtd16",
     "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/woodstox/woodstox-core/6.3.1/woodstox-core-6.3.1.jar",
     "filesAnalyzed" : true,
     "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
-    "name" : "org.apache.logging.log4j:log4j-api:2.18.0",
+    "licenseDeclared" : "Apache-2.0",
+    "name" : "com.fasterxml.woodstox:woodstox-core:6.3.1",
     "packageVerificationCode" : {
-      "packageVerificationCodeValue" : "c72ad9b1d8d42e4ea7befd8248bf05877af4c63d"
+      "packageVerificationCodeValue" : "bf29b07ca4dd81ef3c0bc18c8bd5617510a81c5d"
     }
   } ],
-  "files" : [ {
-    "SPDXID" : "SPDXRef-gnrtd8",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "0404d95e25e608047f360f5593f22176b81de147"
-    } ],
-    "copyrightText" : "",
-    "fileName" : "src/main/java/org/spdx/sbom/gradle/SpdxSbomTask.java",
-    "licenseConcluded" : "NOASSERTION"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd9",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "fd821bdcd1a444010e128900fdef0680842b48b5"
-    } ],
-    "copyrightText" : "",
-    "fileName" : "src/main/java/org/spdx/sbom/gradle/utils/HttpClients.java",
-    "licenseConcluded" : "NOASSERTION"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd1",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "e44376dfebd34794499fcec5ab48b5b65ded97b4"
-    } ],
-    "copyrightText" : "",
-    "fileName" : "src/main/java/org/spdx/sbom/gradle/utils/ArtifactInfo.java",
-    "licenseConcluded" : "NOASSERTION"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd2",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "c0ed59be9483272196017893ccc10365a66f01fd"
-    } ],
-    "copyrightText" : "",
-    "fileName" : "src/main/java/org/spdx/sbom/gradle/utils/SpdxFileFactory.java",
-    "licenseConcluded" : "NOASSERTION"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd3",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "012717b7e7cc25d0d32404c30528063a61836260"
-    } ],
-    "copyrightText" : "",
-    "fileName" : "src/main/java/org/spdx/sbom/gradle/utils/GitInfo.java",
-    "licenseConcluded" : "NOASSERTION"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd4",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "2f40bacfe30d70fd8b18b12954db1853e68a44ce"
-    } ],
-    "copyrightText" : "",
-    "fileName" : "src/main/java/org/spdx/sbom/gradle/utils/SpdxKnownLicenses.java",
-    "licenseConcluded" : "NOASSERTION"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd5",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "a5907a59bb635495ab3f6fd8d5a48bdc640c1086"
-    } ],
-    "copyrightText" : "",
-    "fileName" : "src/main/java/org/spdx/sbom/gradle/utils/ArtifactInfoFactory.java",
-    "licenseConcluded" : "NOASSERTION"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd6",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "84e91cfdbcb3896b7f851efbe031ccc19f4bbf4f"
-    } ],
-    "copyrightText" : "",
-    "fileName" : "src/main/java/org/spdx/sbom/gradle/utils/SpdxLicenses.java",
-    "licenseConcluded" : "NOASSERTION"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd7",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "67c2488489dcebbc054d34a2b58269da2aaf7649"
-    } ],
-    "copyrightText" : "",
-    "fileName" : "src/main/java/org/spdx/sbom/gradle/utils/SpdxDocumentBuilder.java",
-    "licenseConcluded" : "NOASSERTION"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd10",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "cd4bc04d18ab5ef2b540c874a82608bfc8eadae8"
-    } ],
-    "copyrightText" : "",
-    "fileName" : "src/main/java/org/spdx/sbom/gradle/SpdxSbomPlugin.java",
-    "licenseConcluded" : "NOASSERTION"
-  } ],
   "relationships" : [ {
-    "spdxElementId" : "SPDXRef-gnrtd63",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd47"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd63",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd17"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd63",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd53"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd0",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd33"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd0",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd26"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd0",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd11"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd20",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd61"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd20",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd39"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd20",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd34"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd21",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd24"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd25",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd16"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd26",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd13"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd26",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd19"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd26",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd56"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd26",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd59"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd26",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd38"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd32",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd50"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd35",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd58"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd35",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd28"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd35",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd37"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd35",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd29"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd35",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd45"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd33",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd31"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd33",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd51"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd33",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd20"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd39",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd14"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd43",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd41"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd43",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd22"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd43",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd54"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd40",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd12"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd40",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd27"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd48",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd43"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd48",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd46"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd48",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd55"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd53",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd62"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd53",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd30"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd53",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd57"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd53",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd23"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd51",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd21"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd52",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd36"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd55",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd44"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd55",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd49"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd55",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd52"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd13",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd15"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd13",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd25"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd11",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd63"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd11",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd35"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd11",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd40"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd11",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd48"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd11",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd32"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd11",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd18"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd12",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd60"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd17",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd42"
+    "spdxElementId" : "SPDXRef-gnrtd8",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd1"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd8",
-    "relationshipType" : "GENERATES",
-    "relatedSpdxElement" : "SPDXRef-gnrtd0"
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd10"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd9",
-    "relationshipType" : "GENERATES",
-    "relatedSpdxElement" : "SPDXRef-gnrtd0"
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd1"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd9",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd48"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd1",
-    "relationshipType" : "GENERATES",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd10"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd1",
+    "relationshipType" : "DEPENDENCY_OF",
     "relatedSpdxElement" : "SPDXRef-gnrtd0"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd2",
-    "relationshipType" : "GENERATES",
-    "relatedSpdxElement" : "SPDXRef-gnrtd0"
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd1"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd3",
-    "relationshipType" : "GENERATES",
-    "relatedSpdxElement" : "SPDXRef-gnrtd0"
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd3",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd2"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd3",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd44"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd3",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd43"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd4",
-    "relationshipType" : "GENERATES",
-    "relatedSpdxElement" : "SPDXRef-gnrtd0"
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd5"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd4",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd2"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd5",
-    "relationshipType" : "GENERATES",
-    "relatedSpdxElement" : "SPDXRef-gnrtd0"
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd2"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd6",
-    "relationshipType" : "GENERATES",
-    "relatedSpdxElement" : "SPDXRef-gnrtd0"
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd43"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd6",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd31"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd6",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd1"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd6",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd7",
-    "relationshipType" : "GENERATES",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd1"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd20",
+    "relationshipType" : "DEPENDENCY_OF",
     "relatedSpdxElement" : "SPDXRef-gnrtd0"
   }, {
-    "spdxElementId" : "SPDXRef-gnrtd10",
-    "relationshipType" : "GENERATES",
+    "spdxElementId" : "SPDXRef-gnrtd21",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd39"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd21",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd38"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd21",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd32"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd21",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd24",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd25",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd38"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd25",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd24"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd25",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd22",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd28"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd22",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd30"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd22",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd39"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd22",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd31"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd22",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd33"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd22",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd38"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd22",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd21"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd22",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd32"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd22",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd23"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd22",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd24"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd22",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd23",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd23",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd24"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd28",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd24"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd29",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd28"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd26",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd38"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd26",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd46"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd26",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd39"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd26",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd28"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd26",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd26",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd24"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd26",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd29"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd27",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd38"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd27",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd27",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd24"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd31",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd38"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd31",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd31",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd32"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd32",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd30",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd39"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd30",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd35",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd33"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd35",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd38"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd35",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd36",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd33"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd36",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd33",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd32"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd33",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd34",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd33"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd39",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd37",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd32"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd37",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd33"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd37",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd38",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd39"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd38",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd42",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd39"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd42",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd43"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd42",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd43",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd39"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd43",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd40",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd43"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd40",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd40",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd39"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd40",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd41"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd40",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd42"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd41",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd39"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd41",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd43"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd41",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd46",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd47",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd46"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd44",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd43"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd45",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd48",
+    "relationshipType" : "DEPENDENCY_OF",
     "relatedSpdxElement" : "SPDXRef-gnrtd0"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd48",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd49",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd48"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd49",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd50",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd48"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd53",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd48"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd51",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd48"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd52",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd48"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd10",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd0"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd19",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd10"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd13",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd14"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd13",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd17"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd13",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd10"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd13",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd11"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd14",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd10"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd11",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd10"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd11",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd14"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd11",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd17"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd12",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd11"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd12",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd14"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd17",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd10"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd18",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd17"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd15",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd14"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd15",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd16"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd16",
+    "relationshipType" : "DEPENDENCY_OF",
+    "relatedSpdxElement" : "SPDXRef-gnrtd14"
   } ]
 }
