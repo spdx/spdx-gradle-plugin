@@ -119,7 +119,7 @@ public class SpdxSbomPlugin implements Plugin<Project> {
         Collection<ResolvedArtifactResult> resolvedArtifactResults) {
       return resolvedArtifactResults
           .stream()
-          // ignore gradle API components
+          // ignore gradle API components as they cannot be serialized
           .filter(x -> !(x.getId().getComponentIdentifier() instanceof OpaqueComponentIdentifier))
           .collect(Collectors.toMap(ArtifactResult::getId, ResolvedArtifactResult::getFile));
     }
