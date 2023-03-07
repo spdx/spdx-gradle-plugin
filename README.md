@@ -43,6 +43,8 @@ spdxSbom {
       // optionally change the target configuration
       // configuration.set("myCustomConfiguration")
     }
+    // optionally have multiple targets
+    // create("another") {}
   }
 }
 ```
