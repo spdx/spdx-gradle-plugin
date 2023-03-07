@@ -2,6 +2,7 @@ plugins {
     `java-gradle-plugin`
     `maven-publish`
     id("com.diffplug.spotless") version "6.16.0"
+//    id("org.spdx.sbom") version "0.0.1"
 }
 
 version = "0.0.1"
@@ -120,3 +121,10 @@ publishing {
         }
     }
 }
+
+// spdxSbom {
+//    targets {
+//        create("example") {
+//        }
+//    }
+// }

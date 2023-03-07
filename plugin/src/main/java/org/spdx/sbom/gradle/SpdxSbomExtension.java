@@ -13,23 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spdx;
+package org.spdx.sbom.gradle;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.gradle.api.NamedDomainObjectContainer;
+import org.gradle.api.provider.Property;
 
-import org.gradle.api.Project;
-import org.gradle.testfixtures.ProjectBuilder;
-import org.junit.jupiter.api.Test;
+public interface SpdxSbomExtension {
+  NamedDomainObjectContainer<Target> getTargets();
 
-/** A simple unit test for the 'org.spdx.greeting' plugin. */
-class SpdxGradlePluginPluginTest {
-  @Test
-  void pluginRegistersATask() {
-    // Create a test project and apply the plugin
-    Project project = ProjectBuilder.builder().build();
-    project.getPlugins().apply("org.spdx.sbom");
+  interface Target {
+    String getName();
 
-    // Verify the result
-    assertNotNull(project.getTasks().named("spdxSbom"));
+    Property<String> getConfiguration();
   }
 }

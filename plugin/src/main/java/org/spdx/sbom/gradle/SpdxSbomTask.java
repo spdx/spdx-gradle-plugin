@@ -48,10 +48,10 @@ public abstract class SpdxSbomTask extends DefaultTask {
   protected abstract ExecOperations getExecOperations();
 
   @Input
-  public abstract Property<ResolvedComponentResult> getRootComponent();
+  abstract Property<ResolvedComponentResult> getRootComponent();
 
   @Input
-  public abstract MapProperty<ComponentArtifactIdentifier, File> getResolvedArtifacts();
+  abstract MapProperty<ComponentArtifactIdentifier, File> getResolvedArtifacts();
 
   @OutputDirectory
   public abstract DirectoryProperty getOutputDirectory();
@@ -67,6 +67,9 @@ public abstract class SpdxSbomTask extends DefaultTask {
 
   @Input
   abstract MapProperty<ComponentArtifactIdentifier, File> getPoms();
+
+  @Input
+  abstract Property<String> getFilename();
 
   @TaskAction
   public void generateSbom()
@@ -95,7 +98,7 @@ public abstract class SpdxSbomTask extends DefaultTask {
     verificationErrors.forEach(errors -> getLogger().warn(errors));
 
     FileOutputStream out =
-        new FileOutputStream(getOutputDirectory().file("spdx.sbom.json").get().getAsFile());
+        new FileOutputStream(getOutputDirectory().file(getFilename()).get().getAsFile());
     modelStore.serialize(doc.getDocumentUri(), out);
   }
 }

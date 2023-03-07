@@ -36,8 +36,16 @@ class SpdxSbomPluginFunctionalTest {
     return new File(projectDir, "build.gradle");
   }
 
+  private File getKotlinBuildFile() {
+    return new File(projectDir, "build.gradle.kts");
+  }
+
   private File getSettingsFile() {
     return new File(projectDir, "settings.gradle");
+  }
+
+  private File getKotlinSettingsFile() {
+    return new File(projectDir, "settings.gradle.kts");
   }
 
   @Test
@@ -59,7 +67,13 @@ class SpdxSbomPluginFunctionalTest {
             + "  implementation 'android.arch.persistence:db:1.1.1'\n"
             + "  implementation 'dev.sigstore:sigstore-java:0.3.0'\n"
             + "  implementation project(':sub-project')\n"
-            + ""
+            + "}\n"
+            + "spdxSbom {\n"
+            + "  targets {\n"
+            + "    release {\n"
+            + "      configuration = 'testCompileClasspath'\n"
+            + "    }\n"
+            + "  }\n"
             + "}\n");
 
     Path main = projectDir.toPath().resolve(Paths.get("src/main/java/main/Main.java"));
@@ -91,11 +105,11 @@ class SpdxSbomPluginFunctionalTest {
     runner.forwardOutput();
     runner.withPluginClasspath();
     runner.withDebug(true);
-    runner.withArguments("spdxSbom", "--stacktrace");
+    runner.withArguments("spdxSbomForRelease", "--stacktrace");
     runner.withProjectDir(projectDir);
     runner.build();
 
-    Path outputFile = projectDir.toPath().resolve(Paths.get("build/spdx/spdx.sbom.json"));
+    Path outputFile = projectDir.toPath().resolve(Paths.get("build/spdx/release.spdx.json"));
 
     // Verify the result
     assertTrue(Files.isRegularFile(outputFile));
@@ -105,20 +119,28 @@ class SpdxSbomPluginFunctionalTest {
 
   @Test
   public void canRunOnPluginProject() throws IOException {
-    writeString(getSettingsFile(), "rootProject.name = 'spdx-functional-test-project'");
+    writeString(getKotlinSettingsFile(), "rootProject.name = \"spdx-functional-test-project\"");
     writeString(
-        getBuildFile(),
+        getKotlinBuildFile(),
         "plugins {\n"
-            + "  id('org.spdx.sbom')\n"
-            + "  id('java-gradle-plugin')\n"
+            + "  id(\"org.spdx.sbom\")\n"
+            + "  `java-gradle-plugin`\n"
             + "}\n"
             + "repositories {\n"
             + "  google()\n"
             + "  mavenCentral()\n"
             + "}\n"
             + "dependencies {\n"
-            + "  implementation 'dev.sigstore:sigstore-java:0.3.0'\n"
-            + ""
+            + "  implementation(\"dev.sigstore:sigstore-java:0.3.0\")\n"
+            + "}\n"
+            + "spdxSbom {\n"
+            + "  targets {\n"
+            + "    create(\"sbom\") {\n"
+            + "    }\n"
+            + "    create(\"test\") {\n"
+            + "      configuration.set(\"testRuntimeClasspath\")\n"
+            + "    }\n"
+            + "  }\n"
             + "}\n");
 
     GradleRunner runner = GradleRunner.create();
@@ -129,10 +151,12 @@ class SpdxSbomPluginFunctionalTest {
     runner.withProjectDir(projectDir);
     runner.build();
 
-    Path outputFile = projectDir.toPath().resolve(Paths.get("build/spdx/spdx.sbom.json"));
+    Path outputFile = projectDir.toPath().resolve(Paths.get("build/spdx/sbom.spdx.json"));
+    Path outputFile2 = projectDir.toPath().resolve(Paths.get("build/spdx/test.spdx.json"));
 
     // Verify the result
     assertTrue(Files.isRegularFile(outputFile));
+    assertTrue(Files.isRegularFile(outputFile2));
   }
 
   private void writeString(File file, String string) throws IOException {

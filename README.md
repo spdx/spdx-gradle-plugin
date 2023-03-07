@@ -25,20 +25,35 @@ pluginManagement {
 }
 ```
 
-Apply to project
+Apply and configure the plugin
 ```kotlin
 plugins {
   `java`
   ...
   id("org.spdx.sbom") version "0.0.1"
 }
+...
+// there is no default build, you *must* specify a target
+spdxSbom {
+  targets {
+    // create a target named "release",
+    // this is used for the task name (spdxSbomForRelease)
+    // and output file (release.spdx.json)
+    create("release") {
+      // optionally change the target configuration
+      // configuration.set("myCustomConfiguration")
+    }
+  }
+}
 ```
 
 run sbom generation (use --stacktrace to report bugs)
-```
-./gradlew :spdxSbom --stacktrace
+```bash
+./gradlew :spdxSbomForRelease
+# or use the aggregate task spdxSbom to run all sbom tasks
+# ./gradlew :spdxSbom
 
-output in: build/spdx/spdx.sbom.json
+output in: build/spdx/release.spdx.json
 ```
 
 Example output for the plugin run on this project is [example.sbom.json](example.sbom.json)
@@ -47,9 +62,5 @@ Example output for the plugin run on this project is [example.sbom.json](example
 We do pretty lazy license stuff (will be handled better later)
 
 Current source control information is only determined from git
-
-Task is not very configurable, no user injection of sbom parameters
-
-Cannot determine information from dependencies pulled from private repositories
 
 Output is always json

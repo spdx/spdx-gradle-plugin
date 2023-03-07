@@ -2,7 +2,7 @@
   "SPDXID" : "SPDXRef-DOCUMENT",
   "spdxVersion" : "SPDX-2.3",
   "creationInfo" : {
-    "created" : "2023-03-04T19:55:31.663418Z",
+    "created" : "2023-03-07T17:15:08.843191575Z",
     "creators" : [ "Tool:spdx-gradle-plugin" ]
   },
   "name" : "plugin",
@@ -62,7 +62,7 @@
     "licenseDeclared" : "NOASSERTION",
     "licenseInfoFromFiles" : [ ],
     "name" : "plugin",
-    "sourceInfo" : ":plugin in git@github.com:loosebazooka/spdx-gradle-plugin:f7fbc72ccb0163c9f743de134b3efcdf52aed6aa:f7fbc72-dirty",
+    "sourceInfo" : ":plugin in git@github.com:loosebazooka/spdx-gradle-plugin:0916d461c513f5d71cbd6a9299e3a396d9b6e5f7:0916d46-dirty",
     "versionInfo" : "0.0.1"
   }, {
     "SPDXID" : "SPDXRef-gnrtd1",
