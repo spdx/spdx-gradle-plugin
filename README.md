@@ -86,7 +86,7 @@ tasks.withType<SpdxSbomTask>() {
 or shortened to
 ```
 tasks.withType<SpdxSbomTask>() {
-   taskExtension.set(SpdxSbomTaskExtension { // ignore input and return duck
+   taskExtension.set(SpdxSbomTaskExtension {
        URI.create("https://duck.com")
    })
 }
