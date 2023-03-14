@@ -24,6 +24,7 @@ dependencies {
     implementation("com.google.guava:guava:31.1-jre")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    testImplementation("org.hamcrest:hamcrest-library:2.2")
 }
 
 gradlePlugin {
@@ -123,8 +124,8 @@ publishing {
 }
 
 // spdxSbom {
-//    targets {
-//        create("example") {
-//        }
-//    }
+//   targets {
+//       create("example") {
+//       }
+//   }
 // }

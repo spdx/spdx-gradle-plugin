@@ -53,6 +53,7 @@ import org.spdx.library.model.SpdxPackage;
 import org.spdx.library.model.SpdxPackage.SpdxPackageBuilder;
 import org.spdx.library.model.enumerations.RelationshipType;
 import org.spdx.library.model.license.SpdxNoAssertionLicense;
+import org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension;
 import org.spdx.storage.IModelStore;
 import org.spdx.storage.IModelStore.IdType;
 
@@ -67,6 +68,8 @@ public class SpdxDocumentBuilder {
   private final PomInfoFactory pomInfoFactory;
   private final Logger logger;
 
+  @Nullable private final SpdxSbomTaskExtension taskExtension;
+
   public SpdxDocumentBuilder(
       Set<ProjectInfo> allProjects,
       ProjectInfo projectInfo,
@@ -76,7 +79,8 @@ public class SpdxDocumentBuilder {
       String documentUri,
       Map<ComponentArtifactIdentifier, File> resolvedArtifacts,
       Map<String, URI> mavenArtifactRepositories,
-      Map<ComponentArtifactIdentifier, File> poms)
+      Map<ComponentArtifactIdentifier, File> poms,
+      SpdxSbomTaskExtension spdxSbomTaskExtension)
       throws InvalidSPDXAnalysisException, IOException, InterruptedException {
     GitInfoProvider gitInfoProvider = new GitInfoProvider(execOperations, logger);
     doc = SpdxModelFactory.createSpdxDocument(modelStore, documentUri, new ModelCopyManager());
@@ -99,6 +103,8 @@ public class SpdxDocumentBuilder {
             .collect(Collectors.toMap(e -> e.getKey().getComponentIdentifier(), Entry::getValue));
     this.mavenArtifactRepositories = mavenArtifactRepositories;
     this.pomInfoFactory = PomInfoFactory.newFactory(poms);
+
+    this.taskExtension = spdxSbomTaskExtension;
   }
 
   public void add(@Nullable SpdxPackage parent, ResolvedComponentResult resolvedComponentResult)
@@ -197,7 +203,11 @@ public class SpdxDocumentBuilder {
               + moduleId.getVersion()
               + "/"
               + URLEncoder.encode(dependencyFile.getName(), StandardCharsets.UTF_8);
-      spdxPkgBuilder.setDownloadLocation(baseURI.resolve(modulePath).toString());
+      URI downloadLocation = baseURI.resolve(modulePath);
+      if (taskExtension != null) {
+        downloadLocation = taskExtension.mapDownloadUri(downloadLocation);
+      }
+      spdxPkgBuilder.setDownloadLocation(downloadLocation.toString());
 
       String sha1 =
           com.google.common.io.Files.asByteSource(dependencyFile).hash(Hashing.sha1()).toString();

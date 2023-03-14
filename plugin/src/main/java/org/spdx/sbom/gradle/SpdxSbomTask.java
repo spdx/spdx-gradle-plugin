@@ -30,6 +30,7 @@ import org.gradle.api.provider.MapProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.provider.SetProperty;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.process.ExecOperations;
@@ -37,6 +38,7 @@ import org.spdx.jacksonstore.MultiFormatStore;
 import org.spdx.jacksonstore.MultiFormatStore.Format;
 import org.spdx.library.InvalidSPDXAnalysisException;
 import org.spdx.library.model.SpdxDocument;
+import org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension;
 import org.spdx.sbom.gradle.utils.ProjectInfo;
 import org.spdx.sbom.gradle.utils.SpdxDocumentBuilder;
 import org.spdx.storage.ISerializableModelStore;
@@ -71,6 +73,9 @@ public abstract class SpdxSbomTask extends DefaultTask {
   @Input
   abstract Property<String> getFilename();
 
+  @Internal
+  public abstract Property<SpdxSbomTaskExtension> getTaskExtensions();
+
   @TaskAction
   public void generateSbom()
       throws InvalidSPDXAnalysisException, IOException, XmlPullParserException,
@@ -87,7 +92,8 @@ public abstract class SpdxSbomTask extends DefaultTask {
             getProjectInfo().get().getName(),
             getResolvedArtifacts().get(),
             getMavenRepositories().get(),
-            getPoms().get());
+            getPoms().get(),
+            getTaskExtensions().getOrNull());
 
     documentBuilder.add(null, getRootComponent().get());
 

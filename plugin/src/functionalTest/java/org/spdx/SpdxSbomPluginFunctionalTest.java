@@ -25,6 +25,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.gradle.testkit.runner.GradleRunner;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -157,6 +159,52 @@ class SpdxSbomPluginFunctionalTest {
     // Verify the result
     assertTrue(Files.isRegularFile(outputFile));
     assertTrue(Files.isRegularFile(outputFile2));
+  }
+
+  @Test
+  public void canUseBuildExtension() throws IOException {
+    writeString(getKotlinSettingsFile(), "rootProject.name = \"spdx-functional-test-project\"");
+    writeString(
+        getKotlinBuildFile(),
+        "import java.net.URI\n"
+            + "plugins {\n"
+            + "  id(\"org.spdx.sbom\")\n"
+            + "  `java`\n"
+            + "}\n"
+            + "tasks.withType(org.spdx.sbom.gradle.SpdxSbomTask::class.java) {\n"
+            + "  this.taskExtensions.set(org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension { URI.create(\"https://duck.com\") })\n"
+            + "}\n"
+            + "repositories {\n"
+            + "  mavenCentral()\n"
+            + "}\n"
+            + "dependencies {\n"
+            + "  implementation(\"dev.sigstore:sigstore-java:0.3.0\")\n"
+            + "}\n"
+            + "spdxSbom {\n"
+            + "  targets {\n"
+            + "    create(\"sbom\") {\n"
+            + "    }\n"
+            + "  }\n"
+            + "}\n");
+
+    GradleRunner runner = GradleRunner.create();
+    runner.forwardOutput();
+    runner.withPluginClasspath();
+    runner.withDebug(true);
+    runner.withArguments("spdxSbom", "--stacktrace");
+    runner.withProjectDir(projectDir);
+    runner.build();
+
+    Path outputFile = projectDir.toPath().resolve(Paths.get("build/spdx/sbom.spdx.json"));
+
+    // Verify the result
+    assertTrue(Files.isRegularFile(outputFile));
+    Files.readAllLines(outputFile)
+        .stream()
+        .filter(line -> line.contains("downloadLocation"))
+        .filter(line -> !line.contains("NOASSERTION"))
+        .forEach(
+            line -> MatcherAssert.assertThat(line, Matchers.containsString("https://duck.com")));
   }
 
   private void writeString(File file, String string) throws IOException {
