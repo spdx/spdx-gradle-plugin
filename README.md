@@ -66,3 +66,28 @@ We do pretty lazy license stuff (will be handled better later)
 Current source control information is only determined from git
 
 Output is always json
+
+### Experimental
+
+If you use these experimental features, I will change them whenever I want with no notification. They are 
+to support very specific build usecases and are not for public consumption
+
+use `taskExtension` to map downloadLocations if they are cached somewhere other than original location
+```
+tasks.withType<SpdxSbomTask>() {
+   taskExtension.set(object : SpdxSbomTaskExtension {
+       override fun mapDownloadUri(input: URI?): URI {
+           // ignore input and return duck
+           return URI.create("https://duck.com")
+       }
+   })
+}
+```
+or shortened to
+```
+tasks.withType<SpdxSbomTask>() {
+   taskExtension.set(SpdxSbomTaskExtension { // ignore input and return duck
+       URI.create("https://duck.com")
+   })
+}
+```

@@ -172,7 +172,7 @@ class SpdxSbomPluginFunctionalTest {
             + "  `java`\n"
             + "}\n"
             + "tasks.withType(org.spdx.sbom.gradle.SpdxSbomTask::class.java) {\n"
-            + "  this.taskExtensions.set(org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension { URI.create(\"https://duck.com\") })\n"
+            + "  this.taskExtension.set(org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension { URI.create(\"https://duck.com\") })\n"
             + "}\n"
             + "repositories {\n"
             + "  mavenCentral()\n"

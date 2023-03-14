@@ -124,8 +124,8 @@ publishing {
 }
 
 // spdxSbom {
-//   targets {
-//       create("example") {
-//       }
-//   }
+//    targets {
+//        create("example") {
+//        }
+//    }
 // }

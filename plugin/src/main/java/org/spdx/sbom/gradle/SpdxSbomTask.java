@@ -74,7 +74,7 @@ public abstract class SpdxSbomTask extends DefaultTask {
   abstract Property<String> getFilename();
 
   @Internal
-  public abstract Property<SpdxSbomTaskExtension> getTaskExtensions();
+  public abstract Property<SpdxSbomTaskExtension> getTaskExtension();
 
   @TaskAction
   public void generateSbom()
@@ -93,7 +93,7 @@ public abstract class SpdxSbomTask extends DefaultTask {
             getResolvedArtifacts().get(),
             getMavenRepositories().get(),
             getPoms().get(),
-            getTaskExtensions().getOrNull());
+            getTaskExtension().getOrNull());
 
     documentBuilder.add(null, getRootComponent().get());
 
