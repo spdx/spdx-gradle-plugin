@@ -18,26 +18,32 @@ package org.spdx.sbom.gradle.utils;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.gradle.api.artifacts.component.ComponentArtifactIdentifier;
 import org.gradle.api.artifacts.component.ComponentIdentifier;
+import org.gradle.api.logging.Logger;
 
 public class PomInfoFactory {
-  private final Map<ComponentIdentifier, File> poms;
 
-  public PomInfoFactory(Map<ComponentIdentifier, File> poms) {
+  private final Map<ComponentIdentifier, File> poms;
+  private final Logger logger;
+
+  public PomInfoFactory(Logger logger, Map<ComponentIdentifier, File> poms) {
     this.poms = poms;
+    this.logger = logger;
   }
 
-  public static PomInfoFactory newFactory(Map<ComponentArtifactIdentifier, File> poms) {
+  public static PomInfoFactory newFactory(
+      Logger logger, Map<ComponentArtifactIdentifier, File> poms) {
     return new PomInfoFactory(
+        logger,
         poms.entrySet()
             .stream()
             .collect(Collectors.toMap(e -> e.getKey().getComponentIdentifier(), Entry::getValue)));
@@ -51,7 +57,24 @@ public class PomInfoFactory {
         new MavenProject(new MavenXpp3Reader().read(Files.newInputStream(pomFile.toPath())));
     return ImmutablePomInfo.builder()
         .addAllLicenses(mavenProject.getLicenses())
-        .homepage(URI.create(Optional.ofNullable(mavenProject.getUrl()).orElse("")))
+        .homepage(extractHomepage(mavenProject, componentIdentifier))
         .build();
+  }
+
+  private URI extractHomepage(MavenProject mavenProject, ComponentIdentifier componentIdentifier) {
+    String url = mavenProject.getUrl();
+    if (url == null) {
+      return URI.create("");
+    }
+    try {
+      return new URI(mavenProject.getUrl());
+    } catch (URISyntaxException error) {
+      logger.warn(
+          "Ignoring invalid url detected in project '"
+              + componentIdentifier.getDisplayName()
+              + "': "
+              + url);
+      return URI.create("");
+    }
   }
 }

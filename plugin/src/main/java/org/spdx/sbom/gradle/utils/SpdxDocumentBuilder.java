@@ -102,7 +102,7 @@ public class SpdxDocumentBuilder {
             .stream()
             .collect(Collectors.toMap(e -> e.getKey().getComponentIdentifier(), Entry::getValue));
     this.mavenArtifactRepositories = mavenArtifactRepositories;
-    this.pomInfoFactory = PomInfoFactory.newFactory(poms);
+    this.pomInfoFactory = PomInfoFactory.newFactory(logger, poms);
 
     this.taskExtension = spdxSbomTaskExtension;
   }
