@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.maven.model.License;
+import org.spdx.sbom.gradle.maven.PomInfo.LicenseInfo;
 import org.spdx.storage.listedlicense.LicenseJsonTOC;
 
 // modified from https://github.com/spdx/spdx-maven-plugin org.spdx.maven.MavenToSpdxLicenseMapper
@@ -103,11 +103,11 @@ public class SpdxKnownLicenses {
     return licenseUrlToSpdxId;
   }
 
-  public String getIdFor(License license) {
+  public String getIdFor(LicenseInfo license) {
     return licenses.get(normalize(license.getUrl()));
   }
 
-  public boolean contains(License license) {
+  public boolean contains(LicenseInfo license) {
     return licenses.containsKey(normalize(license.getUrl()));
   }
 

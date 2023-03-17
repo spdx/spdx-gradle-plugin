@@ -13,16 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spdx.sbom.gradle.utils;
+package org.spdx.sbom.gradle.maven;
 
 import java.net.URI;
 import java.util.List;
-import org.apache.maven.model.License;
+import org.immutables.serial.Serial;
 import org.immutables.value.Value.Immutable;
 
 @Immutable
+@Serial.Version(1)
 public interface PomInfo {
-  List<License> getLicenses();
+  List<LicenseInfo> getLicenses();
 
   URI getHomepage();
+
+  @Immutable
+  interface LicenseInfo {
+    String getUrl();
+
+    String getName();
+  }
 }

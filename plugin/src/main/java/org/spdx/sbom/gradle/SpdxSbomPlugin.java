@@ -37,6 +37,7 @@ import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.TaskProvider;
 import org.gradle.internal.component.local.model.OpaqueComponentIdentifier;
 import org.spdx.sbom.gradle.SpdxSbomExtension.Target;
+import org.spdx.sbom.gradle.maven.PomResolver;
 import org.spdx.sbom.gradle.utils.ProjectInfo;
 
 /** A plugin to generate spdx sboms. */
@@ -109,13 +110,7 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                                   .map(rcr -> rcr.getId().getDisplayName() + "@pom")
                                   .map(pom -> project.getDependencies().create(pom))
                                   .toArray(Dependency[]::new));
-                  t.getPoms()
-                      .set(
-                          pomsConfig
-                              .getIncoming()
-                              .getArtifacts()
-                              .getResolvedArtifacts()
-                              .map(new ArtifactTransformer()));
+                  t.getPoms().set(PomResolver.newPomResolver(project).effectivePoms(pomsConfig));
 
                   t.getRootComponent().set(rootComponent);
                   t.getMavenRepositories()

@@ -17,11 +17,9 @@ package org.spdx.sbom.gradle;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import javax.inject.Inject;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.artifacts.component.ComponentArtifactIdentifier;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
@@ -36,11 +34,13 @@ import org.gradle.api.tasks.TaskAction;
 import org.gradle.process.ExecOperations;
 import org.spdx.jacksonstore.MultiFormatStore;
 import org.spdx.jacksonstore.MultiFormatStore.Format;
-import org.spdx.library.InvalidSPDXAnalysisException;
 import org.spdx.library.model.SpdxDocument;
 import org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension;
+import org.spdx.sbom.gradle.maven.PomInfo;
 import org.spdx.sbom.gradle.utils.ProjectInfo;
 import org.spdx.sbom.gradle.utils.SpdxDocumentBuilder;
+import org.spdx.spdxRdfStore.OutputFormat;
+import org.spdx.spdxRdfStore.RdfStore;
 import org.spdx.storage.ISerializableModelStore;
 import org.spdx.storage.simple.InMemSpdxStore;
 
@@ -68,7 +68,7 @@ public abstract class SpdxSbomTask extends DefaultTask {
   abstract MapProperty<String, URI> getMavenRepositories();
 
   @Input
-  abstract MapProperty<ComponentArtifactIdentifier, File> getPoms();
+  abstract MapProperty<String, PomInfo> getPoms();
 
   @Input
   abstract Property<String> getFilename();
@@ -77,34 +77,36 @@ public abstract class SpdxSbomTask extends DefaultTask {
   public abstract Property<SpdxSbomTaskExtension> getTaskExtension();
 
   @TaskAction
-  public void generateSbom()
-      throws InvalidSPDXAnalysisException, IOException, XmlPullParserException,
-          InterruptedException {
-    ISerializableModelStore modelStore =
-        new MultiFormatStore(new InMemSpdxStore(), Format.JSON_PRETTY);
-    SpdxDocumentBuilder documentBuilder =
-        new SpdxDocumentBuilder(
-            getAllProjects().get(),
-            getProjectInfo().get(),
-            getExecOperations(),
-            getLogger(),
-            modelStore,
-            getProjectInfo().get().getName(),
-            getResolvedArtifacts().get(),
-            getMavenRepositories().get(),
-            getPoms().get(),
-            getTaskExtension().getOrNull());
+  public void generateSbom() throws Exception {
+    try (var rdfstore = new RdfStore()) {
+      rdfstore.setOutputFormat(OutputFormat.JSON_LD);
+      // ISerializableModelStore modelStore = new RdfStore();
+      ISerializableModelStore modelStore =
+          new MultiFormatStore(new InMemSpdxStore(), Format.JSON_PRETTY);
+      SpdxDocumentBuilder documentBuilder =
+          new SpdxDocumentBuilder(
+              getAllProjects().get(),
+              getProjectInfo().get(),
+              getExecOperations(),
+              getLogger(),
+              modelStore,
+              getProjectInfo().get().getName(),
+              getResolvedArtifacts().get(),
+              getMavenRepositories().get(),
+              getPoms().get(),
+              getTaskExtension().getOrNull());
 
-    documentBuilder.add(null, getRootComponent().get());
+      documentBuilder.add(getRootComponent().get());
 
-    SpdxDocument doc = documentBuilder.getSpdxDocument();
+      SpdxDocument doc = documentBuilder.getSpdxDocument();
 
-    // shows verification errors in the final doc
-    List<String> verificationErrors = doc.verify();
-    verificationErrors.forEach(errors -> getLogger().warn(errors));
+      // shows verification errors in the final doc
+      List<String> verificationErrors = doc.verify();
+      verificationErrors.forEach(errors -> getLogger().warn(errors));
 
-    FileOutputStream out =
-        new FileOutputStream(getOutputDirectory().file(getFilename()).get().getAsFile());
-    modelStore.serialize(doc.getDocumentUri(), out);
+      FileOutputStream out =
+          new FileOutputStream(getOutputDirectory().file(getFilename()).get().getAsFile());
+      modelStore.serialize(doc.getDocumentUri(), out);
+    }
   }
 }

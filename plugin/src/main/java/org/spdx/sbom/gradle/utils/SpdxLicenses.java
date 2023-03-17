@@ -21,7 +21,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.maven.model.License;
 import org.gradle.api.logging.Logger;
 import org.spdx.library.InvalidSPDXAnalysisException;
 import org.spdx.library.ModelCopyManager;
@@ -30,6 +29,7 @@ import org.spdx.library.model.license.AnyLicenseInfo;
 import org.spdx.library.model.license.ExtractedLicenseInfo;
 import org.spdx.library.model.license.LicenseInfoFactory;
 import org.spdx.library.model.license.SpdxNoAssertionLicense;
+import org.spdx.sbom.gradle.maven.PomInfo.LicenseInfo;
 import org.spdx.storage.IModelStore;
 import org.spdx.storage.IModelStore.IdType;
 
@@ -62,7 +62,8 @@ public class SpdxLicenses {
         logger, doc, doc.getModelStore(), doc.getCopyManager(), SpdxKnownLicenses.fromRemote());
   }
 
-  public AnyLicenseInfo asSpdxLicense(List<License> licenses) throws InvalidSPDXAnalysisException {
+  public AnyLicenseInfo asSpdxLicense(List<LicenseInfo> licenses)
+      throws InvalidSPDXAnalysisException {
     if (licenses.size() == 0) {
       return new SpdxNoAssertionLicense();
     }
@@ -70,13 +71,14 @@ public class SpdxLicenses {
       return getOrCreateLicense(licenses.get(0));
     }
     List<AnyLicenseInfo> spdxLicenses = new ArrayList<>();
-    for (License license : licenses) {
+    for (var license : licenses) {
       spdxLicenses.add(getOrCreateLicense(license));
     }
     return doc.createConjunctiveLicenseSet(spdxLicenses);
   }
 
-  private AnyLicenseInfo getOrCreateLicense(License license) throws InvalidSPDXAnalysisException {
+  private AnyLicenseInfo getOrCreateLicense(LicenseInfo license)
+      throws InvalidSPDXAnalysisException {
     // convert all license
 
     if (license.getUrl() == null) {
@@ -105,7 +107,7 @@ public class SpdxLicenses {
     return unknownLicense;
   }
 
-  private AnyLicenseInfo createNewUnknownLicense(License license)
+  private AnyLicenseInfo createNewUnknownLicense(LicenseInfo license)
       throws InvalidSPDXAnalysisException {
     var licenseId = modelStore.getNextId(IdType.LicenseRef, doc.getDocumentUri());
     ExtractedLicenseInfo unknown =
