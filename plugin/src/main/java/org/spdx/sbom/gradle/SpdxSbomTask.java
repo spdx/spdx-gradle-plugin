@@ -37,7 +37,8 @@ import org.spdx.jacksonstore.MultiFormatStore.Format;
 import org.spdx.library.model.SpdxDocument;
 import org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension;
 import org.spdx.sbom.gradle.maven.PomInfo;
-import org.spdx.sbom.gradle.utils.ProjectInfo;
+import org.spdx.sbom.gradle.project.DocumentInfo;
+import org.spdx.sbom.gradle.project.ProjectInfo;
 import org.spdx.sbom.gradle.utils.SpdxDocumentBuilder;
 import org.spdx.spdxRdfStore.OutputFormat;
 import org.spdx.spdxRdfStore.RdfStore;
@@ -59,9 +60,6 @@ public abstract class SpdxSbomTask extends DefaultTask {
   public abstract DirectoryProperty getOutputDirectory();
 
   @Input
-  abstract Property<ProjectInfo> getProjectInfo();
-
-  @Input
   abstract SetProperty<ProjectInfo> getAllProjects();
 
   @Input
@@ -72,6 +70,9 @@ public abstract class SpdxSbomTask extends DefaultTask {
 
   @Input
   abstract Property<String> getFilename();
+
+  @Input
+  abstract Property<DocumentInfo> getDocumentInfo();
 
   @Internal
   public abstract Property<SpdxSbomTaskExtension> getTaskExtension();
@@ -86,15 +87,14 @@ public abstract class SpdxSbomTask extends DefaultTask {
       SpdxDocumentBuilder documentBuilder =
           new SpdxDocumentBuilder(
               getAllProjects().get(),
-              getProjectInfo().get(),
               getExecOperations(),
               getLogger(),
               modelStore,
-              getProjectInfo().get().getName(),
               getResolvedArtifacts().get(),
               getMavenRepositories().get(),
               getPoms().get(),
-              getTaskExtension().getOrNull());
+              getTaskExtension().getOrNull(),
+              getDocumentInfo().get());
 
       documentBuilder.add(getRootComponent().get());
 

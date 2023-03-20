@@ -38,7 +38,8 @@ import org.gradle.api.tasks.TaskProvider;
 import org.gradle.internal.component.local.model.OpaqueComponentIdentifier;
 import org.spdx.sbom.gradle.SpdxSbomExtension.Target;
 import org.spdx.sbom.gradle.maven.PomResolver;
-import org.spdx.sbom.gradle.utils.ProjectInfo;
+import org.spdx.sbom.gradle.project.DocumentInfo;
+import org.spdx.sbom.gradle.project.ProjectInfo;
 
 /** A plugin to generate spdx sboms. */
 public class SpdxSbomPlugin implements Plugin<Project> {
@@ -47,7 +48,12 @@ public class SpdxSbomPlugin implements Plugin<Project> {
     var extension = project.getExtensions().create("spdxSbom", SpdxSbomExtension.class);
     extension
         .getTargets()
-        .configureEach(target -> target.getConfiguration().convention("runtimeClasspath"));
+        .configureEach(
+            target -> {
+              target.getConfiguration().convention("runtimeClasspath");
+              target.getDocument().getName().convention(project.getName());
+              target.getDocument().getNamespace().convention("https://example.com/1");
+            });
     TaskProvider<Task> aggregate =
         project
             .getTasks()
@@ -75,8 +81,8 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                   String configurationName = target.getConfiguration().get();
                   t.setGroup("Spdx sbom tasks");
                   t.getOutputDirectory().set(project.getLayout().getBuildDirectory().dir("spdx"));
-                  t.getProjectInfo().set(ProjectInfo.from(project));
                   t.getFilename().set(target.getName() + ".spdx.json");
+                  t.getDocumentInfo().set(DocumentInfo.from(target));
                   t.getAllProjects()
                       .set(ProjectInfo.from(project.getRootProject().getAllprojects()));
                   Provider<Set<ResolvedArtifactResult>> artifacts =

@@ -15,15 +15,48 @@
  */
 package org.spdx.sbom.gradle;
 
+import org.gradle.api.Action;
 import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.provider.Property;
+import org.gradle.api.tasks.Nested;
 
 public interface SpdxSbomExtension {
+
   NamedDomainObjectContainer<Target> getTargets();
 
-  interface Target {
-    String getName();
+  abstract class Target {
+    public abstract String getName();
 
-    Property<String> getConfiguration();
+    public abstract Property<String> getConfiguration();
+
+    @Nested
+    public abstract Document getDocument();
+
+    public void document(Action<? super Document> configure) {
+      configure.execute(getDocument());
+    }
+  }
+
+  abstract class Document {
+    public abstract Property<String> getNamespace();
+
+    public abstract Property<String> getName();
+
+    public abstract Property<String> getCreator();
+
+    @Nested
+    public abstract RootPackage getRootPackage();
+
+    public void rootPackage(Action<? super RootPackage> configure) {
+      configure.execute(getRootPackage());
+    }
+  }
+
+  interface RootPackage {
+    Property<String> getName();
+
+    Property<String> getVersion();
+
+    Property<String> getSupplier();
   }
 }

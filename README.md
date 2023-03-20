@@ -3,7 +3,7 @@ A prototype spdx gradle plugin
 
 ⚠ This project is not ready for use to satisfy any real SBOM requirements ⚠
 
-Try it out and see what works
+Try it out and see what works, don't depend on it yet, it will probably change
 
 ## Usage
 This plugin is not published to mavenCentral or gradlePluginPortal, you need to build and deploy
@@ -40,11 +40,8 @@ spdxSbom {
     // this is used for the task name (spdxSbomForRelease)
     // and output file (release.spdx.json)
     create("release") {
-      // optionally change the target configuration
-      // configuration.set("myCustomConfiguration")
+      // configure here
     }
-    // optionally have multiple targets
-    // create("another") {}
   }
 }
 ```
@@ -59,6 +56,38 @@ output in: build/spdx/release.spdx.json
 ```
 
 Example output for the plugin run on this project is [example.sbom.json](example.sbom.json)
+
+### Configuration
+
+Tasks can be configured via the extension
+```
+spdxSbom {
+  targets {
+    create("release") {
+      // use a different configuration
+      configuration.set("myCustomConfiguration")
+
+      // adjust properties of the document
+      document {
+        name.set("my spdx document")
+        namespace.set("https://my.org/spdx/<some UUID>")
+        creator.set("Person:Lucy Loosebazooka")
+
+        // add a root spdx package on the document between the document and the 
+        // root module of the configuration being analyzed
+        rootPackage { 
+          // you must set all or none of these
+          name.set("goose")
+          version.set("1.2.3")
+          supplier.set("Organization:loosebazooka industries")
+        }
+    }
+    // optionally have multiple targets
+    // create("another") {
+    // }
+  }
+}
+```
 
 ### Notes
 We do pretty lazy license stuff (will be handled better later)

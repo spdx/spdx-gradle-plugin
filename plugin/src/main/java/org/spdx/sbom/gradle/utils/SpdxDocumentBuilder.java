@@ -15,6 +15,7 @@
  */
 package org.spdx.sbom.gradle.utils;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.hash.Hashing;
 import java.io.File;
 import java.io.IOException;
@@ -54,12 +55,16 @@ import org.spdx.library.model.SpdxPackage.SpdxPackageBuilder;
 import org.spdx.library.model.enumerations.RelationshipType;
 import org.spdx.library.model.license.SpdxNoAssertionLicense;
 import org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension;
+import org.spdx.sbom.gradle.git.GitInfoProvider;
 import org.spdx.sbom.gradle.maven.PomInfo;
+import org.spdx.sbom.gradle.project.DocumentInfo;
+import org.spdx.sbom.gradle.project.ProjectInfo;
 import org.spdx.storage.IModelStore;
 import org.spdx.storage.IModelStore.IdType;
 
 public class SpdxDocumentBuilder {
   private final SpdxDocument doc;
+  private final SpdxPackage rootPackage;
   private final SpdxLicenses licenses;
   private final Map<String, ProjectInfo> knownProjects;
   private final HashMap<ComponentIdentifier, SpdxPackage> spdxPackages = new HashMap<>();
@@ -76,23 +81,50 @@ public class SpdxDocumentBuilder {
 
   public SpdxDocumentBuilder(
       Set<ProjectInfo> allProjects,
-      ProjectInfo projectInfo,
       ExecOperations execOperations,
       Logger logger,
       IModelStore modelStore,
-      String documentUri,
       Map<ComponentArtifactIdentifier, File> resolvedArtifacts,
       Map<String, URI> mavenArtifactRepositories,
       Map<String, PomInfo> poms,
-      SpdxSbomTaskExtension spdxSbomTaskExtension)
+      SpdxSbomTaskExtension spdxSbomTaskExtension,
+      DocumentInfo documentInfo)
       throws InvalidSPDXAnalysisException, IOException, InterruptedException {
+
+    // TODO: this should probably move somewhere else or even run as a separate task
     GitInfoProvider gitInfoProvider = new GitInfoProvider(execOperations, logger);
-    doc = SpdxModelFactory.createSpdxDocument(modelStore, documentUri, new ModelCopyManager());
-    doc.setName(projectInfo.getName());
+
+    doc =
+        SpdxModelFactory.createSpdxDocument(
+            modelStore, documentInfo.getNamespace(), new ModelCopyManager());
+    doc.setName(documentInfo.getName());
+
+    ImmutableList.Builder<String> creators = ImmutableList.builder();
+    creators.add("Tool: spdx-gradle-plugin");
+    documentInfo.getCreator().ifPresent(creators::add);
+
     doc.setCreationInfo(
         doc.createCreationInfo(
-            Collections.singletonList("Tool:spdx-gradle-plugin"),
+            creators.build(),
             ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_DATE_TIME)));
+    if (documentInfo.getRootPackage().isPresent()) {
+      var rootPackageInfo = documentInfo.getRootPackage().get();
+      this.rootPackage =
+          doc.createPackage(
+                  doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
+                  rootPackageInfo.getName(),
+                  new SpdxNoAssertionLicense(),
+                  "",
+                  new SpdxNoAssertionLicense())
+              .setSupplier(rootPackageInfo.getSupplier())
+              .setVersionInfo(rootPackageInfo.getVersion())
+              .setFilesAnalyzed(false)
+              .build();
+      doc.setDocumentDescribes(Collections.singletonList(this.rootPackage));
+    } else {
+      rootPackage = null;
+    }
+
     this.licenses = SpdxLicenses.newSpdxLicenes(logger, doc);
 
     this.logger = logger;
@@ -113,7 +145,14 @@ public class SpdxDocumentBuilder {
 
   public void add(ResolvedComponentResult root) throws InvalidSPDXAnalysisException, IOException {
     add(null, root);
-    doc.setDocumentDescribes(Collections.singletonList(spdxPackages.get(root.getId())));
+    if (rootPackage == null) {
+      doc.setDocumentDescribes(Collections.singletonList(spdxPackages.get(root.getId())));
+    } else {
+      doc.setDocumentDescribes(Collections.singletonList(rootPackage));
+      rootPackage.addRelationship(
+          doc.createRelationship(
+              spdxPackages.get(root.getId()), RelationshipType.DEPENDS_ON, null));
+    }
     for (var pkg : tree.keySet()) {
       for (var child : tree.get(pkg)) {
         var rel =
@@ -128,7 +167,6 @@ public class SpdxDocumentBuilder {
     if (tree.containsKey(component.getId())) {
       return;
     }
-    System.out.println("adding " + component.getId().getDisplayName());
     SpdxPackage pkg;
     if (component.getId() instanceof ProjectComponentIdentifier) {
       pkg = createProjectPackage(component);
