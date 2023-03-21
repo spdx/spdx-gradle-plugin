@@ -10,13 +10,13 @@ This plugin is not published to mavenCentral or gradlePluginPortal, you need to 
 locally and then use in your project
 
 Install into local maven
-```
+```bash
 $ git clonse git@github.com:loosebazooka/spdx-gradle-plugin
 $ ./gradlew publishToMavenLocal
 ```
 
 Add mavenLocal as a plugin repository (settings.gradle.kts)
-```
+```kotlin
 pluginManagement {
  repositories {
      mavenLocal()
@@ -60,7 +60,7 @@ Example output for the plugin run on this project is [example.sbom.json](example
 ### Configuration
 
 Tasks can be configured via the extension
-```
+```kotlin
 spdxSbom {
   targets {
     create("release") {
@@ -102,7 +102,7 @@ If you use these experimental features, I will change them whenever I want with 
 to support very specific build usecases and are not for public consumption
 
 use `taskExtension` to map downloadLocations if they are cached somewhere other than original location
-```
+```kotlin
 tasks.withType<SpdxSbomTask>() {
    taskExtension.set(object : SpdxSbomTaskExtension {
        override fun mapDownloadUri(input: URI?): URI {
@@ -113,7 +113,7 @@ tasks.withType<SpdxSbomTask>() {
 }
 ```
 or shortened to
-```
+```kotlin
 tasks.withType<SpdxSbomTask>() {
    taskExtension.set(SpdxSbomTaskExtension {
        URI.create("https://duck.com")
