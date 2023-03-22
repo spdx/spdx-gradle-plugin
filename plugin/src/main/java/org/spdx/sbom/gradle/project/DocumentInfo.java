@@ -30,11 +30,11 @@ public interface DocumentInfo {
 
   Optional<String> getCreator();
 
-  Optional<RootPackage> getRootPackage();
+  Optional<RootPackageInfo> getRootPackageInfo();
 
   @Immutable
   @Serial.Version(1)
-  interface RootPackage {
+  interface RootPackageInfo {
     String getName();
 
     String getVersion();
@@ -58,8 +58,8 @@ public interface DocumentInfo {
         && rootPackage.getSupplier().isPresent()
         && rootPackage.getVersion().isPresent()) {
       return builder
-          .rootPackage(
-              ImmutableRootPackage.builder()
+          .rootPackageInfo(
+              ImmutableRootPackageInfo.builder()
                   .name(rootPackage.getName().get())
                   .version(rootPackage.getVersion().get())
                   .supplier(rootPackage.getSupplier().get())

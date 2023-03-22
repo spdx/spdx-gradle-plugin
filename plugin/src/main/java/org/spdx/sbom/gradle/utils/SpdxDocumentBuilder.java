@@ -108,8 +108,8 @@ public class SpdxDocumentBuilder {
         doc.createCreationInfo(
             creators.build(),
             ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_DATE_TIME)));
-    if (documentInfo.getRootPackage().isPresent()) {
-      var rootPackageInfo = documentInfo.getRootPackage().get();
+    if (documentInfo.getRootPackageInfo().isPresent()) {
+      var rootPackageInfo = documentInfo.getRootPackageInfo().get();
       this.rootPackage =
           doc.createPackage(
                   doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
