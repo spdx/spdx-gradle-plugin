@@ -55,7 +55,7 @@ run sbom generation (use --stacktrace to report bugs)
 output in: build/spdx/release.spdx.json
 ```
 
-Example output for the plugin run on this project is [example.sbom.json](example.sbom.json)
+Example output for the plugin run on this project is [example.spdx.json](example.spdx.json)
 
 ### Configuration
 

@@ -48,10 +48,13 @@ import org.gradle.api.logging.Logger;
 import org.gradle.process.ExecOperations;
 import org.spdx.library.InvalidSPDXAnalysisException;
 import org.spdx.library.ModelCopyManager;
+import org.spdx.library.model.ReferenceType;
 import org.spdx.library.model.SpdxDocument;
 import org.spdx.library.model.SpdxModelFactory;
 import org.spdx.library.model.SpdxPackage;
 import org.spdx.library.model.SpdxPackage.SpdxPackageBuilder;
+import org.spdx.library.model.enumerations.ChecksumAlgorithm;
+import org.spdx.library.model.enumerations.ReferenceCategory;
 import org.spdx.library.model.enumerations.RelationshipType;
 import org.spdx.library.model.license.SpdxNoAssertionLicense;
 import org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension;
@@ -258,10 +261,19 @@ public class SpdxDocumentBuilder {
       }
       spdxPkgBuilder.setDownloadLocation(downloadLocation.toString());
 
-      String sha1 =
-          com.google.common.io.Files.asByteSource(dependencyFile).hash(Hashing.sha1()).toString();
-      spdxPkgBuilder.setPackageVerificationCode(
-          doc.createPackageVerificationCode(sha1, Collections.emptyList()));
+      String sha256 =
+          com.google.common.io.Files.asByteSource(dependencyFile).hash(Hashing.sha256()).toString();
+      var checksum = doc.createChecksum(ChecksumAlgorithm.SHA256, sha256);
+      spdxPkgBuilder.setChecksums(Collections.singletonList(checksum));
+      spdxPkgBuilder.setFilesAnalyzed(false);
+
+      var externalRef =
+          doc.createExternalRef(
+              ReferenceCategory.PACKAGE_MANAGER,
+              new ReferenceType("http://spdx.org/rdf/refeferences/maven-central"),
+              moduleId.getGroup() + ":" + moduleId.getName() + ":" + moduleId.getVersion(),
+              null);
+      spdxPkgBuilder.setExternalRefs(Collections.singletonList(externalRef));
 
       return Optional.of(spdxPkgBuilder.build());
     }

@@ -125,16 +125,8 @@ publishing {
 }
 
 // spdxSbom {
-//   targets {
-//       create("example"){
-//           configuration.set("runtimeClasspath");
-//           document {
-//               rootPackage {
-//                   name.set("goose")
-//                   version.set("1.2.3")
-//                   supplier.set("Organization:loosebazooka industries")
-//               }
-//           }
-//       }
-//   }
+//  targets {
+//    create("example"){
+//    }
+//  }
 // }
