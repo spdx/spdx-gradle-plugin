@@ -13,27 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.spdx.sbom.gradle.git;
+package org.spdx.sbom.gradle.project;
 
-import java.util.Optional;
-import org.immutables.value.Value.Derived;
+import org.immutables.serial.Serial;
 import org.immutables.value.Value.Immutable;
+import org.spdx.sbom.gradle.SpdxSbomExtension;
 
 @Immutable
-public interface GitInfo {
+@Serial.Version(1)
+public abstract class ScmInfo {
+  public abstract String getUri();
 
-  Optional<String> getCommitHash();
+  public abstract String getRevision();
 
-  Optional<String> getOrigin();
+  public String getSourceInfo(ProjectInfo project) {
+    return project.getName() + "(" + project.getPath() + ") " + getUri() + "@" + getRevision();
+  }
 
-  Optional<String> getTag();
-
-  @Derived
-  default String asSourceInfo() {
-    return getOrigin().map(String::trim).orElse("<no-origin>")
-        + ":"
-        + getCommitHash().map(String::trim).orElse("<no-commit>")
-        + ":"
-        + getTag().map(String::trim).orElse("<no-tag>");
+  public static ScmInfo from(SpdxSbomExtension.Target target) {
+    return ImmutableScmInfo.builder()
+        .uri(target.getScm().getUri().get())
+        .revision(target.getScm().getRevision().get())
+        .build();
   }
 }

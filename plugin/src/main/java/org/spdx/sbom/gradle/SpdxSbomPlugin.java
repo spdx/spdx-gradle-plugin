@@ -42,6 +42,7 @@ import org.spdx.sbom.gradle.SpdxSbomExtension.Target;
 import org.spdx.sbom.gradle.maven.PomResolver;
 import org.spdx.sbom.gradle.project.DocumentInfo;
 import org.spdx.sbom.gradle.project.ProjectInfo;
+import org.spdx.sbom.gradle.project.ScmInfo;
 
 /** A plugin to generate spdx sboms. */
 public class SpdxSbomPlugin implements Plugin<Project> {
@@ -55,6 +56,8 @@ public class SpdxSbomPlugin implements Plugin<Project> {
               target.getConfigurations().convention(Collections.singleton("runtimeClasspath"));
               target.getDocument().getName().convention(project.getName());
               target.getDocument().getNamespace().convention("https://example.com/UUID");
+              target.getScm().getRevision().convention("<no-scm-revision>");
+              target.getScm().getUri().convention("<no-scm-uri>");
             });
     TaskProvider<Task> aggregate =
         project
@@ -84,6 +87,7 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                   t.getOutputDirectory().set(project.getLayout().getBuildDirectory().dir("spdx"));
                   t.getFilename().set(target.getName() + ".spdx.json");
                   t.getDocumentInfo().set(DocumentInfo.from(target));
+                  t.getScmInfo().set(ScmInfo.from(target));
                   t.getAllProjects()
                       .set(ProjectInfo.from(project.getRootProject().getAllprojects()));
 

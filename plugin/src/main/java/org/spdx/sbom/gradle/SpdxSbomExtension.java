@@ -31,11 +31,24 @@ public interface SpdxSbomExtension {
     public abstract ListProperty<String> getConfigurations();
 
     @Nested
+    public abstract Scm getScm();
+
+    public void scm(Action<? super Scm> configure) {
+      configure.execute(getScm());
+    }
+
+    @Nested
     public abstract Document getDocument();
 
     public void document(Action<? super Document> configure) {
       configure.execute(getDocument());
     }
+  }
+
+  abstract class Scm {
+    public abstract Property<String> getUri();
+
+    public abstract Property<String> getRevision();
   }
 
   abstract class Document {

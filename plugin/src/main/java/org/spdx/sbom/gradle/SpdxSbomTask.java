@@ -40,6 +40,7 @@ import org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension;
 import org.spdx.sbom.gradle.maven.PomInfo;
 import org.spdx.sbom.gradle.project.DocumentInfo;
 import org.spdx.sbom.gradle.project.ProjectInfo;
+import org.spdx.sbom.gradle.project.ScmInfo;
 import org.spdx.sbom.gradle.utils.SpdxDocumentBuilder;
 import org.spdx.spdxRdfStore.OutputFormat;
 import org.spdx.spdxRdfStore.RdfStore;
@@ -75,6 +76,9 @@ public abstract class SpdxSbomTask extends DefaultTask {
   @Input
   abstract Property<DocumentInfo> getDocumentInfo();
 
+  @Input
+  abstract Property<ScmInfo> getScmInfo();
+
   @Internal
   public abstract Property<SpdxSbomTaskExtension> getTaskExtension();
 
@@ -95,7 +99,8 @@ public abstract class SpdxSbomTask extends DefaultTask {
               getMavenRepositories().get(),
               getPoms().get(),
               getTaskExtension().getOrNull(),
-              getDocumentInfo().get());
+              getDocumentInfo().get(),
+              getScmInfo().get());
 
       for (var rootComponent : getRootComponents().get()) {
         documentBuilder.add(rootComponent);

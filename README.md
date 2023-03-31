@@ -11,7 +11,7 @@ locally and then use in your project
 
 Install into local maven
 ```bash
-$ git clonse git@github.com:loosebazooka/spdx-gradle-plugin
+$ git clone git@github.com:loosebazooka/spdx-gradle-plugin
 $ ./gradlew publishToMavenLocal
 ```
 
@@ -67,6 +67,12 @@ spdxSbom {
       // use a different configuration (or multiple configurations)
       configurations.set(listOf("myCustomConfiguration"))
 
+      // provide scm info (usually from your CI)
+      scm {
+        uri.set("my-scm-repository")
+        revision.set("asdfasdfasdf...")
+      }
+
       // adjust properties of the document
       document {
         name.set("my spdx document")
@@ -91,8 +97,6 @@ spdxSbom {
 
 ### Notes
 We do pretty lazy license stuff (will be handled better later)
-
-Current source control information is only determined from git (to be changed to user configurable)
 
 Output is always json
 

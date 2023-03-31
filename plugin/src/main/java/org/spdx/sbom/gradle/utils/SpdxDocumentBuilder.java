@@ -59,10 +59,10 @@ import org.spdx.library.model.enumerations.ReferenceCategory;
 import org.spdx.library.model.enumerations.RelationshipType;
 import org.spdx.library.model.license.SpdxNoAssertionLicense;
 import org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension;
-import org.spdx.sbom.gradle.git.GitInfoProvider;
 import org.spdx.sbom.gradle.maven.PomInfo;
 import org.spdx.sbom.gradle.project.DocumentInfo;
 import org.spdx.sbom.gradle.project.ProjectInfo;
+import org.spdx.sbom.gradle.project.ScmInfo;
 import org.spdx.storage.IModelStore;
 import org.spdx.storage.IModelStore.IdType;
 
@@ -75,13 +75,13 @@ public class SpdxDocumentBuilder {
 
   private final HashMap<ComponentIdentifier, LinkedHashSet<ComponentIdentifier>> tree =
       new LinkedHashMap<>();
-  private final String sourceInfo;
   private final Map<ComponentIdentifier, File> resolvedArtifacts;
   private final Map<String, URI> mavenArtifactRepositories;
   private final Map<String, PomInfo> poms;
   private final Logger logger;
 
   @Nullable private final SpdxSbomTaskExtension taskExtension;
+  private final ScmInfo scmInfo;
 
   public SpdxDocumentBuilder(
       Set<ProjectInfo> allProjects,
@@ -92,11 +92,9 @@ public class SpdxDocumentBuilder {
       Map<String, URI> mavenArtifactRepositories,
       Map<String, PomInfo> poms,
       SpdxSbomTaskExtension spdxSbomTaskExtension,
-      DocumentInfo documentInfo)
+      DocumentInfo documentInfo,
+      ScmInfo scmInfo)
       throws InvalidSPDXAnalysisException, IOException, InterruptedException {
-
-    // TODO: this should probably move somewhere else or even run as a separate task
-    GitInfoProvider gitInfoProvider = new GitInfoProvider(execOperations, logger);
 
     doc =
         SpdxModelFactory.createSpdxDocument(
@@ -132,7 +130,7 @@ public class SpdxDocumentBuilder {
     this.licenses = SpdxLicenses.newSpdxLicenes(logger, doc);
 
     this.logger = logger;
-    this.sourceInfo = gitInfoProvider.getGitInfo().asSourceInfo();
+    this.scmInfo = scmInfo;
     this.knownProjects =
         allProjects.stream().collect(Collectors.toMap(ProjectInfo::getPath, Function.identity()));
 
@@ -224,7 +222,7 @@ public class SpdxDocumentBuilder {
         .setFilesAnalyzed(false)
         .setDescription("" + pi.getDescription().orElse(""))
         .setVersionInfo("" + pi.getVersion())
-        .setSourceInfo(pi.getPath() + " in " + sourceInfo)
+        .setSourceInfo(scmInfo.getSourceInfo(pi))
         .setDownloadLocation("NOASSERTION")
         .build();
   }
