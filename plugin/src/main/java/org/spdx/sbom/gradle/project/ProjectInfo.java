@@ -39,10 +39,12 @@ public interface ProjectInfo {
   String getGroup();
 
   static ProjectInfo from(Project project) {
+    var version = project.getVersion().toString();
+    version = version.equals("unspecified") ? "NOASSERTION" : version;
     return ImmutableProjectInfo.builder()
         .name(project.getName())
         .description(Optional.ofNullable(project.getDescription()))
-        .version(project.getVersion().toString())
+        .version(version)
         .projectDirectory(project.getProjectDir())
         .path(project.getPath())
         .group(project.getGroup().toString())

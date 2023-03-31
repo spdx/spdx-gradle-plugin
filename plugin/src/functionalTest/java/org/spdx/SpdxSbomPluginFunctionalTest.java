@@ -116,6 +116,11 @@ class SpdxSbomPluginFunctionalTest {
     // Verify the result
     assertTrue(Files.isRegularFile(outputFile));
 
+    var sbom = Files.readString(outputFile);
+    MatcherAssert.assertThat(sbom, Matchers.containsString("\"versionInfo\" : \"NOASSERTION\""));
+    MatcherAssert.assertThat(
+        sbom, Matchers.not(Matchers.containsString("\"versionInfo\" : \"unspecified\"")));
+
     System.out.println(Files.readString(outputFile));
   }
 
@@ -132,6 +137,7 @@ class SpdxSbomPluginFunctionalTest {
             + "  google()\n"
             + "  mavenCentral()\n"
             + "}\n"
+            + "version = '1.2.3'\n"
             + "configurations {\n"
             + "  custom\n"
             + "}\n"
@@ -163,8 +169,10 @@ class SpdxSbomPluginFunctionalTest {
     assertTrue(Files.isRegularFile(outputFile));
 
     // should contain both versions from both library references
-    assertTrue(Files.readString(outputFile).contains("sigstore-java:0.2.0"));
-    assertTrue(Files.readString(outputFile).contains("sigstore-java:0.3.0"));
+    var sbom = Files.readString(outputFile);
+    MatcherAssert.assertThat(sbom, Matchers.containsString("sigstore-java:0.2.0"));
+    MatcherAssert.assertThat(sbom, Matchers.containsString("sigstore-java:0.3.0"));
+    MatcherAssert.assertThat(sbom, Matchers.containsString("\"versionInfo\" : \"1.2.3\""));
 
     System.out.println(Files.readString(outputFile));
   }
@@ -259,14 +267,13 @@ class SpdxSbomPluginFunctionalTest {
 
     // Verify the result
     assertTrue(Files.isRegularFile(outputFile));
-    Files.readAllLines(outputFile)
-        .stream()
+    var sbom = Files.readAllLines(outputFile);
+    sbom.stream()
         .filter(line -> line.contains("downloadLocation"))
         .filter(line -> !line.contains("NOASSERTION"))
         .forEach(
             line -> MatcherAssert.assertThat(line, Matchers.containsString("https://duck.com")));
-    Files.readAllLines(outputFile)
-        .stream()
+    sbom.stream()
         .filter(line -> line.contains("sourceInfo"))
         .forEach(
             line ->
