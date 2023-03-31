@@ -19,8 +19,14 @@ import java.net.URI;
 import org.spdx.sbom.gradle.project.ProjectInfo;
 import org.spdx.sbom.gradle.project.ScmInfo;
 
-public interface SpdxSbomTaskExtension {
-  URI mapDownloadUri(URI original);
+public abstract class DefaultSpdxSbomTaskExtension implements SpdxSbomTaskExtension {
+  @Override
+  public URI mapDownloadUri(URI original) {
+    return original;
+  }
 
-  ScmInfo mapScmForProject(ScmInfo original, ProjectInfo projectInfo);
+  @Override
+  public ScmInfo mapScmForProject(ScmInfo original, ProjectInfo projectInfo) {
+    return original;
+  }
 }

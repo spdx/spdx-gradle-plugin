@@ -36,4 +36,8 @@ public abstract class ScmInfo {
         .revision(target.getScm().getRevision().get())
         .build();
   }
+
+  public static ScmInfo from(String uri, String revision) {
+    return ImmutableScmInfo.builder().uri(uri).revision(revision).build();
+  }
 }

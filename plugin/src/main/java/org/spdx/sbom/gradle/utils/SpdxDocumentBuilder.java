@@ -213,18 +213,24 @@ public class SpdxDocumentBuilder {
 
     resolvedComponentResult.getVariants();
     ProjectInfo pi = knownProjects.get(projectId.getProjectPath());
-    return doc.createPackage(
-            doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
-            pi.getName(),
-            new SpdxNoAssertionLicense(),
-            "",
-            new SpdxNoAssertionLicense())
-        .setFilesAnalyzed(false)
-        .setDescription("" + pi.getDescription().orElse(""))
-        .setVersionInfo("" + pi.getVersion())
-        .setSourceInfo(scmInfo.getSourceInfo(pi))
-        .setDownloadLocation("NOASSERTION")
-        .build();
+    SpdxPackageBuilder builder =
+        doc.createPackage(
+                doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
+                pi.getName(),
+                new SpdxNoAssertionLicense(),
+                "",
+                new SpdxNoAssertionLicense())
+            .setFilesAnalyzed(false)
+            .setDescription("" + pi.getDescription().orElse(""))
+            .setVersionInfo("" + pi.getVersion())
+            .setDownloadLocation("NOASSERTION");
+
+    if (taskExtension != null) {
+      builder.setSourceInfo(taskExtension.mapScmForProject(scmInfo, pi).getSourceInfo(pi));
+    } else {
+      builder.setSourceInfo(scmInfo.getSourceInfo(pi));
+    }
+    return builder.build();
   }
 
   private Optional<SpdxPackage> createMavenModulePackage(

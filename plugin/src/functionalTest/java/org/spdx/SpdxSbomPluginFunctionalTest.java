@@ -217,12 +217,22 @@ class SpdxSbomPluginFunctionalTest {
     writeString(
         getKotlinBuildFile(),
         "import java.net.URI\n"
+            + "import org.spdx.sbom.gradle.project.ProjectInfo\n"
+            + "import org.spdx.sbom.gradle.project.ScmInfo\n"
             + "plugins {\n"
             + "  id(\"org.spdx.sbom\")\n"
             + "  `java`\n"
             + "}\n"
-            + "tasks.withType(org.spdx.sbom.gradle.SpdxSbomTask::class.java) {\n"
-            + "  this.taskExtension.set(org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension { URI.create(\"https://duck.com\") })\n"
+            + "tasks.withType<org.spdx.sbom.gradle.SpdxSbomTask> {\n"
+            + "    taskExtension.set(object : org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension {\n"
+            + "        override fun mapDownloadUri(input: URI?): URI {\n"
+            + "            // ignore input and return duck\n"
+            + "            return URI.create(\"https://duck.com\")\n"
+            + "        }\n"
+            + "        override fun mapScmForProject(original: ScmInfo?, projectInfo: ProjectInfo?): ScmInfo {\n"
+            + "            return ScmInfo.from(\"https://git.duck.com\", \"asdf\")\n"
+            + "        }\n"
+            + "    })\n"
             + "}\n"
             + "repositories {\n"
             + "  mavenCentral()\n"
@@ -255,6 +265,13 @@ class SpdxSbomPluginFunctionalTest {
         .filter(line -> !line.contains("NOASSERTION"))
         .forEach(
             line -> MatcherAssert.assertThat(line, Matchers.containsString("https://duck.com")));
+    Files.readAllLines(outputFile)
+        .stream()
+        .filter(line -> line.contains("sourceInfo"))
+        .forEach(
+            line ->
+                MatcherAssert.assertThat(
+                    line, Matchers.containsString("https://git.duck.com@asdf")));
   }
 
   private void writeString(File file, String string) throws IOException {

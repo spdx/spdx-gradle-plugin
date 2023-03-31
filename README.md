@@ -107,20 +107,19 @@ to support very specific build usecases and are not for public consumption
 
 use `taskExtension` to map downloadLocations if they are cached somewhere other than original location
 ```kotlin
-tasks.withType<SpdxSbomTask>() {
+tasks.withType<SpdxSbomTask> {
    taskExtension.set(object : SpdxSbomTaskExtension {
        override fun mapDownloadUri(input: URI?): URI {
            // ignore input and return duck
            return URI.create("https://duck.com")
        }
+       override fun mapScmForProject(original: ScmInfo?, projectInfo: ProjectInfo?): ScmInfo {
+           // ignore provided scminfo (from extension) and project info (the project we are looking for scm info)
+           return ScmInfo.from("github.com/goose", "my-sha-is-also-a-goose");
+       }
    })
 }
 ```
-or shortened to
-```kotlin
-tasks.withType<SpdxSbomTask>() {
-   taskExtension.set(SpdxSbomTaskExtension {
-       URI.create("https://duck.com")
-   })
-}
-```
+
+You can use the abstract class `DefaultSpdxSbomTaskExtension` if you don't want to implement all the methods
+of the interface `SpdxSbomTaskExtension`.
