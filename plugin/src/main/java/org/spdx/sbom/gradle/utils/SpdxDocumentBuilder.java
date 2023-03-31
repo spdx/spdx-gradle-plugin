@@ -283,8 +283,13 @@ public class SpdxDocumentBuilder {
       var externalRef =
           doc.createExternalRef(
               ReferenceCategory.PACKAGE_MANAGER,
-              new ReferenceType("http://spdx.org/rdf/refeferences/maven-central"),
-              moduleId.getGroup() + ":" + moduleId.getName() + ":" + moduleId.getVersion(),
+              new ReferenceType("purl"),
+              "pkg://maven/"
+                  + moduleId.getGroup()
+                  + "/"
+                  + moduleId.getName()
+                  + "@"
+                  + moduleId.getVersion(),
               null);
       spdxPkgBuilder.setExternalRefs(Collections.singletonList(externalRef));
 
