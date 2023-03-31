@@ -25,10 +25,11 @@ import java.nio.charset.StandardCharsets;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -72,8 +73,8 @@ public class SpdxDocumentBuilder {
   private final Map<String, ProjectInfo> knownProjects;
   private final HashMap<ComponentIdentifier, SpdxPackage> spdxPackages = new HashMap<>();
 
-  private final HashMap<ComponentIdentifier, List<ComponentIdentifier>> tree = new HashMap<>();
-  private final List<ComponentIdentifier> directDependencies = new ArrayList<>();
+  private final HashMap<ComponentIdentifier, LinkedHashSet<ComponentIdentifier>> tree =
+      new LinkedHashMap<>();
   private final String sourceInfo;
   private final Map<ComponentIdentifier, File> resolvedArtifacts;
   private final Map<String, URI> mavenArtifactRepositories;
@@ -147,7 +148,7 @@ public class SpdxDocumentBuilder {
   }
 
   public void add(ResolvedComponentResult root) throws InvalidSPDXAnalysisException, IOException {
-    add(null, root);
+    add(null, root, new HashSet<>());
     if (rootPackage == null) {
       doc.setDocumentDescribes(Collections.singletonList(spdxPackages.get(root.getId())));
     } else {
@@ -165,38 +166,45 @@ public class SpdxDocumentBuilder {
     }
   }
 
-  private void add(ResolvedComponentResult parent, ResolvedComponentResult component)
+  private void add(
+      ResolvedComponentResult parent,
+      ResolvedComponentResult component,
+      Set<ComponentIdentifier> visited)
       throws InvalidSPDXAnalysisException, IOException {
-    if (tree.containsKey(component.getId())) {
+    if (visited.contains(component.getId())) {
       return;
     }
-    SpdxPackage pkg;
-    if (component.getId() instanceof ProjectComponentIdentifier) {
-      pkg = createProjectPackage(component);
-    } else if (component.getId() instanceof ModuleComponentIdentifier) {
-      var result = createMavenModulePackage(component);
-      if (result.isEmpty()) {
-        logger.info("ignoring: " + component.getId());
-        return; // ignore this package (maybe it's a bom?)
+    if (!spdxPackages.containsKey(component.getId())) {
+      SpdxPackage pkg;
+      if (component.getId() instanceof ProjectComponentIdentifier) {
+        pkg = createProjectPackage(component);
+      } else if (component.getId() instanceof ModuleComponentIdentifier) {
+        var result = createMavenModulePackage(component);
+        if (result.isEmpty()) {
+          logger.info("ignoring: " + component.getId());
+          return; // ignore this package (maybe it's a bom?)
+        }
+        pkg = result.get();
+      } else {
+        throw new RuntimeException(
+            "Unknown package type: "
+                + component.getClass().getName()
+                + " "
+                + component.getId().getClass().getName()
+                + " "
+                + component.getId());
       }
-      pkg = result.get();
-    } else {
-      throw new RuntimeException(
-          "Unknown package type: "
-              + component.getClass().getName()
-              + " "
-              + component.getId().getClass().getName()
-              + " "
-              + component.getId());
+      spdxPackages.put(component.getId(), pkg);
     }
-    spdxPackages.put(component.getId(), pkg);
-    tree.put(component.getId(), new ArrayList<>());
+    tree.putIfAbsent(component.getId(), new LinkedHashSet<>());
     if (parent != null) {
       tree.get(parent.getId()).add(component.getId());
     }
+    visited.add(component.getId());
+
     for (var child : component.getDependencies()) {
       if (child instanceof ResolvedDependencyResult) {
-        add(component, ((ResolvedDependencyResult) child).getSelected());
+        add(component, ((ResolvedDependencyResult) child).getSelected(), visited);
       }
     }
   }
@@ -205,6 +213,7 @@ public class SpdxDocumentBuilder {
       throws InvalidSPDXAnalysisException {
     var projectId = (ProjectComponentIdentifier) resolvedComponentResult.getId();
 
+    resolvedComponentResult.getVariants();
     ProjectInfo pi = knownProjects.get(projectId.getProjectPath());
     return doc.createPackage(
             doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),

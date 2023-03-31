@@ -17,6 +17,8 @@ package org.spdx.sbom.gradle;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -50,9 +52,9 @@ public class SpdxSbomPlugin implements Plugin<Project> {
         .getTargets()
         .configureEach(
             target -> {
-              target.getConfiguration().convention("runtimeClasspath");
+              target.getConfigurations().convention(Collections.singleton("runtimeClasspath"));
               target.getDocument().getName().convention(project.getName());
-              target.getDocument().getNamespace().convention("https://example.com/1");
+              target.getDocument().getNamespace().convention("https://example.com/UUID");
             });
     TaskProvider<Task> aggregate =
         project
@@ -78,47 +80,52 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                 "spdxSbomFor" + name,
                 SpdxSbomTask.class,
                 t -> {
-                  String configurationName = target.getConfiguration().get();
                   t.setGroup("Spdx sbom tasks");
                   t.getOutputDirectory().set(project.getLayout().getBuildDirectory().dir("spdx"));
                   t.getFilename().set(target.getName() + ".spdx.json");
                   t.getDocumentInfo().set(DocumentInfo.from(target));
                   t.getAllProjects()
                       .set(ProjectInfo.from(project.getRootProject().getAllprojects()));
-                  Provider<Set<ResolvedArtifactResult>> artifacts =
-                      project
-                          .getConfigurations()
-                          .getByName(configurationName)
-                          .getIncoming()
-                          .getArtifacts()
-                          .getResolvedArtifacts();
-                  t.getResolvedArtifacts().set(artifacts.map(new ArtifactTransformer()));
-                  Provider<ResolvedComponentResult> rootComponent =
-                      project
-                          .getConfigurations()
-                          .getByName(configurationName)
-                          .getIncoming()
-                          .getResolutionResult()
-                          .getRootComponent();
 
-                  Configuration pomsConfig =
-                      project
-                          .getConfigurations()
-                          .detachedConfiguration(
-                              project
-                                  .getConfigurations()
-                                  .getByName(configurationName)
-                                  .getIncoming()
-                                  .getResolutionResult()
-                                  .getAllComponents()
-                                  .stream()
-                                  .filter(rcr -> rcr.getId() instanceof ModuleComponentIdentifier)
-                                  .map(rcr -> rcr.getId().getDisplayName() + "@pom")
-                                  .map(pom -> project.getDependencies().create(pom))
-                                  .toArray(Dependency[]::new));
-                  t.getPoms().set(PomResolver.newPomResolver(project).effectivePoms(pomsConfig));
+                  List<String> configurationNames = target.getConfigurations().get();
+                  for (var configurationName : configurationNames) {
+                    Provider<Set<ResolvedArtifactResult>> artifacts =
+                        project
+                            .getConfigurations()
+                            .getByName(configurationName)
+                            .getIncoming()
+                            .getArtifacts()
+                            .getResolvedArtifacts();
+                    t.getResolvedArtifacts().putAll(artifacts.map(new ArtifactTransformer()));
 
-                  t.getRootComponent().set(rootComponent);
+                    Provider<ResolvedComponentResult> rootComponent =
+                        project
+                            .getConfigurations()
+                            .getByName(configurationName)
+                            .getIncoming()
+                            .getResolutionResult()
+                            .getRootComponent();
+
+                    Configuration pomsConfig =
+                        project
+                            .getConfigurations()
+                            .detachedConfiguration(
+                                project
+                                    .getConfigurations()
+                                    .getByName(configurationName)
+                                    .getIncoming()
+                                    .getResolutionResult()
+                                    .getAllComponents()
+                                    .stream()
+                                    .filter(rcr -> rcr.getId() instanceof ModuleComponentIdentifier)
+                                    .map(rcr -> rcr.getId().getDisplayName() + "@pom")
+                                    .map(pom -> project.getDependencies().create(pom))
+                                    .toArray(Dependency[]::new));
+                    t.getPoms()
+                        .putAll(PomResolver.newPomResolver(project).effectivePoms(pomsConfig));
+
+                    t.getRootComponents().add(rootComponent);
+                  }
                   t.getMavenRepositories()
                       .set(
                           project.provider(

@@ -24,6 +24,7 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.artifacts.component.ComponentArtifactIdentifier;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
 import org.gradle.api.file.DirectoryProperty;
+import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.MapProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.provider.SetProperty;
@@ -51,7 +52,7 @@ public abstract class SpdxSbomTask extends DefaultTask {
   protected abstract ExecOperations getExecOperations();
 
   @Input
-  abstract Property<ResolvedComponentResult> getRootComponent();
+  abstract ListProperty<ResolvedComponentResult> getRootComponents();
 
   @Input
   abstract MapProperty<ComponentArtifactIdentifier, File> getResolvedArtifacts();
@@ -96,7 +97,9 @@ public abstract class SpdxSbomTask extends DefaultTask {
               getTaskExtension().getOrNull(),
               getDocumentInfo().get());
 
-      documentBuilder.add(getRootComponent().get());
+      for (var rootComponent : getRootComponents().get()) {
+        documentBuilder.add(rootComponent);
+      }
 
       SpdxDocument doc = documentBuilder.getSpdxDocument();
 

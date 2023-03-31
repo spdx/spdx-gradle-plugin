@@ -64,8 +64,8 @@ Tasks can be configured via the extension
 spdxSbom {
   targets {
     create("release") {
-      // use a different configuration
-      configuration.set("myCustomConfiguration")
+      // use a different configuration (or multiple configurations)
+      configurations.set(listOf("myCustomConfiguration"))
 
       // adjust properties of the document
       document {
@@ -92,11 +92,11 @@ spdxSbom {
 ### Notes
 We do pretty lazy license stuff (will be handled better later)
 
-Current source control information is only determined from git
+Current source control information is only determined from git (to be changed to user configurable)
 
 Output is always json
 
-### Experimental
+### Experimental (do not use)
 
 If you use these experimental features, I will change them whenever I want with no notification. They are 
 to support very specific build usecases and are not for public consumption

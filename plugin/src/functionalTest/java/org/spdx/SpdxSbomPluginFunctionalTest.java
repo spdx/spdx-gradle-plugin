@@ -73,7 +73,7 @@ class SpdxSbomPluginFunctionalTest {
             + "spdxSbom {\n"
             + "  targets {\n"
             + "    release {\n"
-            + "      configuration = 'testCompileClasspath'\n"
+            + "      configurations = ['testCompileClasspath']\n"
             + "    }\n"
             + "  }\n"
             + "}\n");
@@ -120,6 +120,56 @@ class SpdxSbomPluginFunctionalTest {
   }
 
   @Test
+  void useMultipleConfigurations() throws IOException {
+    writeString(getSettingsFile(), "rootProject.name = 'spdx-functional-test-project'");
+    writeString(
+        getBuildFile(),
+        "plugins {\n"
+            + "  id('org.spdx.sbom')\n"
+            + "  id('java')\n"
+            + "}\n"
+            + "repositories {\n"
+            + "  google()\n"
+            + "  mavenCentral()\n"
+            + "}\n"
+            + "configurations {\n"
+            + "  custom\n"
+            + "}\n"
+            + "dependencies {\n"
+            + "  implementation 'android.arch.persistence:db:1.1.1'\n"
+            + "  implementation 'dev.sigstore:sigstore-java:0.3.0'\n"
+            + "  custom 'dev.sigstore:sigstore-java:0.2.0'\n"
+            + "}\n"
+            + "spdxSbom {\n"
+            + "  targets {\n"
+            + "    release {\n"
+            + "      configurations = ['runtimeClasspath', 'custom']\n"
+            + "    }\n"
+            + "  }\n"
+            + "}\n");
+
+    // Run the build
+    GradleRunner runner = GradleRunner.create();
+    runner.forwardOutput();
+    runner.withPluginClasspath();
+    runner.withDebug(true);
+    runner.withArguments("spdxSbomForRelease", "--stacktrace");
+    runner.withProjectDir(projectDir);
+    runner.build();
+
+    Path outputFile = projectDir.toPath().resolve(Paths.get("build/spdx/release.spdx.json"));
+
+    // Verify the result
+    assertTrue(Files.isRegularFile(outputFile));
+
+    // should contain both versions from both library references
+    assertTrue(Files.readString(outputFile).contains("sigstore-java:0.2.0"));
+    assertTrue(Files.readString(outputFile).contains("sigstore-java:0.3.0"));
+
+    System.out.println(Files.readString(outputFile));
+  }
+
+  @Test
   public void canRunOnPluginProject() throws IOException {
     writeString(getKotlinSettingsFile(), "rootProject.name = \"spdx-functional-test-project\"");
     writeString(
@@ -140,7 +190,7 @@ class SpdxSbomPluginFunctionalTest {
             + "    create(\"sbom\") {\n"
             + "    }\n"
             + "    create(\"test\") {\n"
-            + "      configuration.set(\"testRuntimeClasspath\")\n"
+            + "      configurations.set(listOf(\"testRuntimeClasspath\"))\n"
             + "    }\n"
             + "  }\n"
             + "}\n");

@@ -3,8 +3,8 @@ include("plugin")
 
 
 //pluginManagement {
-// repositories {
-//     mavenLocal()
-//     gradlePluginPortal()
-// }
+//  repositories {
+//    mavenLocal()
+//    gradlePluginPortal()
+//  }
 //}
