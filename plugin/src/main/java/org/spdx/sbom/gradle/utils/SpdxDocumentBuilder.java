@@ -116,7 +116,7 @@ public class SpdxDocumentBuilder {
                   doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
                   rootPackageInfo.getName(),
                   new SpdxNoAssertionLicense(),
-                  null,
+                  "NOASSERTION",
                   new SpdxNoAssertionLicense())
               .setSupplier(rootPackageInfo.getSupplier())
               .setVersionInfo(rootPackageInfo.getVersion())
@@ -218,7 +218,7 @@ public class SpdxDocumentBuilder {
                 doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
                 pi.getName(),
                 new SpdxNoAssertionLicense(),
-                "",
+                "NOASSERTION",
                 new SpdxNoAssertionLicense())
             .setFilesAnalyzed(false)
             .setDescription("" + pi.getDescription().orElse(""))
@@ -250,7 +250,7 @@ public class SpdxDocumentBuilder {
               doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
               moduleId.getGroup() + ":" + moduleId.getName() + ":" + moduleId.getVersion(),
               new SpdxNoAssertionLicense(),
-              null,
+              "NOASSERTION",
               licenses.asSpdxLicense(pomInfo.getLicenses()));
 
       String sourceRepo =
