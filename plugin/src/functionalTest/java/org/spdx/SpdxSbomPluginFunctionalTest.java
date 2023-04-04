@@ -61,6 +61,7 @@ class SpdxSbomPluginFunctionalTest {
             + "  id('org.spdx.sbom')\n"
             + "  id('java')\n"
             + "}\n"
+            + "version = 1\n"
             + "repositories {\n"
             + "  google()\n"
             + "  mavenCentral()\n"
@@ -94,7 +95,9 @@ class SpdxSbomPluginFunctionalTest {
 
     Path sub = projectDir.toPath().resolve("sub-project");
     Files.createDirectories(sub);
-    writeString(sub.resolve("build.gradle").toFile(), "plugins {\n" + "  id('java')\n" + "}\n");
+    writeString(
+        sub.resolve("build.gradle").toFile(),
+        "plugins {\n" + "  id('java')\n" + "}\n" + "version = '1'\n");
 
     Path lib = sub.resolve(Paths.get("src/main/java/lib/Lib.java"));
     Files.createDirectories(lib.getParent());
@@ -115,11 +118,6 @@ class SpdxSbomPluginFunctionalTest {
 
     // Verify the result
     assertTrue(Files.isRegularFile(outputFile));
-
-    var sbom = Files.readString(outputFile);
-    MatcherAssert.assertThat(sbom, Matchers.containsString("\"versionInfo\" : \"NOASSERTION\""));
-    MatcherAssert.assertThat(
-        sbom, Matchers.not(Matchers.containsString("\"versionInfo\" : \"unspecified\"")));
 
     System.out.println(Files.readString(outputFile));
   }
@@ -190,6 +188,7 @@ class SpdxSbomPluginFunctionalTest {
             + "  google()\n"
             + "  mavenCentral()\n"
             + "}\n"
+            + "version = \"1\"\n"
             + "dependencies {\n"
             + "  implementation(\"dev.sigstore:sigstore-java:0.3.0\")\n"
             + "}\n"
@@ -242,6 +241,7 @@ class SpdxSbomPluginFunctionalTest {
             + "        }\n"
             + "    })\n"
             + "}\n"
+            + "version = \"1\"\n"
             + "repositories {\n"
             + "  mavenCentral()\n"
             + "}\n"

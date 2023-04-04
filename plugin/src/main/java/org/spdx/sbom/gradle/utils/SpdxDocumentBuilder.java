@@ -116,7 +116,7 @@ public class SpdxDocumentBuilder {
                   doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
                   rootPackageInfo.getName(),
                   new SpdxNoAssertionLicense(),
-                  "",
+                  null,
                   new SpdxNoAssertionLicense())
               .setSupplier(rootPackageInfo.getSupplier())
               .setVersionInfo(rootPackageInfo.getVersion())
@@ -250,7 +250,7 @@ public class SpdxDocumentBuilder {
               doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
               moduleId.getGroup() + ":" + moduleId.getName() + ":" + moduleId.getVersion(),
               new SpdxNoAssertionLicense(),
-              "NOASSERTION",
+              null,
               licenses.asSpdxLicense(pomInfo.getLicenses()));
 
       String sourceRepo =
