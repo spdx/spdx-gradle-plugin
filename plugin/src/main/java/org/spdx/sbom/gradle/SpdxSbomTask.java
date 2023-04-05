@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URI;
 import java.util.List;
-import javax.inject.Inject;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.artifacts.component.ComponentArtifactIdentifier;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
@@ -32,7 +31,6 @@ import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
-import org.gradle.process.ExecOperations;
 import org.spdx.jacksonstore.MultiFormatStore;
 import org.spdx.jacksonstore.MultiFormatStore.Format;
 import org.spdx.library.model.SpdxDocument;
@@ -48,9 +46,6 @@ import org.spdx.storage.ISerializableModelStore;
 import org.spdx.storage.simple.InMemSpdxStore;
 
 public abstract class SpdxSbomTask extends DefaultTask {
-
-  @Inject
-  protected abstract ExecOperations getExecOperations();
 
   @Input
   abstract ListProperty<ResolvedComponentResult> getRootComponents();
@@ -92,7 +87,6 @@ public abstract class SpdxSbomTask extends DefaultTask {
       SpdxDocumentBuilder documentBuilder =
           new SpdxDocumentBuilder(
               getAllProjects().get(),
-              getExecOperations(),
               getLogger(),
               modelStore,
               getResolvedArtifacts().get(),

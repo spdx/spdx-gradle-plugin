@@ -46,7 +46,6 @@ import org.gradle.api.artifacts.result.ResolvedComponentResult;
 import org.gradle.api.artifacts.result.ResolvedDependencyResult;
 import org.gradle.api.internal.artifacts.result.ResolvedComponentResultInternal;
 import org.gradle.api.logging.Logger;
-import org.gradle.process.ExecOperations;
 import org.spdx.library.InvalidSPDXAnalysisException;
 import org.spdx.library.ModelCopyManager;
 import org.spdx.library.model.ReferenceType;
@@ -85,7 +84,6 @@ public class SpdxDocumentBuilder {
 
   public SpdxDocumentBuilder(
       Set<ProjectInfo> allProjects,
-      ExecOperations execOperations,
       Logger logger,
       IModelStore modelStore,
       Map<ComponentArtifactIdentifier, File> resolvedArtifacts,
