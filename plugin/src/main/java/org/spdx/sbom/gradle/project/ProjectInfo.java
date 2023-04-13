@@ -19,7 +19,6 @@ import java.io.File;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value.Immutable;
@@ -40,12 +39,6 @@ public interface ProjectInfo {
   String getGroup();
 
   static ProjectInfo from(Project project) {
-    if (project.getVersion().toString().equals("unspecified")) {
-      throw new GradleException(
-          "spdx sboms require a version but project: "
-              + project.getName()
-              + " has no specified version");
-    }
     return ImmutableProjectInfo.builder()
         .name(project.getName())
         .description(Optional.ofNullable(project.getDescription()))

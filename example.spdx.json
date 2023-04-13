@@ -2,7 +2,7 @@
   "SPDXID" : "SPDXRef-DOCUMENT",
   "spdxVersion" : "SPDX-2.3",
   "creationInfo" : {
-    "created" : "2023-03-24T02:13:03.979747558Z",
+    "created" : "2023-04-13T20:41:29.238303427Z",
     "creators" : [ "Tool: spdx-gradle-plugin" ]
   },
   "name" : "plugin",
@@ -54,7 +54,7 @@
     "seeAlsos" : [ "NOASSERTION" ]
   } ],
   "documentDescribes" : [ "SPDXRef-gnrtd0" ],
-  "documentNamespace" : "https://example.com/1",
+  "documentNamespace" : "https://example.com/UUID",
   "packages" : [ {
     "SPDXID" : "SPDXRef-gnrtd60",
     "checksums" : [ {
@@ -65,8 +65,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-resolver-provider/3.9.0/maven-resolver-provider-3.9.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.maven:maven-resolver-provider:3.9.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.maven/maven-resolver-provider@3.9.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -82,8 +82,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-api/1.9.4/maven-resolver-api-1.9.4.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.maven.resolver:maven-resolver-api:1.9.4",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.maven.resolver/maven-resolver-api@1.9.4",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -99,8 +99,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-impl/1.9.4/maven-resolver-impl-1.9.4.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.maven.resolver:maven-resolver-impl:1.9.4",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.maven.resolver/maven-resolver-impl@1.9.4",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -116,8 +116,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-named-locks/1.9.4/maven-resolver-named-locks-1.9.4.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.maven.resolver:maven-resolver-named-locks:1.9.4",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.maven.resolver/maven-resolver-named-locks@1.9.4",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -133,8 +133,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-spi/1.9.4/maven-resolver-spi-1.9.4.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.maven.resolver:maven-resolver-spi:1.9.4",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.maven.resolver/maven-resolver-spi@1.9.4",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -150,8 +150,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-util/1.9.4/maven-resolver-util-1.9.4.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.maven.resolver:maven-resolver-util:1.9.4",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.maven.resolver/maven-resolver-util@1.9.4",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -167,8 +167,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.10/gson-2.10.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "com.google.code.gson:gson:2.10",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/com.google.code.gson/gson@2.10",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -184,8 +184,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "com.google.code.findbugs:jsr305:3.0.2",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/com.google.code.findbugs/jsr305@3.0.2",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -193,7 +193,7 @@
     "name" : "com.google.code.findbugs:jsr305:3.0.2"
   }, {
     "SPDXID" : "SPDXRef-gnrtd0",
-    "copyrightText" : "",
+    "copyrightText" : "NOASSERTION",
     "description" : "A gradle plugin generating spdx sboms",
     "downloadLocation" : "NOASSERTION",
     "filesAnalyzed" : false,
@@ -201,7 +201,7 @@
     "licenseDeclared" : "NOASSERTION",
     "licenseInfoFromFiles" : [ ],
     "name" : "plugin",
-    "sourceInfo" : ":plugin in git@github.com:loosebazooka/spdx-gradle-plugin:01c4e3cf67bed895566a57254ac19e987f9fb73d:01c4e3c-dirty",
+    "sourceInfo" : "plugin(:plugin) <no-scm-uri>@<no-scm-revision>",
     "versionInfo" : "0.0.1"
   }, {
     "SPDXID" : "SPDXRef-gnrtd68",
@@ -213,8 +213,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/aopalliance/aopalliance/1.0/aopalliance-1.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "aopalliance:aopalliance:1.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/aopalliance/aopalliance@1.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -230,8 +230,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/spdx/java-spdx-library/1.1.4/java-spdx-library-1.1.4.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.spdx:java-spdx-library:1.1.4",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.spdx/java-spdx-library@1.1.4",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -247,8 +247,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/guava/guava/31.1-jre/guava-31.1-jre.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "com.google.guava:guava:31.1-jre",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/com.google.guava/guava@31.1-jre",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -264,8 +264,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/logging/log4j/log4j-slf4j18-impl/2.18.0/log4j-slf4j18-impl-2.18.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.logging.log4j:log4j-slf4j18-impl:2.18.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.logging.log4j/log4j-slf4j18-impl@2.18.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -281,8 +281,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/shared/maven-shared-utils/3.3.4/maven-shared-utils-3.3.4.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.maven.shared:maven-shared-utils:3.3.4",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.maven.shared/maven-shared-utils@3.3.4",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -298,8 +298,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/slf4j/slf4j-api/1.8.0-beta4/slf4j-api-1.8.0-beta4.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.slf4j:slf4j-api:1.8.0-beta4",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.slf4j/slf4j-api@1.8.0-beta4",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -315,8 +315,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/inject/guice/5.1.0/guice-5.1.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "com.google.inject:guice:5.1.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/com.google.inject/guice@5.1.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -332,8 +332,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/logging/log4j/log4j-api/2.18.0/log4j-api-2.18.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.logging.log4j:log4j-api:2.18.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.logging.log4j/log4j-api@2.18.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -349,8 +349,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/logging/log4j/log4j-core/2.18.0/log4j-core-2.18.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.logging.log4j:log4j-core:2.18.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.logging.log4j/log4j-core@2.18.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -366,8 +366,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.commons:commons-lang3:3.12.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.commons/commons-lang3@3.12.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -383,8 +383,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/jsoup/jsoup/1.15.3/jsoup-1.15.3.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.jsoup:jsoup:1.15.3",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.jsoup/jsoup@1.15.3",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -400,8 +400,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/com.google.guava/listenablefuture@9999.0-empty-to-avoid-conflict-with-guava",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -417,8 +417,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/checkerframework/checker-qual/3.12.0/checker-qual-3.12.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.checkerframework:checker-qual:3.12.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.checkerframework/checker-qual@3.12.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -434,8 +434,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "com.google.guava:failureaccess:1.0.1",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/com.google.guava/failureaccess@1.0.1",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -451,8 +451,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.11.0/error_prone_annotations-2.11.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "com.google.errorprone:error_prone_annotations:2.11.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/com.google.errorprone/error_prone_annotations@2.11.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -468,8 +468,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/j2objc/j2objc-annotations/1.3/j2objc-annotations-1.3.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "com.google.j2objc:j2objc-annotations:1.3",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/com.google.j2objc/j2objc-annotations@1.3",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -485,8 +485,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/spdx/spdx-rdf-store/1.1.4/spdx-rdf-store-1.1.4.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.spdx:spdx-rdf-store:1.1.4",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.spdx/spdx-rdf-store@1.1.4",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -502,8 +502,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/jena/jena-core/4.7.0/jena-core-4.7.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.jena:jena-core:4.7.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.jena/jena-core@4.7.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -519,8 +519,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/commons/commons-csv/1.9.0/commons-csv-1.9.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.commons:commons-csv:1.9.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.commons/commons-csv@1.9.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -536,8 +536,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/commons-io/commons-io/2.11.0/commons-io-2.11.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "commons-io:commons-io:2.11.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/commons-io/commons-io@2.11.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -553,8 +553,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/jena/jena-base/4.7.0/jena-base-4.7.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.jena:jena-base:4.7.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.jena/jena-base@4.7.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -570,8 +570,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/jena/jena-shaded-guava/4.7.0/jena-shaded-guava-4.7.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.jena:jena-shaded-guava:4.7.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.jena/jena-shaded-guava@4.7.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -587,8 +587,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/github/andrewoma/dexx/collection/0.7/collection-0.7.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "com.github.andrewoma.dexx:collection:0.7",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/com.github.andrewoma.dexx/collection@0.7",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -604,8 +604,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/jena/jena-iri/4.7.0/jena-iri-4.7.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.jena:jena-iri:4.7.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.jena/jena-iri@4.7.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -621,8 +621,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.15/commons-codec-1.15.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "commons-codec:commons-codec:1.15",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/commons-codec/commons-codec@1.15",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -638,8 +638,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/commons/commons-compress/1.22/commons-compress-1.22.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.commons:commons-compress:1.22",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.commons/commons-compress@1.22",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -655,8 +655,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/jena/jena-arq/4.7.0/jena-arq-4.7.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.jena:jena-arq:4.7.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.jena/jena-arq@4.7.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -672,8 +672,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/github/jsonld-java/jsonld-java/0.13.4/jsonld-java-0.13.4.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "com.github.jsonld-java:jsonld-java:0.13.4",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/com.github.jsonld-java/jsonld-java@0.13.4",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -689,8 +689,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/commons-cli/commons-cli/1.5.0/commons-cli-1.5.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "commons-cli:commons-cli:1.5.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/commons-cli/commons-cli@1.5.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -706,8 +706,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcore/4.4.13/httpcore-4.4.13.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.httpcomponents:httpcore:4.4.13",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.httpcomponents/httpcore@4.4.13",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -723,8 +723,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/slf4j/jcl-over-slf4j/1.7.36/jcl-over-slf4j-1.7.36.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.slf4j:jcl-over-slf4j:1.7.36",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.slf4j/jcl-over-slf4j@1.7.36",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -740,8 +740,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpclient-cache/4.5.13/httpclient-cache-4.5.13.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.httpcomponents:httpclient-cache:4.5.13",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.httpcomponents/httpclient-cache@4.5.13",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -757,8 +757,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpclient/4.5.13/httpclient-4.5.13.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.httpcomponents:httpclient:4.5.13",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.httpcomponents/httpclient@4.5.13",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -774,8 +774,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-java/3.21.10/protobuf-java-3.21.10.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "com.google.protobuf:protobuf-java:3.21.10",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/com.google.protobuf/protobuf-java@3.21.10",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -791,8 +791,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/apicatalog/titanium-json-ld/1.3.1/titanium-json-ld-1.3.1.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "com.apicatalog:titanium-json-ld:1.3.1",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/com.apicatalog/titanium-json-ld@1.3.1",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -808,8 +808,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/glassfish/jakarta.json/2.0.1/jakarta.json-2.0.1.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.glassfish:jakarta.json:2.0.1",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.glassfish/jakarta.json@2.0.1",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -825,8 +825,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-model/3.9.0/maven-model-3.9.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.maven:maven-model:3.9.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.maven/maven-model@3.9.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -842,8 +842,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-utils/3.4.2/plexus-utils-3.4.2.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.codehaus.plexus:plexus-utils:3.4.2",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.codehaus.plexus/plexus-utils@3.4.2",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -859,8 +859,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/thrift/libthrift/0.17.0/libthrift-0.17.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.thrift:libthrift:0.17.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.thrift/libthrift@0.17.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -876,8 +876,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-core/3.9.0/maven-core-3.9.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.maven:maven-core:3.9.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.maven/maven-core@3.9.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -893,8 +893,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-builder-support/3.9.0/maven-builder-support-3.9.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.maven:maven-builder-support:3.9.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.maven/maven-builder-support@3.9.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -910,8 +910,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/javax/inject/javax.inject/1/javax.inject-1.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "javax.inject:javax.inject:1",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/javax.inject/javax.inject@1",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -927,8 +927,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-settings/3.9.0/maven-settings-3.9.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.maven:maven-settings:3.9.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.maven/maven-settings@3.9.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -944,8 +944,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-settings-builder/3.9.0/maven-settings-builder-3.9.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.maven:maven-settings-builder:3.9.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.maven/maven-settings-builder@3.9.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -961,8 +961,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-interpolation/1.26/plexus-interpolation-1.26.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.codehaus.plexus:plexus-interpolation:1.26",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.codehaus.plexus/plexus-interpolation@1.26",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -978,8 +978,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-sec-dispatcher/2.0/plexus-sec-dispatcher-2.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.codehaus.plexus:plexus-sec-dispatcher:2.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.codehaus.plexus/plexus-sec-dispatcher@2.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -995,8 +995,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-cipher/2.0/plexus-cipher-2.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.codehaus.plexus:plexus-cipher:2.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.codehaus.plexus/plexus-cipher@2.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1012,8 +1012,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-plugin-api/3.9.0/maven-plugin-api-3.9.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.maven:maven-plugin-api:3.9.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.maven/maven-plugin-api@3.9.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1029,8 +1029,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/eclipse/sisu/org.eclipse.sisu.plexus/0.3.5/org.eclipse.sisu.plexus-0.3.5.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.eclipse.sisu:org.eclipse.sisu.plexus:0.3.5",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.eclipse.sisu/org.eclipse.sisu.plexus@0.3.5",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1046,8 +1046,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-repository-metadata/3.9.0/maven-repository-metadata-3.9.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.maven:maven-repository-metadata:3.9.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.maven/maven-repository-metadata@3.9.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1063,8 +1063,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-artifact/3.9.0/maven-artifact-3.9.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.maven:maven-artifact:3.9.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.maven/maven-artifact@3.9.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1080,8 +1080,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-component-annotations/2.1.0/plexus-component-annotations-2.1.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.codehaus.plexus:plexus-component-annotations:2.1.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.codehaus.plexus/plexus-component-annotations@2.1.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1097,8 +1097,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-classworlds/2.6.0/plexus-classworlds-2.6.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.codehaus.plexus:plexus-classworlds:2.6.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.codehaus.plexus/plexus-classworlds@2.6.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1114,8 +1114,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/javax/annotation/javax.annotation-api/1.2/javax.annotation-api-1.2.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "javax.annotation:javax.annotation-api:1.2",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/javax.annotation/javax.annotation-api@1.2",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1131,8 +1131,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/eclipse/sisu/org.eclipse.sisu.inject/0.3.5/org.eclipse.sisu.inject-0.3.5.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.eclipse.sisu:org.eclipse.sisu.inject:0.3.5",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.eclipse.sisu/org.eclipse.sisu.inject@0.3.5",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1148,8 +1148,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-model-builder/3.9.0/maven-model-builder-3.9.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.apache.maven:maven-model-builder:3.9.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.apache.maven/maven-model-builder@3.9.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1165,8 +1165,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/spdx/spdx-jackson-store/1.1.4/spdx-jackson-store-1.1.4.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.spdx:spdx-jackson-store:1.1.4",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.spdx/spdx-jackson-store@1.1.4",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1182,8 +1182,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/json/json/20190722/json-20190722.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.json:json:20190722",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.json/json@20190722",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1199,8 +1199,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-core/2.14.1/jackson-core-2.14.1.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "com.fasterxml.jackson.core:jackson-core:2.14.1",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/com.fasterxml.jackson.core/jackson-core@2.14.1",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1216,8 +1216,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-xml/2.14.1/jackson-dataformat-xml-2.14.1.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.14.1",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/com.fasterxml.jackson.dataformat/jackson-dataformat-xml@2.14.1",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1233,8 +1233,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.14.1/jackson-databind-2.14.1.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "com.fasterxml.jackson.core:jackson-databind:2.14.1",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/com.fasterxml.jackson.core/jackson-databind@2.14.1",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1250,8 +1250,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.14.1/jackson-annotations-2.14.1.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "com.fasterxml.jackson.core:jackson-annotations:2.14.1",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/com.fasterxml.jackson.core/jackson-annotations@2.14.1",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1267,8 +1267,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.14.1/jackson-dataformat-yaml-2.14.1.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.14.1",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml@2.14.1",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1284,8 +1284,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/yaml/snakeyaml/1.33/snakeyaml-1.33.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.yaml:snakeyaml:1.33",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.yaml/snakeyaml@1.33",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1301,8 +1301,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/woodstox/stax2-api/4.2.1/stax2-api-4.2.1.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "org.codehaus.woodstox:stax2-api:4.2.1",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/org.codehaus.woodstox/stax2-api@4.2.1",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1318,8 +1318,8 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/woodstox/woodstox-core/6.4.0/woodstox-core-6.4.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "com.fasterxml.woodstox:woodstox-core:6.4.0",
-      "referenceType" : "http://spdx.org/rdf/refeferences/maven-central"
+      "referenceLocator" : "pkg://maven/com.fasterxml.woodstox/woodstox-core@6.4.0",
+      "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
@@ -1329,11 +1329,11 @@
   "relationships" : [ {
     "spdxElementId" : "SPDXRef-gnrtd60",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd63"
+    "relatedSpdxElement" : "SPDXRef-gnrtd62"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd60",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd62"
+    "relatedSpdxElement" : "SPDXRef-gnrtd61"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd60",
     "relationshipType" : "DEPENDS_ON",
@@ -1341,7 +1341,7 @@
   }, {
     "spdxElementId" : "SPDXRef-gnrtd60",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd61"
+    "relatedSpdxElement" : "SPDXRef-gnrtd63"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd64",
     "relationshipType" : "DEPENDS_ON",
@@ -1349,7 +1349,7 @@
   }, {
     "spdxElementId" : "SPDXRef-gnrtd0",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd41"
+    "relatedSpdxElement" : "SPDXRef-gnrtd10"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd0",
     "relationshipType" : "DEPENDS_ON",
@@ -1357,19 +1357,15 @@
   }, {
     "spdxElementId" : "SPDXRef-gnrtd0",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+    "relatedSpdxElement" : "SPDXRef-gnrtd41"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd0",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd10"
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd1",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd8"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd1",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd7"
+    "relatedSpdxElement" : "SPDXRef-gnrtd9"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd1",
     "relationshipType" : "DEPENDS_ON",
@@ -1381,15 +1377,19 @@
   }, {
     "spdxElementId" : "SPDXRef-gnrtd1",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd9"
+    "relatedSpdxElement" : "SPDXRef-gnrtd8"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd1",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd7"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd69",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd72"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd69",
     "relationshipType" : "DEPENDS_ON",
     "relatedSpdxElement" : "SPDXRef-gnrtd71"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd69",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd70"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd69",
     "relationshipType" : "DEPENDS_ON",
@@ -1401,7 +1401,7 @@
   }, {
     "spdxElementId" : "SPDXRef-gnrtd69",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd72"
+    "relatedSpdxElement" : "SPDXRef-gnrtd70"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd2",
     "relationshipType" : "DEPENDS_ON",
@@ -1421,11 +1421,15 @@
   }, {
     "spdxElementId" : "SPDXRef-gnrtd20",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd21"
+    "relatedSpdxElement" : "SPDXRef-gnrtd31"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd20",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd31"
+    "relatedSpdxElement" : "SPDXRef-gnrtd21"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd21",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd22"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd21",
     "relationshipType" : "DEPENDS_ON",
@@ -1434,18 +1438,6 @@
     "spdxElementId" : "SPDXRef-gnrtd21",
     "relationshipType" : "DEPENDS_ON",
     "relatedSpdxElement" : "SPDXRef-gnrtd29"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd21",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd22"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd22",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd28"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd22",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd27"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd22",
     "relationshipType" : "DEPENDS_ON",
@@ -1463,17 +1455,13 @@
     "relationshipType" : "DEPENDS_ON",
     "relatedSpdxElement" : "SPDXRef-gnrtd25"
   }, {
-    "spdxElementId" : "SPDXRef-gnrtd31",
+    "spdxElementId" : "SPDXRef-gnrtd22",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd32"
+    "relatedSpdxElement" : "SPDXRef-gnrtd27"
   }, {
-    "spdxElementId" : "SPDXRef-gnrtd31",
+    "spdxElementId" : "SPDXRef-gnrtd22",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd39"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd31",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd38"
+    "relatedSpdxElement" : "SPDXRef-gnrtd28"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd31",
     "relationshipType" : "DEPENDS_ON",
@@ -1481,7 +1469,19 @@
   }, {
     "spdxElementId" : "SPDXRef-gnrtd31",
     "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd39"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd31",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd36"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd31",
+    "relationshipType" : "DEPENDS_ON",
     "relatedSpdxElement" : "SPDXRef-gnrtd33"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd31",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd38"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd31",
     "relationshipType" : "DEPENDS_ON",
@@ -1489,7 +1489,7 @@
   }, {
     "spdxElementId" : "SPDXRef-gnrtd31",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd36"
+    "relatedSpdxElement" : "SPDXRef-gnrtd32"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd33",
     "relationshipType" : "DEPENDS_ON",
@@ -1505,31 +1505,11 @@
   }, {
     "spdxElementId" : "SPDXRef-gnrtd41",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd69"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd41",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd67"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd41",
-    "relationshipType" : "DEPENDS_ON",
     "relatedSpdxElement" : "SPDXRef-gnrtd44"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd41",
     "relationshipType" : "DEPENDS_ON",
     "relatedSpdxElement" : "SPDXRef-gnrtd42"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd41",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd66"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd41",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd60"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd41",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd59"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd41",
     "relationshipType" : "DEPENDS_ON",
@@ -1541,15 +1521,31 @@
   }, {
     "spdxElementId" : "SPDXRef-gnrtd41",
     "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd69"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd41",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd67"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd41",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd66"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd41",
+    "relationshipType" : "DEPENDS_ON",
     "relatedSpdxElement" : "SPDXRef-gnrtd53"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd41",
     "relationshipType" : "DEPENDS_ON",
     "relatedSpdxElement" : "SPDXRef-gnrtd52"
   }, {
-    "spdxElementId" : "SPDXRef-gnrtd45",
+    "spdxElementId" : "SPDXRef-gnrtd41",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd47"
+    "relatedSpdxElement" : "SPDXRef-gnrtd60"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd41",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd59"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd45",
     "relationshipType" : "DEPENDS_ON",
@@ -1557,11 +1553,15 @@
   }, {
     "spdxElementId" : "SPDXRef-gnrtd45",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd49"
+    "relatedSpdxElement" : "SPDXRef-gnrtd48"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd45",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd48"
+    "relatedSpdxElement" : "SPDXRef-gnrtd47"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd45",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd49"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd49",
     "relationshipType" : "DEPENDS_ON",
@@ -1573,15 +1573,15 @@
   }, {
     "spdxElementId" : "SPDXRef-gnrtd54",
     "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd56"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd54",
+    "relationshipType" : "DEPENDS_ON",
     "relatedSpdxElement" : "SPDXRef-gnrtd58"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd54",
     "relationshipType" : "DEPENDS_ON",
     "relatedSpdxElement" : "SPDXRef-gnrtd57"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd54",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd56"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd54",
     "relationshipType" : "DEPENDS_ON",
@@ -1593,15 +1593,15 @@
   }, {
     "spdxElementId" : "SPDXRef-gnrtd10",
     "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd11"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd10",
+    "relationshipType" : "DEPENDS_ON",
     "relatedSpdxElement" : "SPDXRef-gnrtd17"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd10",
     "relationshipType" : "DEPENDS_ON",
     "relatedSpdxElement" : "SPDXRef-gnrtd14"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd10",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd11"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd14",
     "relationshipType" : "DEPENDS_ON",
@@ -1613,11 +1613,11 @@
   }, {
     "spdxElementId" : "SPDXRef-gnrtd11",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd13"
+    "relatedSpdxElement" : "SPDXRef-gnrtd12"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd11",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd12"
+    "relatedSpdxElement" : "SPDXRef-gnrtd13"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd17",
     "relationshipType" : "DEPENDS_ON",

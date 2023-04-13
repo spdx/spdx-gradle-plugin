@@ -37,6 +37,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
+import org.gradle.api.GradleException;
 import org.gradle.api.artifacts.ModuleVersionIdentifier;
 import org.gradle.api.artifacts.component.ComponentArtifactIdentifier;
 import org.gradle.api.artifacts.component.ComponentIdentifier;
@@ -211,6 +212,12 @@ public class SpdxDocumentBuilder {
 
     resolvedComponentResult.getVariants();
     ProjectInfo pi = knownProjects.get(projectId.getProjectPath());
+    if (pi.getVersion().equals("unspecified")) {
+      throw new GradleException(
+          "spdx sboms require a version but project: "
+              + pi.getName()
+              + " has no specified version");
+    }
     SpdxPackageBuilder builder =
         doc.createPackage(
                 doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),

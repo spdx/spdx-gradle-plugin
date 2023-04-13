@@ -11,7 +11,7 @@ locally and then use in your project
 
 Install into local maven
 ```bash
-$ git clone git@github.com:loosebazooka/spdx-gradle-plugin
+$ git clone git@github.com:spdx/spdx-gradle-plugin
 $ ./gradlew publishToMavenLocal
 ```
 
@@ -63,6 +63,9 @@ Tasks can be configured via the extension
 ```kotlin
 spdxSbom {
   targets {
+    // create a target named "release",
+    // this is used for the task name (spdxSbomForRelease)
+    // and output file (release.spdx.json)
     create("release") {
       // use a different configuration (or multiple configurations)
       configurations.set(listOf("myCustomConfiguration"))
@@ -77,10 +80,11 @@ spdxSbom {
       document {
         name.set("my spdx document")
         namespace.set("https://my.org/spdx/<some UUID>")
-        creator.set("Person:Lucy Loosebazooka")
+        creator.set("Person:Goose Loosebazooka")
 
-        // add a root spdx package on the document between the document and the 
-        // root module of the configuration being analyzed
+        // add a root spdx package on the document between the document and the
+        // root module of the configuration being analyzed, you probably don't need this
+        // but it's availalbe if you want to for some reason.
         rootPackage { 
           // you must set all or none of these
           name.set("goose")
@@ -96,14 +100,13 @@ spdxSbom {
 ```
 
 ### Notes
-We do pretty lazy license stuff (will be handled better later)
-
-Output is always json
+- Licensing and copyright is somewhat incomplete (works well for maven deps)
+- Output is always json
 
 ### Experimental (do not use)
 
-If you use these experimental features, I will change them whenever I want with no notification. They are 
-to support very specific build usecases and are not for public consumption
+If you use these experimental features, they will change them whenever with no notification. They are 
+to support very specific build usecases and are not for general consumption
 
 use `taskExtension` to map downloadLocations if they are cached somewhere other than original location
 ```kotlin

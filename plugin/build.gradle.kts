@@ -7,7 +7,7 @@ plugins {
 
 version = "0.0.1"
 description = "A gradle plugin generating spdx sboms"
-val repoUrl = "github.com/loosebazoka/spdx-gradle-plugin"
+val repoUrl = "github.com/spdx/spdx-gradle-plugin"
 
 repositories {
     mavenCentral()
@@ -94,13 +94,13 @@ publishing {
                 inceptionYear.set("2023")
                 url.set(repoUrl)
                 organization {
-                    name.set("loosebazooka temp")
-                    url.set("https://github.com/loosebazooka")
+                    name.set("spdx")
+                    url.set("https://github.com/spdx")
                 }
                 developers {
                     developer {
-                        organization.set("loosebazooka temp")
-                        organizationUrl.set("https://github.com/loosebazooka")
+                        organization.set("spdx")
+                        organizationUrl.set("https://github.com/spdx")
                     }
                 }
                 issueManagement {
@@ -126,7 +126,7 @@ publishing {
 
 // spdxSbom {
 //    targets {
-//        create("example") {
-//        }
+//       create("example") {
+//       }
 //    }
 // }
