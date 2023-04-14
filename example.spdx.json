@@ -2,10 +2,10 @@
   "SPDXID" : "SPDXRef-DOCUMENT",
   "spdxVersion" : "SPDX-2.3",
   "creationInfo" : {
-    "created" : "2023-04-13T20:41:29.238303427Z",
+    "created" : "2023-04-14T01:57:59.591802802Z",
     "creators" : [ "Tool: spdx-gradle-plugin" ]
   },
-  "name" : "plugin",
+  "name" : "spdx-gradle-plugin",
   "dataLicense" : "CC0-1.0",
   "hasExtractedLicensingInfos" : [ {
     "licenseId" : "LicenseRef-gnrtd0",
@@ -200,9 +200,9 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "NOASSERTION",
     "licenseInfoFromFiles" : [ ],
-    "name" : "plugin",
-    "sourceInfo" : "plugin(:plugin) <no-scm-uri>@<no-scm-revision>",
-    "versionInfo" : "0.0.1"
+    "name" : "spdx-gradle-plugin",
+    "sourceInfo" : "spdx-gradle-plugin(:) <no-scm-uri>@<no-scm-revision>",
+    "versionInfo" : "0.1.0"
   }, {
     "SPDXID" : "SPDXRef-gnrtd68",
     "checksums" : [ {

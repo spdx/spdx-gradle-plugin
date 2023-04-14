@@ -105,7 +105,7 @@ spdxSbom {
 
 ### Experimental (do not use)
 
-If you use these experimental features, they will change them whenever with no notification. They are 
+If you use these experimental features, they will change them whenever with no notification. They are
 to support very specific build usecases and are not for general consumption
 
 use `taskExtension` to map downloadLocations if they are cached somewhere other than original location

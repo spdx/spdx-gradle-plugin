@@ -1,13 +1,11 @@
 plugins {
-    `java-gradle-plugin`
-    `maven-publish`
+    id("com.gradle.plugin-publish") version "1.2.0"
     id("com.diffplug.spotless") version "6.16.0"
-//    id("org.spdx.sbom") version "0.0.1"
+//    id("org.spdx.sbom") version "0.1.0"
 }
 
-version = "0.0.1"
+group = "org.spdx"
 description = "A gradle plugin generating spdx sboms"
-val repoUrl = "github.com/spdx/spdx-gradle-plugin"
 
 repositories {
     mavenCentral()
@@ -29,9 +27,16 @@ dependencies {
 }
 
 gradlePlugin {
-    val spdxsbom by plugins.creating {
-        id = "org.spdx.sbom"
-        implementationClass = "org.spdx.sbom.gradle.SpdxSbomPlugin"
+    website.set("https://github.com/spdx/spdx-gradle-plugin")
+    vcsUrl.set("https://github.com/spdx/spdx-gradle-plugin.git")
+    plugins {
+        create("spdxSbom") {
+            id = "org.spdx.sbom"
+            implementationClass = "org.spdx.sbom.gradle.SpdxSbomPlugin"
+            displayName = "Generate sboms in spdx format"
+            description = "This plugin generates json formatted spdx sboms for gradle projects"
+            tags.set(listOf("spdx", "sbom"))
+        }
     }
 }
 
@@ -80,53 +85,9 @@ spotless {
     }
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = "org.spdx"
-            artifactId = "spdx-gradle-plugin"
-            version = "0.0.1"
-
-            from(components["java"])
-            pom {
-                name.set(project.name)
-                description.set(project.description)
-                inceptionYear.set("2023")
-                url.set(repoUrl)
-                organization {
-                    name.set("spdx")
-                    url.set("https://github.com/spdx")
-                }
-                developers {
-                    developer {
-                        organization.set("spdx")
-                        organizationUrl.set("https://github.com/spdx")
-                    }
-                }
-                issueManagement {
-                    system.set("GitHub Issues")
-                    url.set("$repoUrl/issues")
-                }
-                licenses {
-                    license {
-                        name.set("Apache-2.0")
-                        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:$repoUrl.git")
-                    developerConnection.set("scm:git:$repoUrl.git")
-                    url.set(repoUrl)
-                    tag.set("HEAD")
-                }
-            }
-        }
-    }
-}
-
 // spdxSbom {
-//    targets {
-//       create("example") {
-//       }
-//    }
+//     targets {
+//         create("example") {
+//         }
+//     }
 // }
