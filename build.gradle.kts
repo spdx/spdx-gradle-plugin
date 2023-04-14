@@ -67,6 +67,12 @@ tasks.named<Test>("test") {
     useJUnitPlatform()
 }
 
+tasks.named<Javadoc>("javadoc") {
+    (options as StandardJavadocDocletOptions).apply {
+        addBooleanOption("Xdoclint:all,-missing", true)
+    }
+}
+
 spotless {
     kotlinGradle {
         target("*.gradle.kts") // default target for kotlinGradle
