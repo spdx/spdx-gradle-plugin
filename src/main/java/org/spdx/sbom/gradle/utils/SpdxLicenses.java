@@ -56,10 +56,11 @@ public class SpdxLicenses {
     this.knownLicenses = knownLicenses;
   }
 
-  public static SpdxLicenses newSpdxLicenes(Logger logger, SpdxDocument doc)
+  public static SpdxLicenses newSpdxLicenes(
+      Logger logger, SpdxDocument doc, SpdxKnownLicenses spdxKnownLicenses)
       throws IOException, InterruptedException {
     return new SpdxLicenses(
-        logger, doc, doc.getModelStore(), doc.getCopyManager(), SpdxKnownLicenses.fromRemote());
+        logger, doc, doc.getModelStore(), doc.getCopyManager(), spdxKnownLicenses);
   }
 
   public AnyLicenseInfo asSpdxLicense(List<LicenseInfo> licenses)
@@ -101,7 +102,7 @@ public class SpdxLicenses {
 
     // handle new unknown licenses
     // this is maybe not preferable, alternative is the user defining all the licenses
-    logger.warn("Non spdx-standard license detected in package: " + license);
+    logger.debug("Non spdx-standard license detected in package: " + license);
     var unknownLicense = createNewUnknownLicense(license);
     projectLicenses.put(normalizedLicenseUrl, unknownLicense);
     return unknownLicense;

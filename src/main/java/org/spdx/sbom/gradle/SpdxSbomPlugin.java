@@ -43,11 +43,18 @@ import org.spdx.sbom.gradle.maven.PomResolver;
 import org.spdx.sbom.gradle.project.DocumentInfo;
 import org.spdx.sbom.gradle.project.ProjectInfo;
 import org.spdx.sbom.gradle.project.ScmInfo;
+import org.spdx.sbom.gradle.utils.SpdxKnownLicensesService;
 
 /** A plugin to generate spdx sboms. */
 public class SpdxSbomPlugin implements Plugin<Project> {
 
   public void apply(Project project) {
+    Provider<SpdxKnownLicensesService> knownLicenseServiceProvider =
+        project
+            .getGradle()
+            .getSharedServices()
+            .registerIfAbsent(
+                "spdxKnownLicensesService", SpdxKnownLicensesService.class, spec -> {});
     var extension = project.getExtensions().create("spdxSbom", SpdxSbomExtension.class);
     extension
         .getTargets()
@@ -68,10 +75,17 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                   t.setGroup("Spdx sbom tasks");
                   t.setDescription("Run all sbom tasks in this project");
                 });
-    extension.getTargets().all(target -> createTaskForTarget(project, target, aggregate));
+    extension
+        .getTargets()
+        .all(
+            target -> createTaskForTarget(project, target, aggregate, knownLicenseServiceProvider));
   }
 
-  private void createTaskForTarget(Project project, Target target, TaskProvider<Task> aggregate) {
+  private void createTaskForTarget(
+      Project project,
+      Target target,
+      TaskProvider<Task> aggregate,
+      Provider<SpdxKnownLicensesService> knownLicenseServiceProvider) {
     String name =
         (target.getName().length() <= 1)
             ? target.getName().toUpperCase()
@@ -90,6 +104,8 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                   t.getScmInfo().set(ScmInfo.from(target));
                   t.getAllProjects()
                       .set(ProjectInfo.from(project.getRootProject().getAllprojects()));
+                  t.getSpdxKnownLicensesService().set(knownLicenseServiceProvider);
+                  t.usesService(knownLicenseServiceProvider);
 
                   List<String> configurationNames = target.getConfigurations().get();
                   for (var configurationName : configurationNames) {

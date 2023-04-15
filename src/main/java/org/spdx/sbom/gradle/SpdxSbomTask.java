@@ -40,12 +40,16 @@ import org.spdx.sbom.gradle.project.DocumentInfo;
 import org.spdx.sbom.gradle.project.ProjectInfo;
 import org.spdx.sbom.gradle.project.ScmInfo;
 import org.spdx.sbom.gradle.utils.SpdxDocumentBuilder;
+import org.spdx.sbom.gradle.utils.SpdxKnownLicensesService;
 import org.spdx.spdxRdfStore.OutputFormat;
 import org.spdx.spdxRdfStore.RdfStore;
 import org.spdx.storage.ISerializableModelStore;
 import org.spdx.storage.simple.InMemSpdxStore;
 
 public abstract class SpdxSbomTask extends DefaultTask {
+
+  @Internal
+  abstract Property<SpdxKnownLicensesService> getSpdxKnownLicensesService();
 
   @Input
   abstract ListProperty<ResolvedComponentResult> getRootComponents();
@@ -94,7 +98,8 @@ public abstract class SpdxSbomTask extends DefaultTask {
               getPoms().get(),
               getTaskExtension().getOrNull(),
               getDocumentInfo().get(),
-              getScmInfo().get());
+              getScmInfo().get(),
+              getSpdxKnownLicensesService().get().getKnownLicenses());
 
       for (var rootComponent : getRootComponents().get()) {
         documentBuilder.add(rootComponent);

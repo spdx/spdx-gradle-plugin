@@ -92,7 +92,8 @@ public class SpdxDocumentBuilder {
       Map<String, PomInfo> poms,
       SpdxSbomTaskExtension spdxSbomTaskExtension,
       DocumentInfo documentInfo,
-      ScmInfo scmInfo)
+      ScmInfo scmInfo,
+      SpdxKnownLicenses knownLicenses)
       throws InvalidSPDXAnalysisException, IOException, InterruptedException {
 
     doc =
@@ -126,7 +127,7 @@ public class SpdxDocumentBuilder {
       rootPackage = null;
     }
 
-    this.licenses = SpdxLicenses.newSpdxLicenes(logger, doc);
+    this.licenses = SpdxLicenses.newSpdxLicenes(logger, doc, knownLicenses);
 
     this.logger = logger;
     this.scmInfo = scmInfo;
