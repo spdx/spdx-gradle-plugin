@@ -2,7 +2,7 @@
   "SPDXID" : "SPDXRef-DOCUMENT",
   "spdxVersion" : "SPDX-2.3",
   "creationInfo" : {
-    "created" : "2023-04-19T14:37:23.301113354Z",
+    "created" : "2023-04-19T16:00:02.12968213Z",
     "creators" : [ "Tool: spdx-gradle-plugin" ]
   },
   "name" : "spdx-gradle-plugin",
@@ -1199,12 +1199,13 @@
     "SPDXID" : "SPDXRef-gnrtd0",
     "copyrightText" : "NOASSERTION",
     "description" : "A gradle plugin generating spdx sboms",
+    "downloadLocation" : "NOASSERTION",
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "NOASSERTION",
     "licenseInfoFromFiles" : [ ],
     "name" : "spdx-gradle-plugin",
-    "sourceInfo" : "spdx-gradle-plugin(:) <no-scm-uri>@<no-scm-revision>",
+    "sourceInfo" : "git+<no-scm-uri>@<no-scm-revision>#spdx-gradle-plugin[:]",
     "versionInfo" : "0.1.0"
   }, {
     "SPDXID" : "SPDXRef-gnrtd1",
