@@ -25,6 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -108,7 +109,9 @@ public class SpdxDocumentBuilder {
     doc.setCreationInfo(
         doc.createCreationInfo(
             creators.build(),
-            ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_DATE_TIME)));
+            ZonedDateTime.now(ZoneOffset.UTC)
+                .truncatedTo(ChronoUnit.SECONDS)
+                .format(DateTimeFormatter.ISO_DATE_TIME)));
     if (documentInfo.getRootPackageInfo().isPresent()) {
       var rootPackageInfo = documentInfo.getRootPackageInfo().get();
       this.rootPackage =

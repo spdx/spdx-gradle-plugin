@@ -2,7 +2,7 @@
   "SPDXID" : "SPDXRef-DOCUMENT",
   "spdxVersion" : "SPDX-2.3",
   "creationInfo" : {
-    "created" : "2023-04-19T16:00:02.12968213Z",
+    "created" : "2023-04-19T16:41:21Z",
     "creators" : [ "Tool: spdx-gradle-plugin" ]
   },
   "name" : "spdx-gradle-plugin",
