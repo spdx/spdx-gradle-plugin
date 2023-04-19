@@ -16,28 +16,42 @@
 package org.spdx.sbom.gradle.project;
 
 import org.immutables.serial.Serial;
+import org.immutables.value.Value.Derived;
 import org.immutables.value.Value.Immutable;
 import org.spdx.sbom.gradle.SpdxSbomExtension;
 
 @Immutable
 @Serial.Version(1)
 public abstract class ScmInfo {
+  public abstract String getTool();
+
   public abstract String getUri();
 
   public abstract String getRevision();
 
-  public String getSourceInfo(ProjectInfo project) {
-    return project.getName() + "(" + project.getPath() + ") " + getUri() + "@" + getRevision();
+  @Derived
+  public String getDownloadLocation(ProjectInfo project) {
+    return getTool()
+        + "+"
+        + getUri()
+        + "@"
+        + getRevision()
+        + "#"
+        + project.getName()
+        + "["
+        + project.getPath()
+        + "]";
   }
 
   public static ScmInfo from(SpdxSbomExtension.Target target) {
     return ImmutableScmInfo.builder()
+        .tool(target.getScm().getTool().get())
         .uri(target.getScm().getUri().get())
         .revision(target.getScm().getRevision().get())
         .build();
   }
 
-  public static ScmInfo from(String uri, String revision) {
-    return ImmutableScmInfo.builder().uri(uri).revision(revision).build();
+  public static ScmInfo from(String tool, String uri, String revision) {
+    return ImmutableScmInfo.builder().tool(tool).uri(uri).revision(revision).build();
   }
 }

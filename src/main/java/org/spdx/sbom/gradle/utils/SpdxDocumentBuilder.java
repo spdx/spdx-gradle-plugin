@@ -230,12 +230,15 @@ public class SpdxDocumentBuilder {
                 new SpdxNoAssertionLicense())
             .setFilesAnalyzed(false)
             .setDescription(pi.getDescription().orElse(""))
+            .setDownloadLocation("NOASSERTION")
             .setVersionInfo(version);
 
+    // we want to eventually use downloadLocation instead of sourceInfo, but we'll use sourceInfo
+    // for now since we don't have good defaults
     if (taskExtension != null) {
-      builder.setSourceInfo(taskExtension.mapScmForProject(scmInfo, pi).getSourceInfo(pi));
+      builder.setSourceInfo(taskExtension.mapScmForProject(scmInfo, pi).getDownloadLocation(pi));
     } else {
-      builder.setSourceInfo(scmInfo.getSourceInfo(pi));
+      builder.setSourceInfo(scmInfo.getDownloadLocation(pi));
     }
     return builder.build();
   }

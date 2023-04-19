@@ -46,6 +46,8 @@ public interface SpdxSbomExtension {
   }
 
   abstract class Scm {
+    public abstract Property<String> getTool();
+
     public abstract Property<String> getUri();
 
     public abstract Property<String> getRevision();
