@@ -15,7 +15,6 @@
  */
 package org.spdx.sbom.gradle.utils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -57,8 +56,7 @@ public class SpdxLicenses {
   }
 
   public static SpdxLicenses newSpdxLicenes(
-      Logger logger, SpdxDocument doc, SpdxKnownLicenses spdxKnownLicenses)
-      throws IOException, InterruptedException {
+      Logger logger, SpdxDocument doc, SpdxKnownLicenses spdxKnownLicenses) {
     return new SpdxLicenses(
         logger, doc, doc.getModelStore(), doc.getCopyManager(), spdxKnownLicenses);
   }

@@ -95,7 +95,7 @@ public class SpdxDocumentBuilder {
       DocumentInfo documentInfo,
       ScmInfo scmInfo,
       SpdxKnownLicenses knownLicenses)
-      throws InvalidSPDXAnalysisException, IOException, InterruptedException {
+      throws InvalidSPDXAnalysisException {
 
     doc =
         SpdxModelFactory.createSpdxDocument(
@@ -123,6 +123,7 @@ public class SpdxDocumentBuilder {
                   new SpdxNoAssertionLicense())
               .setSupplier(rootPackageInfo.getSupplier())
               .setVersionInfo(rootPackageInfo.getVersion())
+              .setDownloadLocation("NOASSERTION")
               .setFilesAnalyzed(false)
               .build();
       doc.setDocumentDescribes(Collections.singletonList(this.rootPackage));

@@ -29,6 +29,9 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.spdx.tools.SpdxToolsHelper.SerFileType;
+import org.spdx.tools.SpdxVerificationException;
+import org.spdx.tools.Verify;
 
 /** A simple functional test for the 'org.spdx.greeting' plugin. */
 class SpdxSbomPluginFunctionalTest {
@@ -51,7 +54,7 @@ class SpdxSbomPluginFunctionalTest {
   }
 
   @Test
-  void canRunTask() throws IOException {
+  void canRunTask() throws IOException, SpdxVerificationException {
     writeString(
         getSettingsFile(),
         "rootProject.name = 'spdx-functional-test-project'\n" + "include 'sub-project'");
@@ -113,6 +116,7 @@ class SpdxSbomPluginFunctionalTest {
     var result = runner.build();
 
     Path outputFile = projectDir.toPath().resolve(Paths.get("build/spdx/release.spdx.json"));
+    Verify.verify(outputFile.toFile().getAbsolutePath(), SerFileType.JSON);
 
     MatcherAssert.assertThat(
         result.getOutput(),
@@ -126,7 +130,7 @@ class SpdxSbomPluginFunctionalTest {
   }
 
   @Test
-  void useMultipleConfigurations() throws IOException {
+  void useMultipleConfigurations() throws IOException, SpdxVerificationException {
     writeString(getSettingsFile(), "rootProject.name = 'spdx-functional-test-project'");
     writeString(
         getBuildFile(),
@@ -165,6 +169,7 @@ class SpdxSbomPluginFunctionalTest {
     runner.build();
 
     Path outputFile = projectDir.toPath().resolve(Paths.get("build/spdx/release.spdx.json"));
+    Verify.verify(outputFile.toFile().getAbsolutePath(), SerFileType.JSON);
 
     // Verify the result
     assertTrue(Files.isRegularFile(outputFile));
@@ -179,7 +184,7 @@ class SpdxSbomPluginFunctionalTest {
   }
 
   @Test
-  public void canRunOnPluginProject() throws IOException {
+  public void canRunOnPluginProject() throws IOException, SpdxVerificationException {
     writeString(getKotlinSettingsFile(), "rootProject.name = \"spdx-functional-test-project\"");
     writeString(
         getKotlinBuildFile(),
@@ -214,7 +219,9 @@ class SpdxSbomPluginFunctionalTest {
     runner.build();
 
     Path outputFile = projectDir.toPath().resolve(Paths.get("build/spdx/sbom.spdx.json"));
+    Verify.verify(outputFile.toFile().getAbsolutePath(), SerFileType.JSON);
     Path outputFile2 = projectDir.toPath().resolve(Paths.get("build/spdx/test.spdx.json"));
+    Verify.verify(outputFile2.toFile().getAbsolutePath(), SerFileType.JSON);
 
     // Verify the result
     assertTrue(Files.isRegularFile(outputFile));
@@ -222,7 +229,7 @@ class SpdxSbomPluginFunctionalTest {
   }
 
   @Test
-  public void canUseBuildExtension() throws IOException {
+  public void canUseBuildExtension() throws IOException, SpdxVerificationException {
     writeString(getKotlinSettingsFile(), "rootProject.name = \"spdx-functional-test-project\"");
     writeString(
         getKotlinBuildFile(),
@@ -267,6 +274,7 @@ class SpdxSbomPluginFunctionalTest {
     runner.build();
 
     Path outputFile = projectDir.toPath().resolve(Paths.get("build/spdx/sbom.spdx.json"));
+    Verify.verify(outputFile.toFile().getAbsolutePath(), SerFileType.JSON);
 
     // Verify the result
     assertTrue(Files.isRegularFile(outputFile));
@@ -282,6 +290,48 @@ class SpdxSbomPluginFunctionalTest {
             line ->
                 MatcherAssert.assertThat(
                     line, Matchers.containsString("https://git.duck.com@asdf")));
+  }
+
+  @Test
+  public void rootProjectIsValid() throws IOException, SpdxVerificationException {
+    writeString(getKotlinSettingsFile(), "rootProject.name = \"spdx-functional-test-project\"");
+    writeString(
+        getKotlinBuildFile(),
+        "plugins {\n"
+            + "  id(\"org.spdx.sbom\")\n"
+            + "  `java`\n"
+            + "}\n"
+            + "version = \"1\"\n"
+            + "repositories {\n"
+            + "  mavenCentral()\n"
+            + "}\n"
+            + "dependencies {\n"
+            + "  implementation(\"dev.sigstore:sigstore-java:0.3.0\")\n"
+            + "}\n"
+            + "spdxSbom {\n"
+            + "  targets {\n"
+            + "    create(\"sbom\") {\n"
+            + "      document {\n"
+            + "        rootPackage {\n"
+            + "          name.set(\"abc\")\n"
+            + "          version.set(\"1.2.3\")\n"
+            + "          supplier.set(\"Organization:def\")\n"
+            + "        }\n"
+            + "      }\n"
+            + "    }\n"
+            + "  }\n"
+            + "}\n");
+
+    GradleRunner runner = GradleRunner.create();
+    runner.forwardOutput();
+    runner.withPluginClasspath();
+    runner.withDebug(true);
+    runner.withArguments("spdxSbom", "--stacktrace");
+    runner.withProjectDir(projectDir);
+    runner.build();
+
+    Path outputFile = projectDir.toPath().resolve(Paths.get("build/spdx/sbom.spdx.json"));
+    Verify.verify(outputFile.toFile().getAbsolutePath(), SerFileType.JSON);
   }
 
   private void writeString(File file, String string) throws IOException {
