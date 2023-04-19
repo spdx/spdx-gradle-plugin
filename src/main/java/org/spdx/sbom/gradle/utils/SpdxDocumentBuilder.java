@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -37,7 +38,6 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
-import org.gradle.api.GradleException;
 import org.gradle.api.artifacts.ModuleVersionIdentifier;
 import org.gradle.api.artifacts.component.ComponentArtifactIdentifier;
 import org.gradle.api.artifacts.component.ComponentIdentifier;
@@ -213,11 +213,13 @@ public class SpdxDocumentBuilder {
 
     resolvedComponentResult.getVariants();
     ProjectInfo pi = knownProjects.get(projectId.getProjectPath());
-    if (pi.getVersion().equals("unspecified")) {
-      throw new GradleException(
+    var version = pi.getVersion();
+    if (version.equals("unspecified")) {
+      logger.warn(
           "spdx sboms require a version but project: "
               + pi.getName()
               + " has no specified version");
+      version = "NOASSERTION";
     }
     SpdxPackageBuilder builder =
         doc.createPackage(
@@ -227,9 +229,8 @@ public class SpdxDocumentBuilder {
                 "NOASSERTION",
                 new SpdxNoAssertionLicense())
             .setFilesAnalyzed(false)
-            .setDescription("" + pi.getDescription().orElse(""))
-            .setVersionInfo("" + pi.getVersion())
-            .setDownloadLocation("NOASSERTION");
+            .setDescription(pi.getDescription().orElse(""))
+            .setVersionInfo(version);
 
     if (taskExtension != null) {
       builder.setSourceInfo(taskExtension.mapScmForProject(scmInfo, pi).getSourceInfo(pi));
@@ -246,9 +247,7 @@ public class SpdxDocumentBuilder {
     // if the project doesn't resolve to anything, ignore it
     File dependencyFile = resolvedArtifacts.get(resolvedComponentResult.getId());
     if (dependencyFile != null) {
-
       ModuleVersionIdentifier moduleId = resolvedComponentResult.getModuleVersion();
-
       PomInfo pomInfo = poms.get(resolvedComponentResult.getId().getDisplayName());
 
       SpdxPackageBuilder spdxPkgBuilder =
@@ -280,10 +279,13 @@ public class SpdxDocumentBuilder {
       }
       spdxPkgBuilder.setDownloadLocation(downloadLocation.toString());
 
+      String sha1 =
+          com.google.common.io.Files.asByteSource(dependencyFile).hash(Hashing.sha1()).toString();
+      var checksumSha1 = doc.createChecksum(ChecksumAlgorithm.SHA1, sha1);
       String sha256 =
           com.google.common.io.Files.asByteSource(dependencyFile).hash(Hashing.sha256()).toString();
-      var checksum = doc.createChecksum(ChecksumAlgorithm.SHA256, sha256);
-      spdxPkgBuilder.setChecksums(Collections.singletonList(checksum));
+      var checksumSha256 = doc.createChecksum(ChecksumAlgorithm.SHA256, sha256);
+      spdxPkgBuilder.setChecksums(List.of(checksumSha1, checksumSha256));
       spdxPkgBuilder.setFilesAnalyzed(false);
 
       var externalRef =

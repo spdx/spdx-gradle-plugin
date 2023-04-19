@@ -95,9 +95,7 @@ class SpdxSbomPluginFunctionalTest {
 
     Path sub = projectDir.toPath().resolve("sub-project");
     Files.createDirectories(sub);
-    writeString(
-        sub.resolve("build.gradle").toFile(),
-        "plugins {\n" + "  id('java')\n" + "}\n" + "version = '1'\n");
+    writeString(sub.resolve("build.gradle").toFile(), "plugins {\n" + "  id('java')\n" + "}\n");
 
     Path lib = sub.resolve(Paths.get("src/main/java/lib/Lib.java"));
     Files.createDirectories(lib.getParent());
@@ -112,9 +110,14 @@ class SpdxSbomPluginFunctionalTest {
     runner.withDebug(true);
     runner.withArguments("spdxSbomForRelease", "--stacktrace");
     runner.withProjectDir(projectDir);
-    runner.build();
+    var result = runner.build();
 
     Path outputFile = projectDir.toPath().resolve(Paths.get("build/spdx/release.spdx.json"));
+
+    MatcherAssert.assertThat(
+        result.getOutput(),
+        Matchers.containsString(
+            "spdx sboms require a version but project: sub-project has no specified version"));
 
     // Verify the result
     assertTrue(Files.isRegularFile(outputFile));
