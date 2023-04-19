@@ -63,6 +63,7 @@ public class SpdxSbomPlugin implements Plugin<Project> {
               target.getConfigurations().convention(Collections.singleton("runtimeClasspath"));
               target.getDocument().getName().convention(project.getName());
               target.getDocument().getNamespace().convention("https://example.com/UUID");
+              target.getScm().getTool().convention("git");
               target.getScm().getRevision().convention("<no-scm-revision>");
               target.getScm().getUri().convention("<no-scm-uri>");
             });

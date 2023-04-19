@@ -240,7 +240,7 @@ class SpdxSbomPluginFunctionalTest {
             + "            return URI.create(\"https://duck.com\")\n"
             + "        }\n"
             + "        override fun mapScmForProject(original: ScmInfo?, projectInfo: ProjectInfo?): ScmInfo {\n"
-            + "            return ScmInfo.from(\"https://git.duck.com\", \"asdf\")\n"
+            + "            return ScmInfo.from(\"git\", \"https://git.duck.com\", \"asdf\")\n"
             + "        }\n"
             + "    })\n"
             + "}\n"
