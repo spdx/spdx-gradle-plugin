@@ -26,7 +26,7 @@ public abstract class SpdxKnownLicensesService
   private final SpdxKnownLicenses spdxKnownLicenses;
 
   public SpdxKnownLicensesService() throws IOException, InterruptedException {
-    this.spdxKnownLicenses = SpdxKnownLicenses.fromRemote();
+    this.spdxKnownLicenses = SpdxKnownLicenses.knownLicenses();
   }
 
   public SpdxKnownLicenses getKnownLicenses() {

@@ -20,13 +20,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpClient.Redirect;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse.BodyHandlers;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,18 +42,16 @@ public class SpdxKnownLicenses {
     this.licenses = ImmutableMap.copyOf(licenses);
   }
 
-  public static SpdxKnownLicenses fromRemote()
+  public static SpdxKnownLicenses knownLicenses()
       throws IOException, InterruptedException, JsonParseException {
-    var licenseReq = HttpRequest.newBuilder(URI.create(REMOTE_LICENSES)).GET().build();
-    var httpClient =
-        HttpClient.newBuilder()
-            .connectTimeout(Duration.ofSeconds(30))
-            .followRedirects(Redirect.NORMAL)
-            .build();
-    try (BufferedReader reader =
-        new BufferedReader(
-            new InputStreamReader(
-                httpClient.send(licenseReq, BodyHandlers.ofInputStream()).body()))) {
+    InputStream inputStream =
+        SpdxKnownLicenses.class.getClassLoader().getResourceAsStream("spdx-licenses.json");
+    return fromStream(inputStream);
+  }
+
+  private static SpdxKnownLicenses fromStream(InputStream stream)
+      throws IOException, InterruptedException, JsonParseException {
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
       return new SpdxKnownLicenses(getLicenseToUrlMap(reader));
     }
   }
