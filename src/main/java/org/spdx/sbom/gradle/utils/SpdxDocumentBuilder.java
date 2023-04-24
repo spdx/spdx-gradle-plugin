@@ -50,6 +50,7 @@ import org.gradle.api.internal.artifacts.result.ResolvedComponentResultInternal;
 import org.gradle.api.logging.Logger;
 import org.spdx.library.InvalidSPDXAnalysisException;
 import org.spdx.library.ModelCopyManager;
+import org.spdx.library.SpdxConstants;
 import org.spdx.library.model.ReferenceType;
 import org.spdx.library.model.SpdxDocument;
 import org.spdx.library.model.SpdxModelFactory;
@@ -298,8 +299,8 @@ public class SpdxDocumentBuilder {
       var externalRef =
           doc.createExternalRef(
               ReferenceCategory.PACKAGE_MANAGER,
-              new ReferenceType("purl"),
-              "pkg://maven/"
+              new ReferenceType(SpdxConstants.SPDX_LISTED_REFERENCE_TYPES_PREFIX + "purl"),
+              "pkg:maven/"
                   + moduleId.getGroup()
                   + "/"
                   + moduleId.getName()

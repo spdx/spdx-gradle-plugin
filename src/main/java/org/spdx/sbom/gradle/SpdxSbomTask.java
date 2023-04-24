@@ -41,8 +41,6 @@ import org.spdx.sbom.gradle.project.ProjectInfo;
 import org.spdx.sbom.gradle.project.ScmInfo;
 import org.spdx.sbom.gradle.utils.SpdxDocumentBuilder;
 import org.spdx.sbom.gradle.utils.SpdxKnownLicensesService;
-import org.spdx.spdxRdfStore.OutputFormat;
-import org.spdx.spdxRdfStore.RdfStore;
 import org.spdx.storage.ISerializableModelStore;
 import org.spdx.storage.simple.InMemSpdxStore;
 
@@ -83,37 +81,33 @@ public abstract class SpdxSbomTask extends DefaultTask {
 
   @TaskAction
   public void generateSbom() throws Exception {
-    try (var rdfstore = new RdfStore()) {
-      rdfstore.setOutputFormat(OutputFormat.JSON_LD);
-      // ISerializableModelStore modelStore = new RdfStore();
-      ISerializableModelStore modelStore =
-          new MultiFormatStore(new InMemSpdxStore(), Format.JSON_PRETTY);
-      SpdxDocumentBuilder documentBuilder =
-          new SpdxDocumentBuilder(
-              getAllProjects().get(),
-              getLogger(),
-              modelStore,
-              getResolvedArtifacts().get(),
-              getMavenRepositories().get(),
-              getPoms().get(),
-              getTaskExtension().getOrNull(),
-              getDocumentInfo().get(),
-              getScmInfo().get(),
-              getSpdxKnownLicensesService().get().getKnownLicenses());
+    ISerializableModelStore modelStore =
+        new MultiFormatStore(new InMemSpdxStore(), Format.JSON_PRETTY);
+    SpdxDocumentBuilder documentBuilder =
+        new SpdxDocumentBuilder(
+            getAllProjects().get(),
+            getLogger(),
+            modelStore,
+            getResolvedArtifacts().get(),
+            getMavenRepositories().get(),
+            getPoms().get(),
+            getTaskExtension().getOrNull(),
+            getDocumentInfo().get(),
+            getScmInfo().get(),
+            getSpdxKnownLicensesService().get().getKnownLicenses());
 
-      for (var rootComponent : getRootComponents().get()) {
-        documentBuilder.add(rootComponent);
-      }
-
-      SpdxDocument doc = documentBuilder.getSpdxDocument();
-
-      // shows verification errors in the final doc
-      List<String> verificationErrors = doc.verify();
-      verificationErrors.forEach(errors -> getLogger().warn(errors));
-
-      FileOutputStream out =
-          new FileOutputStream(getOutputDirectory().file(getFilename()).get().getAsFile());
-      modelStore.serialize(doc.getDocumentUri(), out);
+    for (var rootComponent : getRootComponents().get()) {
+      documentBuilder.add(rootComponent);
     }
+
+    SpdxDocument doc = documentBuilder.getSpdxDocument();
+
+    // shows verification errors in the final doc
+    List<String> verificationErrors = doc.verify();
+    verificationErrors.forEach(errors -> getLogger().warn(errors));
+
+    FileOutputStream out =
+        new FileOutputStream(getOutputDirectory().file(getFilename()).get().getAsFile());
+    modelStore.serialize(doc.getDocumentUri(), out);
   }
 }
