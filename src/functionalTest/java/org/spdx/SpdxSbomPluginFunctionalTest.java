@@ -242,7 +242,10 @@ class SpdxSbomPluginFunctionalTest {
             + "}\n"
             + "tasks.withType<org.spdx.sbom.gradle.SpdxSbomTask> {\n"
             + "    taskExtension.set(object : org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension {\n"
-            + "        override fun mapDownloadUri(input: URI?): URI {\n"
+            + "        override fun mapRepoUri(input: URI?, moduleId: ModuleVersionIdentifier?): URI {\n"
+            + "            if (moduleId!!.name == \"sigstore-java\") {\n"
+            + "               return URI.create(\"https://truck.com\")\n"
+            + "            }\n"
             + "            // ignore input and return duck\n"
             + "            return URI.create(\"https://duck.com\")\n"
             + "        }\n"
@@ -282,8 +285,15 @@ class SpdxSbomPluginFunctionalTest {
     sbom.stream()
         .filter(line -> line.contains("downloadLocation"))
         .filter(line -> !line.contains("NOASSERTION"))
+        .filter(line -> !line.contains("/sigstore-java/"))
         .forEach(
             line -> MatcherAssert.assertThat(line, Matchers.containsString("https://duck.com")));
+    sbom.stream()
+        .filter(line -> line.contains("downloadLocation"))
+        .filter(line -> !line.contains("NOASSERTION"))
+        .filter(line -> line.contains("/sigstore-java/"))
+        .forEach(
+            line -> MatcherAssert.assertThat(line, Matchers.containsString("https://truck.com")));
     sbom.stream()
         .filter(line -> line.contains("sourceInfo"))
         .forEach(

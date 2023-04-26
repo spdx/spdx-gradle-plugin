@@ -20,8 +20,6 @@ import com.google.common.hash.Hashing;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -65,6 +63,7 @@ import org.spdx.sbom.gradle.maven.PomInfo;
 import org.spdx.sbom.gradle.project.DocumentInfo;
 import org.spdx.sbom.gradle.project.ProjectInfo;
 import org.spdx.sbom.gradle.project.ScmInfo;
+import org.spdx.sbom.gradle.uri.URIs;
 import org.spdx.storage.IModelStore;
 import org.spdx.storage.IModelStore.IdType;
 
@@ -272,20 +271,20 @@ public class SpdxDocumentBuilder {
         throw new RuntimeException("Source repo was null?");
       }
 
-      var baseURI = mavenArtifactRepositories.get(sourceRepo);
-      String modulePath =
-          moduleId.getGroup().replace(".", "/")
-              + "/"
-              + moduleId.getName()
-              + "/"
-              + moduleId.getVersion()
-              + "/"
-              + URLEncoder.encode(dependencyFile.getName(), StandardCharsets.UTF_8);
-      URI downloadLocation = baseURI.resolve(modulePath);
+      var repoUri = mavenArtifactRepositories.get(sourceRepo);
       if (taskExtension != null) {
-        downloadLocation = taskExtension.mapDownloadUri(downloadLocation);
+        repoUri = taskExtension.mapRepoUri(repoUri, moduleId);
       }
-      spdxPkgBuilder.setDownloadLocation(downloadLocation.toString());
+      spdxPkgBuilder.setDownloadLocation(
+          URIs.toDownloadLocation(repoUri, moduleId, dependencyFile.getName()).toString());
+
+      var externalRef =
+          doc.createExternalRef(
+              ReferenceCategory.PACKAGE_MANAGER,
+              new ReferenceType(SpdxConstants.SPDX_LISTED_REFERENCE_TYPES_PREFIX + "purl"),
+              URIs.toPurl(repoUri, moduleId),
+              null);
+      spdxPkgBuilder.setExternalRefs(Collections.singletonList(externalRef));
 
       String sha1 =
           com.google.common.io.Files.asByteSource(dependencyFile).hash(Hashing.sha1()).toString();
@@ -295,19 +294,6 @@ public class SpdxDocumentBuilder {
       var checksumSha256 = doc.createChecksum(ChecksumAlgorithm.SHA256, sha256);
       spdxPkgBuilder.setChecksums(List.of(checksumSha1, checksumSha256));
       spdxPkgBuilder.setFilesAnalyzed(false);
-
-      var externalRef =
-          doc.createExternalRef(
-              ReferenceCategory.PACKAGE_MANAGER,
-              new ReferenceType(SpdxConstants.SPDX_LISTED_REFERENCE_TYPES_PREFIX + "purl"),
-              "pkg:maven/"
-                  + moduleId.getGroup()
-                  + "/"
-                  + moduleId.getName()
-                  + "@"
-                  + moduleId.getVersion(),
-              null);
-      spdxPkgBuilder.setExternalRefs(Collections.singletonList(externalRef));
 
       return Optional.of(spdxPkgBuilder.build());
     }
