@@ -16,11 +16,12 @@
 package org.spdx.sbom.gradle.extensions;
 
 import java.net.URI;
+import org.gradle.api.artifacts.ModuleVersionIdentifier;
 import org.spdx.sbom.gradle.project.ProjectInfo;
 import org.spdx.sbom.gradle.project.ScmInfo;
 
 public interface SpdxSbomTaskExtension {
-  URI mapDownloadUri(URI original);
+  URI mapRepoUri(URI original, ModuleVersionIdentifier moduleVersionIdentifier);
 
   ScmInfo mapScmForProject(ScmInfo original, ProjectInfo projectInfo);
 }

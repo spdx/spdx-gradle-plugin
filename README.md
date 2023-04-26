@@ -112,9 +112,9 @@ use `taskExtension` to map downloadLocations if they are cached somewhere other 
 ```kotlin
 tasks.withType<SpdxSbomTask> {
    taskExtension.set(object : SpdxSbomTaskExtension {
-       override fun mapDownloadUri(input: URI?): URI {
+       override fun mapRepoUri(input: URI?, moduleId: ModuleVersionIdentifier?): URI {
            // ignore input and return duck
-           return URI.create("https://duck.com")
+           return URI.create("https://duck.com/repository")
        }
        override fun mapScmForProject(original: ScmInfo?, projectInfo: ProjectInfo?): ScmInfo {
            // ignore provided scminfo (from extension) and project info (the project we are looking for scm info)

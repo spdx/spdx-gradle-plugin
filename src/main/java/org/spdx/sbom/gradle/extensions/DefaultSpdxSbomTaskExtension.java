@@ -16,12 +16,13 @@
 package org.spdx.sbom.gradle.extensions;
 
 import java.net.URI;
+import org.gradle.api.artifacts.ModuleVersionIdentifier;
 import org.spdx.sbom.gradle.project.ProjectInfo;
 import org.spdx.sbom.gradle.project.ScmInfo;
 
 public abstract class DefaultSpdxSbomTaskExtension implements SpdxSbomTaskExtension {
   @Override
-  public URI mapDownloadUri(URI original) {
+  public URI mapRepoUri(URI original, ModuleVersionIdentifier moduleId) {
     return original;
   }
 
