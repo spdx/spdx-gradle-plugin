@@ -24,16 +24,8 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
@@ -49,7 +41,10 @@ import org.gradle.api.logging.Logger;
 import org.spdx.library.InvalidSPDXAnalysisException;
 import org.spdx.library.ModelCopyManager;
 import org.spdx.library.SpdxConstants;
+import org.spdx.library.model.Checksum;
+import org.spdx.library.model.ExternalRef;
 import org.spdx.library.model.ReferenceType;
+import org.spdx.library.model.Relationship;
 import org.spdx.library.model.SpdxDocument;
 import org.spdx.library.model.SpdxModelFactory;
 import org.spdx.library.model.SpdxPackage;
@@ -116,7 +111,7 @@ public class SpdxDocumentBuilder {
                 .truncatedTo(ChronoUnit.SECONDS)
                 .format(DateTimeFormatter.ISO_DATE_TIME)));
     if (documentInfo.getRootPackageInfo().isPresent()) {
-      var rootPackageInfo = documentInfo.getRootPackageInfo().get();
+      DocumentInfo.RootPackageInfo rootPackageInfo = documentInfo.getRootPackageInfo().get();
       this.rootPackage =
           doc.createPackage(
                   doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
@@ -163,9 +158,9 @@ public class SpdxDocumentBuilder {
           doc.createRelationship(
               spdxPackages.get(root.getId()), RelationshipType.DEPENDS_ON, null));
     }
-    for (var pkg : tree.keySet()) {
-      for (var child : tree.get(pkg)) {
-        var rel =
+    for (ComponentIdentifier pkg : tree.keySet()) {
+      for (ComponentIdentifier child : tree.get(pkg)) {
+        Relationship rel =
             doc.createRelationship(spdxPackages.get(child), RelationshipType.DEPENDS_ON, null);
         spdxPackages.get(pkg).addRelationship(rel);
       }
@@ -185,8 +180,8 @@ public class SpdxDocumentBuilder {
       if (component.getId() instanceof ProjectComponentIdentifier) {
         pkg = createProjectPackage(component);
       } else if (component.getId() instanceof ModuleComponentIdentifier) {
-        var result = createMavenModulePackage(component);
-        if (result.isEmpty()) {
+        Optional<SpdxPackage> result = createMavenModulePackage(component);
+        if (!result.isPresent()) {
           logger.info("ignoring: " + component.getId());
           return; // ignore this package (maybe it's a bom?)
         }
@@ -208,7 +203,7 @@ public class SpdxDocumentBuilder {
     }
     visited.add(component.getId());
 
-    for (var child : component.getDependencies()) {
+    for (org.gradle.api.artifacts.result.DependencyResult child : component.getDependencies()) {
       if (child instanceof ResolvedDependencyResult) {
         add(component, ((ResolvedDependencyResult) child).getSelected(), visited);
       }
@@ -217,11 +212,12 @@ public class SpdxDocumentBuilder {
 
   private SpdxPackage createProjectPackage(ResolvedComponentResult resolvedComponentResult)
       throws InvalidSPDXAnalysisException {
-    var projectId = (ProjectComponentIdentifier) resolvedComponentResult.getId();
+    ProjectComponentIdentifier projectId =
+        (ProjectComponentIdentifier) resolvedComponentResult.getId();
 
     resolvedComponentResult.getVariants();
     ProjectInfo pi = knownProjects.get(projectId.getProjectPath());
-    var version = pi.getVersion();
+    String version = pi.getVersion();
     if (version.equals("unspecified")) {
       logger.warn(
           "spdx sboms require a version but project: "
@@ -229,7 +225,7 @@ public class SpdxDocumentBuilder {
               + " has no specified version");
       version = "NOASSERTION";
     }
-    var supplier = "NOASSERTION";
+    String supplier = "NOASSERTION";
     if (pi == describesProject) {
       supplier = documentInfo.getPackageSupplier().orElse("NOASSERTION");
       if (supplier.equals("NOASSERTION")) {
@@ -284,14 +280,14 @@ public class SpdxDocumentBuilder {
         throw new RuntimeException("Source repo was null?");
       }
 
-      var repoUri = mavenArtifactRepositories.get(sourceRepo);
+      URI repoUri = mavenArtifactRepositories.get(sourceRepo);
       if (taskExtension != null) {
         repoUri = taskExtension.mapRepoUri(repoUri, moduleId);
       }
       spdxPkgBuilder.setDownloadLocation(
           URIs.toDownloadLocation(repoUri, moduleId, dependencyFile.getName()).toString());
 
-      var externalRef =
+      ExternalRef externalRef =
           doc.createExternalRef(
               ReferenceCategory.PACKAGE_MANAGER,
               new ReferenceType(SpdxConstants.SPDX_LISTED_REFERENCE_TYPES_PREFIX + "purl"),
@@ -301,11 +297,11 @@ public class SpdxDocumentBuilder {
 
       String sha1 =
           com.google.common.io.Files.asByteSource(dependencyFile).hash(Hashing.sha1()).toString();
-      var checksumSha1 = doc.createChecksum(ChecksumAlgorithm.SHA1, sha1);
+      Checksum checksumSha1 = doc.createChecksum(ChecksumAlgorithm.SHA1, sha1);
       String sha256 =
           com.google.common.io.Files.asByteSource(dependencyFile).hash(Hashing.sha256()).toString();
-      var checksumSha256 = doc.createChecksum(ChecksumAlgorithm.SHA256, sha256);
-      spdxPkgBuilder.setChecksums(List.of(checksumSha1, checksumSha256));
+      Checksum checksumSha256 = doc.createChecksum(ChecksumAlgorithm.SHA256, sha256);
+      spdxPkgBuilder.setChecksums(Arrays.asList(checksumSha1, checksumSha256));
       spdxPkgBuilder.setFilesAnalyzed(false);
 
       return Optional.of(spdxPkgBuilder.build());

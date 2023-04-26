@@ -55,7 +55,8 @@ public class SpdxSbomPlugin implements Plugin<Project> {
             .getSharedServices()
             .registerIfAbsent(
                 "spdxKnownLicensesService", SpdxKnownLicensesService.class, spec -> {});
-    var extension = project.getExtensions().create("spdxSbom", SpdxSbomExtension.class);
+    SpdxSbomExtension extension =
+        project.getExtensions().create("spdxSbom", SpdxSbomExtension.class);
     extension
         .getTargets()
         .configureEach(
@@ -110,7 +111,7 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                   t.usesService(knownLicenseServiceProvider);
 
                   List<String> configurationNames = target.getConfigurations().get();
-                  for (var configurationName : configurationNames) {
+                  for (String configurationName : configurationNames) {
                     Provider<Set<ResolvedArtifactResult>> artifacts =
                         project
                             .getConfigurations()

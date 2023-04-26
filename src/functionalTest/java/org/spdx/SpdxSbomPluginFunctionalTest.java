@@ -21,9 +21,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.GradleRunner;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -113,7 +116,7 @@ class SpdxSbomPluginFunctionalTest {
     runner.withDebug(true);
     runner.withArguments("spdxSbomForRelease", "--stacktrace");
     runner.withProjectDir(projectDir);
-    var result = runner.build();
+    BuildResult result = runner.build();
 
     Path outputFile = projectDir.toPath().resolve(Paths.get("build/spdx/release.spdx.json"));
     Verify.verify(outputFile.toFile().getAbsolutePath(), SerFileType.JSON);
@@ -126,7 +129,9 @@ class SpdxSbomPluginFunctionalTest {
     // Verify the result
     assertTrue(Files.isRegularFile(outputFile));
 
-    System.out.println(Files.readString(outputFile));
+    System.out.println(
+        com.google.common.io.Files.asCharSource(outputFile.toFile(), Charset.defaultCharset())
+            .read());
   }
 
   @Test
@@ -175,12 +180,16 @@ class SpdxSbomPluginFunctionalTest {
     assertTrue(Files.isRegularFile(outputFile));
 
     // should contain both versions from both library references
-    var sbom = Files.readString(outputFile);
+    String sbom =
+        com.google.common.io.Files.asCharSource(outputFile.toFile(), Charset.defaultCharset())
+            .read();
     MatcherAssert.assertThat(sbom, Matchers.containsString("sigstore-java:0.2.0"));
     MatcherAssert.assertThat(sbom, Matchers.containsString("sigstore-java:0.3.0"));
     MatcherAssert.assertThat(sbom, Matchers.containsString("\"versionInfo\" : \"1.2.3\""));
 
-    System.out.println(Files.readString(outputFile));
+    System.out.println(
+        com.google.common.io.Files.asCharSource(outputFile.toFile(), Charset.defaultCharset())
+            .read());
   }
 
   @Test
@@ -281,7 +290,7 @@ class SpdxSbomPluginFunctionalTest {
 
     // Verify the result
     assertTrue(Files.isRegularFile(outputFile));
-    var sbom = Files.readAllLines(outputFile);
+    List<String> sbom = Files.readAllLines(outputFile);
     sbom.stream()
         .filter(line -> line.contains("downloadLocation"))
         .filter(line -> !line.contains("NOASSERTION"))

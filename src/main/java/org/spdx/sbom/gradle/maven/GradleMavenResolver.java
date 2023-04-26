@@ -15,6 +15,7 @@
  */
 package org.spdx.sbom.gradle.maven;
 
+import java.io.File;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Parent;
 import org.apache.maven.model.Repository;
@@ -22,6 +23,7 @@ import org.apache.maven.model.building.FileModelSource;
 import org.apache.maven.model.building.ModelSource2;
 import org.apache.maven.model.resolution.ModelResolver;
 import org.gradle.api.Project;
+import org.gradle.api.artifacts.Configuration;
 
 public class GradleMavenResolver implements ModelResolver {
   private final Project project;
@@ -32,11 +34,11 @@ public class GradleMavenResolver implements ModelResolver {
 
   @Override
   public ModelSource2 resolveModel(String groupId, String artifactId, String version) {
-    var dep = groupId + ":" + artifactId + ":" + version + "@pom";
-    var dependency = project.getDependencies().create(dep);
-    var config = project.getConfigurations().detachedConfiguration(dependency);
+    String dep = groupId + ":" + artifactId + ":" + version + "@pom";
+    org.gradle.api.artifacts.Dependency dependency = project.getDependencies().create(dep);
+    Configuration config = project.getConfigurations().detachedConfiguration(dependency);
 
-    var pomXml = config.getSingleFile();
+    File pomXml = config.getSingleFile();
     return new FileModelSource(pomXml);
   }
 

@@ -100,7 +100,7 @@ public abstract class SpdxSbomTask extends DefaultTask {
             getScmInfo().get(),
             getSpdxKnownLicensesService().get().getKnownLicenses());
 
-    for (var rootComponent : getRootComponents().get()) {
+    for (ResolvedComponentResult rootComponent : getRootComponents().get()) {
       documentBuilder.add(rootComponent);
     }
 

@@ -45,14 +45,14 @@ public interface DocumentInfo {
   }
 
   static DocumentInfo from(SpdxSbomExtension.Target target) {
-    var document = target.getDocument();
-    var builder =
+    SpdxSbomExtension.Document document = target.getDocument();
+    ImmutableDocumentInfo.Builder builder =
         ImmutableDocumentInfo.builder()
             .name(document.getName().get())
             .namespace(document.getNamespace().get())
             .creator(Optional.ofNullable(document.getCreator().getOrNull()))
             .packageSupplier(Optional.ofNullable(document.getPackageSupplier().getOrNull()));
-    var rootPackage = target.getDocument().getRootPackage();
+    SpdxSbomExtension.RootPackage rootPackage = target.getDocument().getRootPackage();
     if (!rootPackage.getName().isPresent()
         && !rootPackage.getSupplier().isPresent()
         && !rootPackage.getVersion().isPresent()) {

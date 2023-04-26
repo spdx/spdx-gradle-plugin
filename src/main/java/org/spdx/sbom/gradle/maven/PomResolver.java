@@ -32,6 +32,7 @@ import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.component.ComponentIdentifier;
+import org.gradle.api.artifacts.result.ResolvedArtifactResult;
 import org.gradle.api.logging.Logger;
 
 /** This needs to be run *before* while configuring the task, so use it in the Plugin. */
@@ -56,8 +57,9 @@ public class PomResolver {
 
   public Map<String, PomInfo> effectivePoms(Configuration pomsConfig) {
     Map<String, PomInfo> effectivePoms = new HashMap<>();
-    for (var ra : pomsConfig.getIncoming().getArtifacts().getResolvedArtifacts().get()) {
-      var pomFile = ra.getFile();
+    for (ResolvedArtifactResult ra :
+        pomsConfig.getIncoming().getArtifacts().getResolvedArtifacts().get()) {
+      File pomFile = ra.getFile();
       Model model = resolveEffectivePom(pomFile);
       effectivePoms.put(
           ra.getId().getComponentIdentifier().getDisplayName(),

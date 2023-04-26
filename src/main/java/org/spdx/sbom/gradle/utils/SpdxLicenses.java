@@ -70,7 +70,7 @@ public class SpdxLicenses {
       return getOrCreateLicense(licenses.get(0));
     }
     List<AnyLicenseInfo> spdxLicenses = new ArrayList<>();
-    for (var license : licenses) {
+    for (LicenseInfo license : licenses) {
       spdxLicenses.add(getOrCreateLicense(license));
     }
     return doc.createConjunctiveLicenseSet(spdxLicenses);
@@ -91,7 +91,7 @@ public class SpdxLicenses {
     }
     // it's a known license
     if (knownLicenses.contains(license)) {
-      var knownLicense =
+      AnyLicenseInfo knownLicense =
           LicenseInfoFactory.parseSPDXLicenseString(
               knownLicenses.getIdFor(license), modelStore, doc.getDocumentUri(), copyManager);
       projectLicenses.put(normalizedLicenseUrl, knownLicense);
@@ -101,14 +101,14 @@ public class SpdxLicenses {
     // handle new unknown licenses
     // this is maybe not preferable, alternative is the user defining all the licenses
     logger.debug("Non spdx-standard license detected in package: " + license);
-    var unknownLicense = createNewUnknownLicense(license);
+    AnyLicenseInfo unknownLicense = createNewUnknownLicense(license);
     projectLicenses.put(normalizedLicenseUrl, unknownLicense);
     return unknownLicense;
   }
 
   private AnyLicenseInfo createNewUnknownLicense(LicenseInfo license)
       throws InvalidSPDXAnalysisException {
-    var licenseId = modelStore.getNextId(IdType.LicenseRef, doc.getDocumentUri());
+    String licenseId = modelStore.getNextId(IdType.LicenseRef, doc.getDocumentUri());
     ExtractedLicenseInfo unknown =
         new ExtractedLicenseInfo(modelStore, doc.getDocumentUri(), licenseId, copyManager, true);
     unknown.setName(license.getName());

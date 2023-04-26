@@ -15,9 +15,9 @@
  */
 package org.spdx.sbom.gradle.uri;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import org.gradle.api.artifacts.ModuleVersionIdentifier;
 
 public class URIs {
@@ -26,26 +26,35 @@ public class URIs {
     if (!repoUri.toString().endsWith("/")) {
       repoUri = URI.create(repoUri.toString().concat("/"));
     }
-    String modulePath =
-        moduleId.getGroup().replace(".", "/")
-            + "/"
-            + moduleId.getName()
-            + "/"
-            + moduleId.getVersion()
-            + "/"
-            + URLEncoder.encode(filename, StandardCharsets.UTF_8);
+    String modulePath;
+    try {
+      modulePath =
+          moduleId.getGroup().replace(".", "/")
+              + "/"
+              + moduleId.getName()
+              + "/"
+              + moduleId.getVersion()
+              + "/"
+              + URLEncoder.encode(filename, "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
     return repoUri.resolve(modulePath);
   }
 
   public static String toPurl(URI repoUri, ModuleVersionIdentifier moduleId) {
-    var locator =
+    String locator =
         "pkg:maven/" + moduleId.getGroup() + "/" + moduleId.getName() + "@" + moduleId.getVersion();
-    var repo = repoUri.toString();
+    String repo = repoUri.toString();
     repo = trimTrailingSlashes(repo);
     if (!repo.equals("https://repo.maven.org/maven2")) {
       repo = trimPrefix(repo, "http://");
       repo = trimPrefix(repo, "https://");
-      locator = locator + ("?repository_url=" + URLEncoder.encode(repo, StandardCharsets.UTF_8));
+      try {
+        locator = locator + ("?repository_url=" + URLEncoder.encode(repo, "UTF-8"));
+      } catch (UnsupportedEncodingException e) {
+        throw new RuntimeException(e);
+      }
     }
     return locator;
   }
