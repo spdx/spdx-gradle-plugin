@@ -81,11 +81,13 @@ public class SpdxDocumentBuilder {
   private final Map<String, PomInfo> poms;
   private final Logger logger;
   private final DocumentInfo documentInfo;
+  private final ProjectInfo describesProject;
 
   @Nullable private final SpdxSbomTaskExtension taskExtension;
   private final ScmInfo scmInfo;
 
   public SpdxDocumentBuilder(
+      String projectPath,
       Set<ProjectInfo> allProjects,
       Logger logger,
       IModelStore modelStore,
@@ -98,7 +100,6 @@ public class SpdxDocumentBuilder {
       SpdxKnownLicenses knownLicenses)
       throws InvalidSPDXAnalysisException {
     this.documentInfo = documentInfo;
-
     doc =
         SpdxModelFactory.createSpdxDocument(
             modelStore, documentInfo.getNamespace(), new ModelCopyManager());
@@ -139,6 +140,7 @@ public class SpdxDocumentBuilder {
     this.scmInfo = scmInfo;
     this.knownProjects =
         allProjects.stream().collect(Collectors.toMap(ProjectInfo::getPath, Function.identity()));
+    this.describesProject = knownProjects.get(projectPath);
 
     this.resolvedArtifacts =
         resolvedArtifacts
@@ -227,9 +229,12 @@ public class SpdxDocumentBuilder {
               + " has no specified version");
       version = "NOASSERTION";
     }
-    var supplier = documentInfo.getPackageSupplier().orElse("NOASSERTION");
-    if (supplier.equals("NOASSERTION")) {
-      logger.warn("supplier not set for project " + pi.getName());
+    var supplier = "NOASSERTION";
+    if (pi == describesProject) {
+      supplier = documentInfo.getPackageSupplier().orElse("NOASSERTION");
+      if (supplier.equals("NOASSERTION")) {
+        logger.warn("supplier not set for project " + pi.getName());
+      }
     }
     SpdxPackageBuilder builder =
         doc.createPackage(
@@ -266,11 +271,12 @@ public class SpdxDocumentBuilder {
 
       SpdxPackageBuilder spdxPkgBuilder =
           doc.createPackage(
-              doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
-              moduleId.getGroup() + ":" + moduleId.getName() + ":" + moduleId.getVersion(),
-              new SpdxNoAssertionLicense(),
-              "NOASSERTION",
-              licenses.asSpdxLicense(pomInfo.getLicenses()));
+                  doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
+                  moduleId.getGroup() + ":" + moduleId.getName() + ":" + moduleId.getVersion(),
+                  new SpdxNoAssertionLicense(),
+                  "NOASSERTION",
+                  licenses.asSpdxLicense(pomInfo.getLicenses()))
+              .setSupplier("NOASSERTION");
 
       String sourceRepo =
           ((ResolvedComponentResultInternal) resolvedComponentResult).getRepositoryName();
