@@ -81,6 +81,8 @@ spdxSbom {
         name.set("my spdx document")
         namespace.set("https://my.org/spdx/<some UUID>")
         creator.set("Person:Goose Loosebazooka")
+        packageSupplier.set("Organization:loosebazooka industries")
+
 
         // add a root spdx package on the document between the document and the
         // root module of the configuration being analyzed, you probably don't need this

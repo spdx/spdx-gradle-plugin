@@ -60,6 +60,8 @@ public interface SpdxSbomExtension {
 
     public abstract Property<String> getCreator();
 
+    public abstract Property<String> getPackageSupplier();
+
     @Nested
     public abstract RootPackage getRootPackage();
 
