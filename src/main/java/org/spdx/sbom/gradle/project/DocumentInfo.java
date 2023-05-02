@@ -32,6 +32,8 @@ public interface DocumentInfo {
 
   Optional<RootPackageInfo> getRootPackageInfo();
 
+  Optional<String> getPackageSupplier();
+
   @Immutable
   @Serial.Version(1)
   interface RootPackageInfo {
@@ -48,7 +50,8 @@ public interface DocumentInfo {
         ImmutableDocumentInfo.builder()
             .name(document.getName().get())
             .namespace(document.getNamespace().get())
-            .creator(Optional.ofNullable(document.getCreator().getOrNull()));
+            .creator(Optional.ofNullable(document.getCreator().getOrNull()))
+            .packageSupplier(Optional.ofNullable(document.getPackageSupplier().getOrNull()));
     var rootPackage = target.getDocument().getRootPackage();
     if (!rootPackage.getName().isPresent()
         && !rootPackage.getSupplier().isPresent()

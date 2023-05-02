@@ -76,6 +76,9 @@ public abstract class SpdxSbomTask extends DefaultTask {
   @Input
   abstract Property<ScmInfo> getScmInfo();
 
+  @Input
+  abstract Property<String> getProjectPath();
+
   @Internal
   public abstract Property<SpdxSbomTaskExtension> getTaskExtension();
 
@@ -85,6 +88,7 @@ public abstract class SpdxSbomTask extends DefaultTask {
         new MultiFormatStore(new InMemSpdxStore(), Format.JSON_PRETTY);
     SpdxDocumentBuilder documentBuilder =
         new SpdxDocumentBuilder(
+            getProjectPath().get(),
             getAllProjects().get(),
             getLogger(),
             modelStore,

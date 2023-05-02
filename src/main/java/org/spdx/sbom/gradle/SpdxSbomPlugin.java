@@ -100,6 +100,7 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                 t -> {
                   t.setGroup("Spdx sbom tasks");
                   t.getOutputDirectory().set(project.getLayout().getBuildDirectory().dir("spdx"));
+                  t.getProjectPath().set(project.getPath());
                   t.getFilename().set(target.getName() + ".spdx.json");
                   t.getDocumentInfo().set(DocumentInfo.from(target));
                   t.getScmInfo().set(ScmInfo.from(target));
