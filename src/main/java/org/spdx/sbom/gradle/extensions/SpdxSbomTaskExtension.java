@@ -24,4 +24,6 @@ public interface SpdxSbomTaskExtension {
   URI mapRepoUri(URI original, ModuleVersionIdentifier moduleVersionIdentifier);
 
   ScmInfo mapScmForProject(ScmInfo original, ProjectInfo projectInfo);
+
+  boolean shouldCreatePackageForProject(ProjectInfo projectInfo);
 }

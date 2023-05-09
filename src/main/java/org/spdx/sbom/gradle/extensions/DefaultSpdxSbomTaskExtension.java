@@ -30,4 +30,9 @@ public abstract class DefaultSpdxSbomTaskExtension implements SpdxSbomTaskExtens
   public ScmInfo mapScmForProject(ScmInfo original, ProjectInfo projectInfo) {
     return original;
   }
+
+  @Override
+  public boolean shouldCreatePackageForProject(ProjectInfo projectInfo) {
+    return true;
+  };
 }
