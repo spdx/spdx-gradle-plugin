@@ -17,22 +17,23 @@ package org.spdx.sbom.gradle.extensions;
 
 import java.net.URI;
 import org.gradle.api.artifacts.ModuleVersionIdentifier;
+import org.jetbrains.annotations.NotNull;
 import org.spdx.sbom.gradle.project.ProjectInfo;
 import org.spdx.sbom.gradle.project.ScmInfo;
 
 public abstract class DefaultSpdxSbomTaskExtension implements SpdxSbomTaskExtension {
   @Override
-  public URI mapRepoUri(URI original, ModuleVersionIdentifier moduleId) {
+  public URI mapRepoUri(@NotNull URI original, @NotNull ModuleVersionIdentifier moduleId) {
     return original;
   }
 
   @Override
-  public ScmInfo mapScmForProject(ScmInfo original, ProjectInfo projectInfo) {
+  public ScmInfo mapScmForProject(@NotNull ScmInfo original, @NotNull ProjectInfo projectInfo) {
     return original;
   }
 
   @Override
-  public boolean shouldCreatePackageForProject(ProjectInfo projectInfo) {
+  public boolean shouldCreatePackageForProject(@NotNull ProjectInfo projectInfo) {
     return true;
   };
 }
