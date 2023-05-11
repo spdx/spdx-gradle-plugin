@@ -46,6 +46,7 @@ import org.gradle.api.artifacts.result.ResolvedComponentResult;
 import org.gradle.api.artifacts.result.ResolvedDependencyResult;
 import org.gradle.api.internal.artifacts.result.ResolvedComponentResultInternal;
 import org.gradle.api.logging.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.spdx.library.InvalidSPDXAnalysisException;
 import org.spdx.library.ModelCopyManager;
 import org.spdx.library.SpdxConstants;
@@ -70,6 +71,7 @@ import org.spdx.storage.IModelStore.IdType;
 public class SpdxDocumentBuilder {
   private final SpdxDocument doc;
   private final SpdxPackage rootPackage;
+  private final RootPackageIdentifier rootPackageId;
   private final SpdxLicenses licenses;
   private final Map<String, ProjectInfo> knownProjects;
   private final HashMap<ComponentIdentifier, SpdxPackage> spdxPackages = new HashMap<>();
@@ -85,6 +87,13 @@ public class SpdxDocumentBuilder {
 
   @Nullable private final SpdxSbomTaskExtension taskExtension;
   private final ScmInfo scmInfo;
+
+  private static class RootPackageIdentifier implements ComponentIdentifier {
+    @Override
+    public @NotNull String getDisplayName() {
+      return "rootProject";
+    }
+  }
 
   public SpdxDocumentBuilder(
       String projectPath,
@@ -129,9 +138,13 @@ public class SpdxDocumentBuilder {
               .setDownloadLocation("NOASSERTION")
               .setFilesAnalyzed(false)
               .build();
+      this.rootPackageId = new RootPackageIdentifier();
       doc.setDocumentDescribes(Collections.singletonList(this.rootPackage));
+      this.spdxPackages.put(rootPackageId, rootPackage);
+      this.tree.putIfAbsent(rootPackageId, new LinkedHashSet<>());
     } else {
-      rootPackage = null;
+      this.rootPackage = null;
+      this.rootPackageId = null;
     }
 
     this.licenses = SpdxLicenses.newSpdxLicenes(logger, doc, knownLicenses);
@@ -154,15 +167,11 @@ public class SpdxDocumentBuilder {
   }
 
   public void add(ResolvedComponentResult root) throws InvalidSPDXAnalysisException, IOException {
-    add(null, root, new HashSet<>());
-    if (rootPackage == null) {
-      doc.setDocumentDescribes(Collections.singletonList(spdxPackages.get(root.getId())));
-    } else {
-      doc.setDocumentDescribes(Collections.singletonList(rootPackage));
-      rootPackage.addRelationship(
-          doc.createRelationship(
-              spdxPackages.get(root.getId()), RelationshipType.DEPENDS_ON, null));
-    }
+    add(rootPackageId, root, new HashSet<>());
+    doc.setDocumentDescribes(
+        Collections.singletonList(
+            rootPackage == null ? spdxPackages.get(root.getId()) : rootPackage));
+
     for (var pkg : tree.keySet()) {
       for (var child : tree.get(pkg)) {
         var rel =
@@ -173,46 +182,76 @@ public class SpdxDocumentBuilder {
   }
 
   private void add(
-      ResolvedComponentResult parent,
+      ComponentIdentifier parent,
       ResolvedComponentResult component,
       Set<ComponentIdentifier> visited)
       throws InvalidSPDXAnalysisException, IOException {
     if (visited.contains(component.getId())) {
       return;
     }
-    if (!spdxPackages.containsKey(component.getId())) {
-      SpdxPackage pkg;
-      if (component.getId() instanceof ProjectComponentIdentifier) {
-        pkg = createProjectPackage(component);
-      } else if (component.getId() instanceof ModuleComponentIdentifier) {
-        var result = createMavenModulePackage(component);
-        if (result.isEmpty()) {
-          logger.info("ignoring: " + component.getId());
-          return; // ignore this package (maybe it's a bom?)
-        }
-        pkg = result.get();
-      } else {
-        throw new RuntimeException(
-            "Unknown package type: "
-                + component.getClass().getName()
-                + " "
-                + component.getId().getClass().getName()
-                + " "
-                + component.getId());
-      }
-      spdxPackages.put(component.getId(), pkg);
-    }
-    tree.putIfAbsent(component.getId(), new LinkedHashSet<>());
-    if (parent != null) {
-      tree.get(parent.getId()).add(component.getId());
-    }
     visited.add(component.getId());
+
+    ComponentIdentifier effectiveParent;
+    if (maybeAddPackage(parent, component)) {
+      effectiveParent = component.getId();
+    } else {
+      effectiveParent = parent;
+    }
 
     for (var child : component.getDependencies()) {
       if (child instanceof ResolvedDependencyResult) {
-        add(component, ((ResolvedDependencyResult) child).getSelected(), visited);
+        add(effectiveParent, ((ResolvedDependencyResult) child).getSelected(), visited);
       }
     }
+  }
+
+  private boolean maybeAddPackage(ComponentIdentifier parent, ResolvedComponentResult component)
+      throws InvalidSPDXAnalysisException, IOException {
+    if (spdxPackages.containsKey(component.getId())) {
+      return true;
+    }
+
+    Optional<SpdxPackage> maybePackage = createPackageIfNeeded(component);
+    if (maybePackage.isEmpty()) {
+      logger.info("ignoring: " + component.getId());
+      return false;
+    }
+
+    spdxPackages.put(component.getId(), maybePackage.get());
+    tree.putIfAbsent(component.getId(), new LinkedHashSet<>());
+    if (parent != null) {
+      tree.get(parent).add(component.getId());
+    }
+
+    return true;
+  }
+
+  private Optional<SpdxPackage> createPackageIfNeeded(ResolvedComponentResult component)
+      throws InvalidSPDXAnalysisException, IOException {
+    if (component.getId() instanceof ProjectComponentIdentifier) {
+      return shouldCreatePackageForProject(component)
+          ? Optional.of(createProjectPackage(component))
+          : Optional.empty();
+    } else if (component.getId() instanceof ModuleComponentIdentifier) {
+      return createMavenModulePackage(component);
+    } else {
+      throw new RuntimeException(
+          "Unknown package type: "
+              + component.getClass().getName()
+              + " "
+              + component.getId().getClass().getName()
+              + " "
+              + component.getId());
+    }
+  }
+
+  private boolean shouldCreatePackageForProject(ResolvedComponentResult resolvedComponentResult) {
+    if (taskExtension == null) {
+      return true;
+    }
+    var projectId = (ProjectComponentIdentifier) resolvedComponentResult.getId();
+    ProjectInfo pi = knownProjects.get(projectId.getProjectPath());
+    return taskExtension.shouldCreatePackageForProject(pi);
   }
 
   private SpdxPackage createProjectPackage(ResolvedComponentResult resolvedComponentResult)

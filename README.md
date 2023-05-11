@@ -120,7 +120,13 @@ tasks.withType<SpdxSbomTask> {
        }
        override fun mapScmForProject(original: ScmInfo?, projectInfo: ProjectInfo?): ScmInfo {
            // ignore provided scminfo (from extension) and project info (the project we are looking for scm info)
-           return ScmInfo.from("github.com/goose", "my-sha-is-also-a-goose");
+           return ScmInfo.from("github.com/goose", "my-sha-is-also-a-goose")
+       }
+       override fun shouldCreatePackageForProject(projectInfo: ProjectInfo?): Boolean {
+           // return false to skip adding the project into SBOM if it doesn't represent an external dependency. All
+           // dependencies of the skipped project will be analyzed and represented in the SBOM as dependencies of the
+           // project's parent.
+           return false
        }
    })
 }
