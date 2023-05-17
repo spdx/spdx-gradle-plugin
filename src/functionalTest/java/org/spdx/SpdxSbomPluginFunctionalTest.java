@@ -98,7 +98,15 @@ class SpdxSbomPluginFunctionalTest {
 
     Path sub = projectDir.toPath().resolve("sub-project");
     Files.createDirectories(sub);
-    writeString(sub.resolve("build.gradle").toFile(), "plugins {\n" + "  id('java')\n" + "}\n");
+    writeString(
+        sub.resolve("build.gradle").toFile(),
+        "plugins {\n"
+            + "  id('org.spdx.sbom-package')\n"
+            + "  id('java')\n"
+            + "}\n"
+            + "spdxPackage {\n"
+            + "  supplier.set(\"someone\")\n"
+            + "}\n");
 
     Path lib = sub.resolve(Paths.get("src/main/java/lib/Lib.java"));
     Files.createDirectories(lib.getParent());
