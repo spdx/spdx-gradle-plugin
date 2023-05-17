@@ -91,6 +91,11 @@ spotless {
     }
 }
 
+tasks.withType<AbstractArchiveTask>().configureEach {
+    isPreserveFileTimestamps = false
+    isReproducibleFileOrder = true
+}
+
 // spdxSbom {
 //     targets {
 //         create("example") {
