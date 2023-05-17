@@ -63,14 +63,14 @@ public interface SpdxSbomExtension {
     public abstract Property<String> getPackageSupplier();
 
     @Nested
-    public abstract RootPackage getRootPackage();
+    public abstract UberPackage getUberPackage();
 
-    public void rootPackage(Action<? super RootPackage> configure) {
-      configure.execute(getRootPackage());
+    public void uberPackage(Action<? super UberPackage> configure) {
+      configure.execute(getUberPackage());
     }
   }
 
-  interface RootPackage {
+  interface UberPackage {
     Property<String> getName();
 
     Property<String> getVersion();

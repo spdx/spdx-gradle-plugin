@@ -26,8 +26,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.spdx.sbom.gradle.SpdxSbomExtension;
-import org.spdx.sbom.gradle.SpdxSbomExtension.RootPackage;
-import org.spdx.sbom.gradle.project.DocumentInfo.RootPackageInfo;
+import org.spdx.sbom.gradle.SpdxSbomExtension.UberPackage;
+import org.spdx.sbom.gradle.project.DocumentInfo.UberPackageInfo;
 
 class DocumentInfoTest {
   @Test
@@ -46,11 +46,11 @@ class DocumentInfoTest {
                       d.getName().set("test-name");
                       d.getCreator().set("test-creator");
                       d.getNamespace().set("test-namespace");
-                      d.rootPackage(
-                          rp -> {
-                            rp.getVersion().set("test-version");
-                            rp.getName().set("test-name");
-                            rp.getSupplier().set("test-supplier");
+                      d.uberPackage(
+                          uber -> {
+                            uber.getVersion().set("test-version");
+                            uber.getName().set("test-name");
+                            uber.getSupplier().set("test-supplier");
                           });
                     }));
     DocumentInfo di =
@@ -63,7 +63,7 @@ class DocumentInfoTest {
     Assertions.assertEquals("test-name", di.getName());
     Assertions.assertEquals("test-namespace", di.getNamespace());
     Assertions.assertEquals(Optional.of("test-creator"), di.getCreator());
-    Optional<RootPackageInfo> rp = di.getRootPackageInfo();
+    Optional<UberPackageInfo> rp = di.getUberPackageInfo();
     Assertions.assertTrue(rp.isPresent());
   }
 
@@ -93,19 +93,19 @@ class DocumentInfoTest {
     Assertions.assertEquals("test-name", di.getName());
     Assertions.assertEquals("test-namespace", di.getNamespace());
     Assertions.assertTrue(di.getCreator().isEmpty());
-    Assertions.assertTrue(di.getRootPackageInfo().isEmpty());
+    Assertions.assertTrue(di.getUberPackageInfo().isEmpty());
   }
 
   @ParameterizedTest
-  @MethodSource("badRootPackageConfigs")
-  void from_RootPackageNotSet(Action<? super RootPackage> configureRootPackage) {
+  @MethodSource("badUberPackageConfigs")
+  void from_UberPackageNotSet(Action<? super UberPackage> configureUberPackage) {
     Project project = ProjectBuilder.builder().build();
     project.getPlugins().apply("org.spdx.sbom");
     project
         .getExtensions()
         .getByType(SpdxSbomExtension.class)
         .getTargets()
-        .create("test", target -> target.document(d -> d.rootPackage(configureRootPackage)));
+        .create("test", target -> target.document(d -> d.uberPackage(configureUberPackage)));
     Assertions.assertThrows(
         GradleException.class,
         () ->
@@ -117,7 +117,7 @@ class DocumentInfoTest {
                     .getByName("test")));
   }
 
-  private static Stream<Action<? super RootPackage>> badRootPackageConfigs() {
+  private static Stream<Action<? super UberPackage>> badUberPackageConfigs() {
     return Stream.of(
         rp -> rp.getVersion().set("test-version"),
         rp -> rp.getName().set("test-name"),

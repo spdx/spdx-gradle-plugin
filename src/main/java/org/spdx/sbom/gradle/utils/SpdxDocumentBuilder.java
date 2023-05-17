@@ -124,17 +124,17 @@ public class SpdxDocumentBuilder {
             ZonedDateTime.now(ZoneOffset.UTC)
                 .truncatedTo(ChronoUnit.SECONDS)
                 .format(DateTimeFormatter.ISO_DATE_TIME)));
-    if (documentInfo.getRootPackageInfo().isPresent()) {
-      var rootPackageInfo = documentInfo.getRootPackageInfo().get();
+    if (documentInfo.getUberPackageInfo().isPresent()) {
+      var uberPackageInfo = documentInfo.getUberPackageInfo().get();
       this.rootPackage =
           doc.createPackage(
                   doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
-                  rootPackageInfo.getName(),
+                  uberPackageInfo.getName(),
                   new SpdxNoAssertionLicense(),
                   "NOASSERTION",
                   new SpdxNoAssertionLicense())
-              .setSupplier(rootPackageInfo.getSupplier())
-              .setVersionInfo(rootPackageInfo.getVersion())
+              .setSupplier(uberPackageInfo.getSupplier())
+              .setVersionInfo(uberPackageInfo.getVersion())
               .setDownloadLocation("NOASSERTION")
               .setFilesAnalyzed(false)
               .build();
