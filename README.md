@@ -83,11 +83,10 @@ spdxSbom {
         creator.set("Person:Goose Loosebazooka")
         packageSupplier.set("Organization:loosebazooka industries")
 
-
-        // add a root spdx package on the document between the document and the
-        // root module of the configuration being analyzed, you probably don't need this
-        // but it's availalbe if you want to for some reason.
-        rootPackage {
+        // add an uber package on the document between the document and the
+        // root module of the project being analyzed, you probably don't need this
+        // but it's available if you want to describe the artifact in a special way
+        uberPackage {
           // you must set all or none of these
           name.set("goose")
           version.set("1.2.3")

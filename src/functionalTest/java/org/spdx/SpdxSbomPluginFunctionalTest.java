@@ -322,7 +322,7 @@ class SpdxSbomPluginFunctionalTest {
             + "  targets {\n"
             + "    create(\"sbom\") {\n"
             + "      document {\n"
-            + "        rootPackage {\n"
+            + "        uberPackage {\n"
             + "          name.set(\"abc\")\n"
             + "          version.set(\"1.2.3\")\n"
             + "          supplier.set(\"Organization:def\")\n"

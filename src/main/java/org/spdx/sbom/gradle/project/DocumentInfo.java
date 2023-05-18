@@ -30,13 +30,13 @@ public interface DocumentInfo {
 
   Optional<String> getCreator();
 
-  Optional<RootPackageInfo> getRootPackageInfo();
+  Optional<UberPackageInfo> getUberPackageInfo();
 
   Optional<String> getPackageSupplier();
 
   @Immutable
   @Serial.Version(1)
-  interface RootPackageInfo {
+  interface UberPackageInfo {
     String getName();
 
     String getVersion();
@@ -52,25 +52,25 @@ public interface DocumentInfo {
             .namespace(document.getNamespace().get())
             .creator(Optional.ofNullable(document.getCreator().getOrNull()))
             .packageSupplier(Optional.ofNullable(document.getPackageSupplier().getOrNull()));
-    var rootPackage = target.getDocument().getRootPackage();
-    if (!rootPackage.getName().isPresent()
-        && !rootPackage.getSupplier().isPresent()
-        && !rootPackage.getVersion().isPresent()) {
+    var uberPackage = target.getDocument().getUberPackage();
+    if (!uberPackage.getName().isPresent()
+        && !uberPackage.getSupplier().isPresent()
+        && !uberPackage.getVersion().isPresent()) {
       return builder.build();
-    } else if (rootPackage.getName().isPresent()
-        && rootPackage.getSupplier().isPresent()
-        && rootPackage.getVersion().isPresent()) {
+    } else if (uberPackage.getName().isPresent()
+        && uberPackage.getSupplier().isPresent()
+        && uberPackage.getVersion().isPresent()) {
       return builder
-          .rootPackageInfo(
-              ImmutableRootPackageInfo.builder()
-                  .name(rootPackage.getName().get())
-                  .version(rootPackage.getVersion().get())
-                  .supplier(rootPackage.getSupplier().get())
+          .uberPackageInfo(
+              ImmutableUberPackageInfo.builder()
+                  .name(uberPackage.getName().get())
+                  .version(uberPackage.getVersion().get())
+                  .supplier(uberPackage.getSupplier().get())
                   .build())
           .build();
     } else {
       throw new GradleException(
-          "Must configure all properties of rootPackage if setting rootPackage on sbom target:"
+          "Must configure all properties of uberPackage if setting uberPackage on sbom target:"
               + target.getName());
     }
   }
