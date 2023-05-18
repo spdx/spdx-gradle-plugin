@@ -156,9 +156,7 @@ public class SpdxDocumentBuilder {
     this.describesProject = knownProjects.get(projectPath);
 
     this.resolvedArtifacts =
-        resolvedArtifacts
-            .entrySet()
-            .stream()
+        resolvedArtifacts.entrySet().stream()
             .collect(Collectors.toMap(e -> e.getKey().getComponentIdentifier(), Entry::getValue));
     this.mavenArtifactRepositories = mavenArtifactRepositories;
     this.poms = poms;

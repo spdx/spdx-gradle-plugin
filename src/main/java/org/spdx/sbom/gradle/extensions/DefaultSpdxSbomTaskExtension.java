@@ -35,5 +35,5 @@ public abstract class DefaultSpdxSbomTaskExtension implements SpdxSbomTaskExtens
   @Override
   public boolean shouldCreatePackageForProject(@NotNull ProjectInfo projectInfo) {
     return true;
-  };
+  }
 }
