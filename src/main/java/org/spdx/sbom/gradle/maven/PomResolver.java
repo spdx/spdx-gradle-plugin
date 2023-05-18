@@ -63,9 +63,7 @@ public class PomResolver {
           ra.getId().getComponentIdentifier().getDisplayName(),
           ImmutablePomInfo.builder()
               .addAllLicenses(
-                  model
-                      .getLicenses()
-                      .stream()
+                  model.getLicenses().stream()
                       .map(
                           l ->
                               ImmutableLicenseInfo.builder()

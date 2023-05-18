@@ -152,11 +152,7 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                       .set(
                           project.provider(
                               () ->
-                                  project
-                                      .getRepositories()
-                                      .getAsMap()
-                                      .entrySet()
-                                      .stream()
+                                  project.getRepositories().getAsMap().entrySet().stream()
                                       .filter(e -> e.getValue() instanceof MavenArtifactRepository)
                                       .map(Entry::getKey)
                                       .collect(
@@ -177,8 +173,7 @@ public class SpdxSbomPlugin implements Plugin<Project> {
     @Override
     public Map<ComponentArtifactIdentifier, File> transform(
         Collection<ResolvedArtifactResult> resolvedArtifactResults) {
-      return resolvedArtifactResults
-          .stream()
+      return resolvedArtifactResults.stream()
           // ignore gradle API components as they cannot be serialized
           .filter(x -> !(x.getId().getComponentIdentifier() instanceof OpaqueComponentIdentifier))
           .collect(Collectors.toMap(ArtifactResult::getId, ResolvedArtifactResult::getFile));
