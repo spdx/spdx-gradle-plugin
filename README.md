@@ -114,15 +114,15 @@ use `taskExtension` to map downloadLocations if they are cached somewhere other 
 ```kotlin
 tasks.withType<SpdxSbomTask> {
    taskExtension.set(object : SpdxSbomTaskExtension {
-       override fun mapRepoUri(input: URI?, moduleId: ModuleVersionIdentifier?): URI {
+       override fun mapRepoUri(input: URI, moduleId: ModuleVersionIdentifier): URI {
            // ignore input and return duck
            return URI.create("https://duck.com/repository")
        }
-       override fun mapScmForProject(original: ScmInfo?, projectInfo: ProjectInfo?): ScmInfo {
+       override fun mapScmForProject(original: ScmInfo, projectInfo: ProjectInfo): ScmInfo {
            // ignore provided scminfo (from extension) and project info (the project we are looking for scm info)
            return ScmInfo.from("github.com/goose", "my-sha-is-also-a-goose")
        }
-       override fun shouldCreatePackageForProject(projectInfo: ProjectInfo?): Boolean {
+       override fun shouldCreatePackageForProject(projectInfo: ProjectInfo): Boolean {
            // return false to skip adding the project into SBOM if it doesn't represent an external dependency. All
            // dependencies of the skipped project will be analyzed and represented in the SBOM as dependencies of the
            // project's parent.
