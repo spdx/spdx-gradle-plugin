@@ -68,7 +68,7 @@ public abstract class SpdxSbomTask extends DefaultTask {
   abstract MapProperty<String, PomInfo> getPoms();
 
   @Input
-  abstract Property<String> getFilename();
+  public abstract Property<String> getFilename();
 
   @Input
   abstract Property<DocumentInfo> getDocumentInfo();
