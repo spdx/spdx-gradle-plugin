@@ -17,6 +17,9 @@ package org.spdx.sbom.gradle.maven;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
+
+import org.apache.maven.model.Organization;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value.Immutable;
 
@@ -27,10 +30,21 @@ public interface PomInfo {
 
   URI getHomepage();
 
+  Optional<Organization> getOrganization();
+
+  List<DeveloperInfo> getDevelopers();
+
   @Immutable
   interface LicenseInfo {
     String getUrl();
 
     String getName();
+  }
+
+  @Immutable
+  interface DeveloperInfo {
+    Optional<String> getName();
+
+    Optional<String> getEmail();
   }
 }
