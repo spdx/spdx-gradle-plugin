@@ -51,6 +51,12 @@ class URIsTest {
   }
 
   @Test
+  public void toDownloadLocation_noassertion() {
+    URI downloadLocation = URIs.toDownloadLocation(URI.create("NOASSERTION"), moduleId, filename);
+    Assertions.assertEquals("NOASSERTION", downloadLocation.toString());
+  }
+
+  @Test
   public void toPurl_mavenCentral() {
     String purl = URIs.toPurl(URI.create("https://repo.maven.org/maven2"), moduleId);
     Assertions.assertEquals("pkg:maven/com.test/test@1.0.0", purl);
@@ -68,5 +74,11 @@ class URIsTest {
     String purl = URIs.toPurl(URI.create("https://repo.other.org/maven2///"), moduleId);
     Assertions.assertEquals(
         "pkg:maven/com.test/test@1.0.0?repository_url=repo.other.org%2Fmaven2", purl);
+  }
+
+  @Test
+  public void toPurl_noassertion() {
+    String purl = URIs.toPurl(URI.create("NOASSERTION"), moduleId);
+    Assertions.assertEquals("pkg:maven/com.test/test@1.0.0", purl);
   }
 }

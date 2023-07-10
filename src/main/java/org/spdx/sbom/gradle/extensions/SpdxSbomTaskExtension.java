@@ -18,11 +18,12 @@ package org.spdx.sbom.gradle.extensions;
 import java.net.URI;
 import org.gradle.api.artifacts.ModuleVersionIdentifier;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.spdx.sbom.gradle.project.ProjectInfo;
 import org.spdx.sbom.gradle.project.ScmInfo;
 
 public interface SpdxSbomTaskExtension {
-  URI mapRepoUri(@NotNull URI original, @NotNull ModuleVersionIdentifier moduleVersionIdentifier);
+  URI mapRepoUri(@Nullable URI original, @NotNull ModuleVersionIdentifier moduleVersionIdentifier);
 
   ScmInfo mapScmForProject(@NotNull ScmInfo original, @NotNull ProjectInfo projectInfo);
 
