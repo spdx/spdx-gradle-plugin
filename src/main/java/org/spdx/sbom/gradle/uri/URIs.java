@@ -23,6 +23,9 @@ import org.gradle.api.artifacts.ModuleVersionIdentifier;
 public class URIs {
   public static URI toDownloadLocation(
       URI repoUri, ModuleVersionIdentifier moduleId, String filename) {
+    if ("NOASSERTION".equals(repoUri.toString())) {
+      return repoUri;
+    }
     if (!repoUri.toString().endsWith("/")) {
       repoUri = URI.create(repoUri.toString().concat("/"));
     }
@@ -38,11 +41,11 @@ public class URIs {
   }
 
   public static String toPurl(URI repoUri, ModuleVersionIdentifier moduleId) {
+    var repo = repoUri.toString();
     var locator =
         "pkg:maven/" + moduleId.getGroup() + "/" + moduleId.getName() + "@" + moduleId.getVersion();
-    var repo = repoUri.toString();
     repo = trimTrailingSlashes(repo);
-    if (!repo.equals("https://repo.maven.org/maven2")) {
+    if (!repo.equals("https://repo.maven.org/maven2") && !repo.equals("NOASSERTION")) {
       repo = trimPrefix(repo, "http://");
       repo = trimPrefix(repo, "https://");
       locator = locator + ("?repository_url=" + URLEncoder.encode(repo, StandardCharsets.UTF_8));
