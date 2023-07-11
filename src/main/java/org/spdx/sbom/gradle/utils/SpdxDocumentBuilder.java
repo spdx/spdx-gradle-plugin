@@ -44,8 +44,10 @@ import org.gradle.api.artifacts.component.ModuleComponentIdentifier;
 import org.gradle.api.artifacts.component.ProjectComponentIdentifier;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
 import org.gradle.api.artifacts.result.ResolvedDependencyResult;
+import org.gradle.api.internal.artifacts.result.DefaultResolvedComponentResult;
 import org.gradle.api.internal.artifacts.result.ResolvedComponentResultInternal;
 import org.gradle.api.logging.Logger;
+import org.gradle.util.GradleVersion;
 import org.jetbrains.annotations.NotNull;
 import org.spdx.library.InvalidSPDXAnalysisException;
 import org.spdx.library.ModelCopyManager;
@@ -315,26 +317,40 @@ public class SpdxDocumentBuilder {
                   licenses.asSpdxLicense(pomInfo.getLicenses()))
               .setSupplier("NOASSERTION");
 
-      String sourceRepo =
-          ((ResolvedComponentResultInternal) resolvedComponentResult).getRepositoryName();
+      String sourceRepo;
+      if(GradleVersion.current().compareTo(GradleVersion.version("8.2")) < 0) {
+        sourceRepo = ((ResolvedComponentResultInternal) resolvedComponentResult).getRepositoryName();
+      }
+      else {
+        sourceRepo = ((DefaultResolvedComponentResult) resolvedComponentResult).getRepositoryId();
+      }
       if (sourceRepo == null) {
         throw new RuntimeException("Source repo was null?");
       }
 
+      // Gradle 8.2 has an issue that causes sourceRepo to be a generated id instead of the name
+      // Gradle 8.2.1 resolved that issue
       var repoUri = mavenArtifactRepositories.get(sourceRepo);
-      if (taskExtension != null) {
+      if (taskExtension != null && repoUri != null) {
         repoUri = taskExtension.mapRepoUri(repoUri, moduleId);
       }
-      spdxPkgBuilder.setDownloadLocation(
-          URIs.toDownloadLocation(repoUri, moduleId, dependencyFile.getName()).toString());
+      if(repoUri == null) {
+        spdxPkgBuilder.setDownloadLocation("NOASSERTION");
+      }
+      else {
+        spdxPkgBuilder.setDownloadLocation(
+                URIs.toDownloadLocation(repoUri, moduleId, dependencyFile.getName()).toString());
+      }
 
-      var externalRef =
-          doc.createExternalRef(
-              ReferenceCategory.PACKAGE_MANAGER,
-              new ReferenceType(SpdxConstants.SPDX_LISTED_REFERENCE_TYPES_PREFIX + "purl"),
-              URIs.toPurl(repoUri, moduleId),
-              null);
-      spdxPkgBuilder.setExternalRefs(Collections.singletonList(externalRef));
+      if(repoUri != null) {
+        var externalRef =
+                doc.createExternalRef(
+                        ReferenceCategory.PACKAGE_MANAGER,
+                        new ReferenceType(SpdxConstants.SPDX_LISTED_REFERENCE_TYPES_PREFIX + "purl"),
+                        URIs.toPurl(repoUri, moduleId),
+                        null);
+        spdxPkgBuilder.setExternalRefs(Collections.singletonList(externalRef));
+      }
 
       String sha1 =
           com.google.common.io.Files.asByteSource(dependencyFile).hash(Hashing.sha1()).toString();
