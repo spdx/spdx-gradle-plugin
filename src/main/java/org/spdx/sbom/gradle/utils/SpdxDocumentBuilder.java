@@ -333,6 +333,8 @@ public class SpdxDocumentBuilder {
               null);
       spdxPkgBuilder.setExternalRefs(Collections.singletonList(externalRef));
 
+      spdxPkgBuilder.setVersionInfo(moduleId.getVersion());
+
       String sha1 =
           com.google.common.io.Files.asByteSource(dependencyFile).hash(Hashing.sha1()).toString();
       var checksumSha1 = doc.createChecksum(ChecksumAlgorithm.SHA1, sha1);
