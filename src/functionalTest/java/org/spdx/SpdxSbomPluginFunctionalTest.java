@@ -242,7 +242,7 @@ class SpdxSbomPluginFunctionalTest {
             + "}\n"
             + "tasks.withType<org.spdx.sbom.gradle.SpdxSbomTask> {\n"
             + "    taskExtension.set(object : org.spdx.sbom.gradle.extensions.DefaultSpdxSbomTaskExtension() {\n"
-            + "        override fun mapRepoUri(input: URI, moduleId: ModuleVersionIdentifier): URI {\n"
+            + "        override fun mapRepoUri(input: URI?, moduleId: ModuleVersionIdentifier): URI {\n"
             + "            if (moduleId.name == \"sigstore-java\") {\n"
             + "               return URI.create(\"https://truck.com\")\n"
             + "            }\n"
