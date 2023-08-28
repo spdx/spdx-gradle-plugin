@@ -46,8 +46,8 @@ import org.spdx.storage.simple.InMemSpdxStore;
 
 public abstract class SpdxSbomTask extends DefaultTask {
 
-  @Internal
-  abstract Property<SpdxKnownLicensesService> getSpdxKnownLicensesService();
+    @Internal
+    abstract Property<SpdxKnownLicensesService> getSpdxKnownLicensesService();
 
   @Input
   abstract ListProperty<ResolvedComponentResult> getRootComponents();
