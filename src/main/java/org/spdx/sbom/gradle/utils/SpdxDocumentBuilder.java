@@ -315,10 +315,10 @@ public class SpdxDocumentBuilder {
               .setSupplier("NOASSERTION");
 
       String sourceRepo;
-      if(GradleVersion.current().compareTo(GradleVersion.version("8.2")) < 0) {
-        sourceRepo = ((ResolvedComponentResultInternal) resolvedComponentResult).getRepositoryName();
-      }
-      else {
+      if (GradleVersion.current().compareTo(GradleVersion.version("8.2")) < 0) {
+        sourceRepo =
+            ((ResolvedComponentResultInternal) resolvedComponentResult).getRepositoryName();
+      } else {
         sourceRepo = ((DefaultResolvedComponentResult) resolvedComponentResult).getRepositoryId();
       }
       if (sourceRepo == null) {
@@ -331,21 +331,20 @@ public class SpdxDocumentBuilder {
       if (taskExtension != null && repoUri != null) {
         repoUri = taskExtension.mapRepoUri(repoUri, moduleId);
       }
-      if(repoUri == null) {
+      if (repoUri == null) {
         spdxPkgBuilder.setDownloadLocation("NOASSERTION");
-      }
-      else {
+      } else {
         spdxPkgBuilder.setDownloadLocation(
-                URIs.toDownloadLocation(repoUri, moduleId, dependencyFile.getName()).toString());
+            URIs.toDownloadLocation(repoUri, moduleId, dependencyFile.getName()).toString());
       }
 
-      if(repoUri != null) {
+      if (repoUri != null) {
         var externalRef =
-                doc.createExternalRef(
-                        ReferenceCategory.PACKAGE_MANAGER,
-                        new ReferenceType(SpdxConstants.SPDX_LISTED_REFERENCE_TYPES_PREFIX + "purl"),
-                        URIs.toPurl(repoUri, moduleId),
-                        null);
+            doc.createExternalRef(
+                ReferenceCategory.PACKAGE_MANAGER,
+                new ReferenceType(SpdxConstants.SPDX_LISTED_REFERENCE_TYPES_PREFIX + "purl"),
+                URIs.toPurl(repoUri, moduleId),
+                null);
         spdxPkgBuilder.setExternalRefs(Collections.singletonList(externalRef));
       }
 
