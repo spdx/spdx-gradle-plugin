@@ -72,6 +72,16 @@ public class PomResolver {
                                   .build())
                       .collect(Collectors.toList()))
               .homepage(extractHomepage(model, ra.getId().getComponentIdentifier()))
+              .organization(Optional.ofNullable(model.getOrganization()))
+              .addAllDevelopers(
+                  model.getDevelopers().stream()
+                      .map(
+                          d ->
+                              ImmutableDeveloperInfo.builder()
+                                  .name(Optional.ofNullable(d.getName()))
+                                  .email(Optional.ofNullable(d.getEmail()))
+                                  .build())
+                      .collect(Collectors.toList()))
               .build());
     }
     return effectivePoms;
