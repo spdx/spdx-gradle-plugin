@@ -36,7 +36,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.annotation.Nullable;
 import org.gradle.api.artifacts.ModuleVersionIdentifier;
 import org.gradle.api.artifacts.component.ComponentArtifactIdentifier;
@@ -63,6 +62,7 @@ import org.spdx.library.model.enumerations.ReferenceCategory;
 import org.spdx.library.model.enumerations.RelationshipType;
 import org.spdx.library.model.license.SpdxNoAssertionLicense;
 import org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension;
+import org.spdx.sbom.gradle.maven.MavenPackageSupplierBuilder;
 import org.spdx.sbom.gradle.maven.PomInfo;
 import org.spdx.sbom.gradle.project.DocumentInfo;
 import org.spdx.sbom.gradle.project.ProjectInfo;
@@ -351,7 +351,7 @@ public class SpdxDocumentBuilder {
 
       spdxPkgBuilder.setVersionInfo(moduleId.getVersion());
 
-      spdxPkgBuilder.setSupplier(buildMavenPackageSupplier(pomInfo));
+      spdxPkgBuilder.setSupplier(MavenPackageSupplierBuilder.buildPackageSupplier(pomInfo));
 
       String sha1 =
           com.google.common.io.Files.asByteSource(dependencyFile).hash(Hashing.sha1()).toString();
@@ -365,26 +365,6 @@ public class SpdxDocumentBuilder {
       return Optional.of(spdxPkgBuilder.build());
     }
     return Optional.empty();
-  }
-
-  private String buildMavenPackageSupplier(PomInfo pomInfo) {
-    var organizationName =
-        pomInfo
-            .getOrganization()
-            .flatMap(o -> Optional.ofNullable(o.getName()))
-            .map(n -> "Organization: " + n);
-
-    var developer =
-        pomInfo.getDevelopers().stream().filter(d -> d.getName().isPresent()).findFirst();
-    Optional<String> developerName =
-        Stream.of(
-                developer.flatMap(d -> d.getName().map(name -> "Person: " + name)),
-                developer.flatMap(d -> d.getEmail().map(email -> " (" + email + ")")))
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .reduce((name, email) -> name + email);
-
-    return organizationName.orElseGet(() -> developerName.orElse("Organization: NOASSERTION"));
   }
 
   public SpdxDocument getSpdxDocument() {

@@ -80,6 +80,7 @@ public class PomResolver {
                               ImmutableDeveloperInfo.builder()
                                   .name(Optional.ofNullable(d.getName()))
                                   .email(Optional.ofNullable(d.getEmail()))
+                                  .organization(Optional.ofNullable(d.getOrganization()))
                                   .build())
                       .collect(Collectors.toList()))
               .build());
