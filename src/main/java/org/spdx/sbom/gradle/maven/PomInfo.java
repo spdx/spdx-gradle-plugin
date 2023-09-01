@@ -45,5 +45,7 @@ public interface PomInfo {
     Optional<String> getName();
 
     Optional<String> getEmail();
+
+    Optional<String> getOrganization();
   }
 }

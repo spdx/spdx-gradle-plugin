@@ -35,6 +35,7 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.Nullable;
@@ -374,17 +375,58 @@ public class SpdxDocumentBuilder {
             .flatMap(o -> Optional.ofNullable(o.getName()))
             .map(n -> "Organization: " + n);
 
-    var developer =
-        pomInfo.getDevelopers().stream().filter(d -> d.getName().isPresent()).findFirst();
-    Optional<String> developerName =
-        Stream.of(
-                developer.flatMap(d -> d.getName().map(name -> "Person: " + name)),
-                developer.flatMap(d -> d.getEmail().map(email -> " (" + email + ")")))
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .reduce((name, email) -> name + email);
+    // if all the developers have the same organization, use it as the supplier
+    var developersOrganization =
+        pomInfo.getDevelopers().stream()
+            .map(d -> d.getOrganization().orElse(null))
+            .collect(uniqueOrEmpty())
+            .map(o -> "Organization: " + o);
 
-    return organizationName.orElseGet(() -> developerName.orElse("Organization: NOASSERTION"));
+    // otherwise find the first developer that has a name, or only has an organization
+    // and construct the supplier based on those properties
+    var supplierFromDeveloper =
+        pomInfo.getDevelopers().stream()
+            .filter(
+                d ->
+                    d.getName().isPresent()
+                        || d.getOrganization().isPresent() && d.getEmail().isEmpty())
+            .findFirst()
+            .flatMap(SpdxDocumentBuilder::findPackageSupplierFromDeveloper);
+
+    var packageSupplier =
+        Stream.of(organizationName, developersOrganization, supplierFromDeveloper)
+            .filter(Optional::isPresent)
+            .findFirst()
+            .flatMap(v -> v);
+
+    return packageSupplier.orElse("Organization: NOASSERTION");
+  }
+
+  private static <T> Collector<T, Set<T>, Optional<T>> uniqueOrEmpty() {
+    return Collector.of(
+        java.util.HashSet::new,
+        Set::add,
+        (left, right) -> {
+          left.addAll(right);
+          return left;
+        },
+        set -> set.size() == 1 ? Optional.ofNullable(set.iterator().next()) : Optional.empty());
+  }
+
+  private static Optional<String> findPackageSupplierFromDeveloper(PomInfo.DeveloperInfo d) {
+    Optional<String> name = d.getName();
+    Optional<String> email = d.getEmail();
+    Optional<String> organization = d.getOrganization();
+
+    if (name.isPresent()) {
+      return email
+          .map(s -> String.format("Person: %s (%s)", name.get(), s))
+          .or(() -> Optional.of(String.format("Person: %s", name.get())));
+    } else if (organization.isPresent()) {
+      return Optional.of(String.format("Organization: %s", organization.get()));
+    }
+
+    return Optional.empty();
   }
 
   public SpdxDocument getSpdxDocument() {
