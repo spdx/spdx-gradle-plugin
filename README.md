@@ -7,7 +7,7 @@ Try it out and see what works, don't depend on it yet, it will probably change
 
 ## Usage
 
-#### Gradle Plugin Portal
+#### Gradle Plugin Portal [![Gradle Plugin Portal](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/org/spdx/spdx-gradle-plugin/maven-metadata.xml.svg?colorB=007ec6&label=latest)](https://plugins.gradle.org/plugin/com.google.cloud.tools.jib)
 This plugin is published to Gradle Plugin Portal: https://plugins.gradle.org/plugin/org.spdx.sbom
 
 #### Local Development
@@ -36,7 +36,7 @@ Apply and configure the plugin
 plugins {
   `java`
   ...
-  id("org.spdx.sbom") version "0.1.0"
+  id("org.spdx.sbom") version "0.2.0"
 }
 ...
 // there is no default build, you *must* specify a target
