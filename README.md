@@ -6,8 +6,12 @@ A prototype spdx gradle plugin
 Try it out and see what works, don't depend on it yet, it will probably change
 
 ## Usage
-This plugin is not published to mavenCentral or gradlePluginPortal, you need to build and deploy
-locally and then use in your project
+
+#### Gradle Plugin Portal
+This plugin is published to Gradle Plugin Portal: https://plugins.gradle.org/plugin/org.spdx.sbom
+
+#### Local Development
+You can build and deploy locally and then use in your project
 
 Install into local maven
 ```bash
@@ -25,12 +29,14 @@ pluginManagement {
 }
 ```
 
+### Basic Usage
+
 Apply and configure the plugin
 ```kotlin
 plugins {
   `java`
   ...
-  id("org.spdx.sbom") version "0.0.1"
+  id("org.spdx.sbom") version "0.1.0"
 }
 ...
 // there is no default build, you *must* specify a target
