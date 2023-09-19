@@ -329,7 +329,7 @@ public class SpdxDocumentBuilder {
       // Gradle 8.2 has an issue that causes sourceRepo to be a generated id instead of the name
       // Gradle 8.2.1 resolved that issue
       var repoUri = mavenArtifactRepositories.get(sourceRepo);
-      if (taskExtension != null && repoUri != null) {
+      if (taskExtension != null) {
         repoUri = taskExtension.mapRepoUri(repoUri, moduleId);
       }
       if (repoUri == null) {
