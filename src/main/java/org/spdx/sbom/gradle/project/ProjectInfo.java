@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import org.gradle.api.Project;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value.Immutable;
+import org.spdx.sbom.gradle.SpdxPackageExtension;
 
 @Immutable
 @Serial.Version(1)
@@ -38,15 +39,25 @@ public interface ProjectInfo {
 
   String getGroup();
 
+  Optional<SpdxPackageInfo> getPackageInfo();
+
   static ProjectInfo from(Project project) {
-    return ImmutableProjectInfo.builder()
-        .name(project.getName())
-        .description(Optional.ofNullable(project.getDescription()))
-        .version(project.getVersion().toString())
-        .projectDirectory(project.getProjectDir())
-        .path(project.getPath())
-        .group(project.getGroup().toString())
-        .build();
+    var builder =
+        ImmutableProjectInfo.builder()
+            .name(project.getName())
+            .description(Optional.ofNullable(project.getDescription()))
+            .version(project.getVersion().toString())
+            .projectDirectory(project.getProjectDir())
+            .path(project.getPath())
+            .group(project.getGroup().toString());
+
+    // find any spdxPackageExtension information
+    var ext = project.getExtensions().findByType(SpdxPackageExtension.class);
+    if (ext != null) {
+      builder.packageInfo(SpdxPackageInfo.from(ext));
+    }
+
+    return builder.build();
   }
 
   static Set<ProjectInfo> from(Set<Project> projects) {
