@@ -27,5 +27,6 @@ public class SpdxPackagePlugin implements Plugin<Project> {
     extension.getName().convention(project.getName());
     extension.getVersion().convention(project.getVersion().toString());
     extension.getCreatePackage().convention(true);
+    extension.getScm().getTool().convention("git");
   }
 }
