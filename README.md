@@ -1,9 +1,7 @@
 # spdx-gradle-plugin
-A prototype spdx gradle plugin
+An spdx gradle plugin
 
-⚠ This project is not ready for use to satisfy any real SBOM requirements ⚠
-
-Try it out and see what works, don't depend on it yet, it will probably change
+This project currently produces valid sboms for the projects we've tested. If it does not work for your case, please let us know in a new issue we can handle new use cases.
 
 ## Usage
 
