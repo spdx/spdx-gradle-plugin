@@ -38,13 +38,6 @@ gradlePlugin {
             description = "This plugin generates json formatted spdx sboms for gradle projects"
             tags.set(listOf("spdx", "sbom"))
         }
-        create("spdxPackage") {
-            id = "org.spdx.sbom-package"
-            implementationClass = "org.spdx.sbom.gradle.SpdxPackagePlugin"
-            displayName = "Companion plugin to org.spdx.sbom"
-            description = "This plugin enables customization of spdx package properties on subprojects"
-            tags.set(listOf("spdx", "sbom"))
-        }
     }
 }
 
