@@ -18,7 +18,7 @@ dependencies {
     annotationProcessor("org.immutables:value:2.10.0")
 
     implementation("org.spdx:java-spdx-library:1.1.7")
-    implementation("org.spdx:spdx-jackson-store:1.1.6")
+    implementation("org.spdx:spdx-jackson-store:1.1.7")
     implementation("org.apache.maven:maven-core:3.9.0")
     implementation("com.google.guava:guava:31.1-jre")
 
