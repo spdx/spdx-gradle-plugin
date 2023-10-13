@@ -22,7 +22,7 @@ dependencies {
     implementation("org.apache.maven:maven-core:3.9.0")
     implementation("com.google.guava:guava:31.1-jre")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
     testImplementation("org.hamcrest:hamcrest-library:2.2")
     testImplementation("org.spdx:tools-java:1.1.7")
 }
