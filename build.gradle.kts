@@ -1,6 +1,6 @@
 plugins {
     id("com.gradle.plugin-publish") version "1.2.0"
-    id("com.diffplug.spotless") version "6.16.0"
+    id("com.diffplug.spotless") version "6.22.0"
     signing
 //    id("org.spdx.sbom") version "0.1.0"
 }
