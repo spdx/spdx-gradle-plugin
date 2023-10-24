@@ -344,6 +344,48 @@ class SpdxSbomPluginFunctionalTest {
     Verify.verify(outputFile.toFile().getAbsolutePath(), SerFileType.JSON);
   }
 
+  /**
+   * This method verifies that the `tasks` task works with configure-on-demand This is a regression
+   * test for https://github.com/spdx/spdx-gradle-plugin/issues/62
+   */
+  @Test
+  public void tasksConfigurationOnDemand() throws IOException {
+    writeString(
+        getSettingsFile(),
+        "rootProject.name = 'spdx-functional-test-project'\n"
+            + "include 'subproject1'\n"
+            + "include 'subproject2'\n");
+
+    Path sub1 = projectDir.toPath().resolve("subproject1");
+    Files.createDirectories(sub1);
+    writeString(
+        sub1.resolve("build.gradle").toFile(),
+        "afterEvaluate {\n" + "  println('afterEvaluate')\n" + "}\n");
+
+    Path sub2 = projectDir.toPath().resolve("subproject2");
+    Files.createDirectories(sub2);
+    writeString(
+        sub2.resolve("build.gradle").toFile(),
+        "plugins {\n"
+            + "  id(\"org.spdx.sbom\")\n"
+            + "}\n"
+            + "configurations.create(\"bundleInside\")\n"
+            + "dependencies {\n"
+            + "  bundleInside(project(\":subproject1\"))\n"
+            + "}\n"
+            + "spdxSbom.targets.create(\"release\") { target ->\n"
+            + "  configurations = [\"bundleInside\"]"
+            + "}\n");
+
+    GradleRunner runner = GradleRunner.create();
+    runner.forwardOutput();
+    runner.withPluginClasspath();
+    runner.withDebug(true);
+    runner.withArguments(":subproject2:tasks", "--stacktrace", "--configure-on-demand");
+    runner.withProjectDir(projectDir);
+    runner.build();
+  }
+
   private void writeString(File file, String string) throws IOException {
     try (Writer writer = new FileWriter(file)) {
       writer.write(string);
