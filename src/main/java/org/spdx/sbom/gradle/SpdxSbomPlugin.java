@@ -128,23 +128,31 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                             .getResolutionResult()
                             .getRootComponent();
 
-                    Configuration pomsConfig =
-                        project
-                            .getConfigurations()
-                            .detachedConfiguration(
+                    Provider<Configuration> pomsConfigProvider =
+                        project.provider(
+                            () ->
                                 project
                                     .getConfigurations()
-                                    .getByName(configurationName)
-                                    .getIncoming()
-                                    .getResolutionResult()
-                                    .getAllComponents()
-                                    .stream()
-                                    .filter(rcr -> rcr.getId() instanceof ModuleComponentIdentifier)
-                                    .map(rcr -> rcr.getId().getDisplayName() + "@pom")
-                                    .map(pom -> project.getDependencies().create(pom))
-                                    .toArray(Dependency[]::new));
+                                    .detachedConfiguration(
+                                        project
+                                            .getConfigurations()
+                                            .getByName(configurationName)
+                                            .getIncoming()
+                                            .getResolutionResult()
+                                            .getAllComponents()
+                                            .stream()
+                                            .filter(
+                                                rcr ->
+                                                    rcr.getId()
+                                                        instanceof ModuleComponentIdentifier)
+                                            .map(rcr -> rcr.getId().getDisplayName() + "@pom")
+                                            .map(pom -> project.getDependencies().create(pom))
+                                            .toArray(Dependency[]::new)));
                     t.getPoms()
-                        .putAll(PomResolver.newPomResolver(project).effectivePoms(pomsConfig));
+                        .putAll(
+                            pomsConfigProvider.map(
+                                pomsConfig ->
+                                    PomResolver.newPomResolver(project).effectivePoms(pomsConfig)));
 
                     t.getRootComponents().add(rootComponent);
                   }
