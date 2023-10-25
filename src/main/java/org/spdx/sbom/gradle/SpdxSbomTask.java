@@ -26,7 +26,6 @@ import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.MapProperty;
 import org.gradle.api.provider.Property;
-import org.gradle.api.provider.SetProperty;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.OutputDirectory;
@@ -37,7 +36,7 @@ import org.spdx.library.model.SpdxDocument;
 import org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension;
 import org.spdx.sbom.gradle.maven.PomInfo;
 import org.spdx.sbom.gradle.project.DocumentInfo;
-import org.spdx.sbom.gradle.project.ProjectInfo;
+import org.spdx.sbom.gradle.project.ProjectInfoService;
 import org.spdx.sbom.gradle.project.ScmInfo;
 import org.spdx.sbom.gradle.utils.SpdxDocumentBuilder;
 import org.spdx.sbom.gradle.utils.SpdxKnownLicensesService;
@@ -58,8 +57,8 @@ public abstract class SpdxSbomTask extends DefaultTask {
   @OutputDirectory
   public abstract DirectoryProperty getOutputDirectory();
 
-  @Input
-  abstract SetProperty<ProjectInfo> getAllProjects();
+  @Internal
+  abstract Property<ProjectInfoService> getProjectInfoService();
 
   @Input
   abstract MapProperty<String, URI> getMavenRepositories();
@@ -89,7 +88,7 @@ public abstract class SpdxSbomTask extends DefaultTask {
     SpdxDocumentBuilder documentBuilder =
         new SpdxDocumentBuilder(
             getProjectPath().get(),
-            getAllProjects().get(),
+            getProjectInfoService().get().getAllProjectInfo(),
             getLogger(),
             modelStore,
             getResolvedArtifacts().get(),

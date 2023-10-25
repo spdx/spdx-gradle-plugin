@@ -42,6 +42,7 @@ import org.spdx.sbom.gradle.SpdxSbomExtension.Target;
 import org.spdx.sbom.gradle.maven.PomResolver;
 import org.spdx.sbom.gradle.project.DocumentInfo;
 import org.spdx.sbom.gradle.project.ProjectInfo;
+import org.spdx.sbom.gradle.project.ProjectInfoService;
 import org.spdx.sbom.gradle.project.ScmInfo;
 import org.spdx.sbom.gradle.utils.SpdxKnownLicensesService;
 
@@ -55,6 +56,20 @@ public class SpdxSbomPlugin implements Plugin<Project> {
             .getSharedServices()
             .registerIfAbsent(
                 "spdxKnownLicensesService", SpdxKnownLicensesService.class, spec -> {});
+    Provider<ProjectInfoService> projectInfoService =
+        project
+            .getGradle()
+            .getSharedServices()
+            .registerIfAbsent(
+                "spdxProjectInfoService",
+                ProjectInfoService.class,
+                spec ->
+                    spec.getParameters()
+                        .getAllProjects()
+                        .set(
+                            project.provider(
+                                () ->
+                                    ProjectInfo.from(project.getRootProject().getAllprojects()))));
     var extension = project.getExtensions().create("spdxSbom", SpdxSbomExtension.class);
     extension
         .getTargets()
@@ -79,14 +94,17 @@ public class SpdxSbomPlugin implements Plugin<Project> {
     extension
         .getTargets()
         .all(
-            target -> createTaskForTarget(project, target, aggregate, knownLicenseServiceProvider));
+            target ->
+                createTaskForTarget(
+                    project, target, aggregate, knownLicenseServiceProvider, projectInfoService));
   }
 
   private void createTaskForTarget(
       Project project,
       Target target,
       TaskProvider<Task> aggregate,
-      Provider<SpdxKnownLicensesService> knownLicenseServiceProvider) {
+      Provider<SpdxKnownLicensesService> knownLicenseServiceProvider,
+      Provider<ProjectInfoService> projectInfoService) {
     String name =
         (target.getName().length() <= 1)
             ? target.getName().toUpperCase()
@@ -104,8 +122,8 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                   t.getFilename().set(target.getName() + ".spdx.json");
                   t.getDocumentInfo().set(DocumentInfo.from(target));
                   t.getScmInfo().set(ScmInfo.from(target));
-                  t.getAllProjects()
-                      .set(ProjectInfo.from(project.getRootProject().getAllprojects()));
+                  t.getProjectInfoService().set(projectInfoService);
+                  t.usesService(projectInfoService);
                   t.getSpdxKnownLicensesService().set(knownLicenseServiceProvider);
                   t.usesService(knownLicenseServiceProvider);
 
