@@ -98,6 +98,10 @@ tasks.withType<AbstractArchiveTask>().configureEach {
     isReproducibleFileOrder = true
 }
 
+tasks.withType<Sign> {
+    onlyIf("skip.signing is not set") { !project.hasProperty("skip.signing") }
+}
+
 signing {
     val signingKey: String? by project
     val signingPassword: String? by project

@@ -14,7 +14,7 @@ You can build and deploy locally and then use in your project
 Install into local maven
 ```bash
 $ git clone git@github.com:spdx/spdx-gradle-plugin
-$ ./gradlew publishToMavenLocal
+$ ./gradlew publishToMavenLocal -Pskip.signing
 ```
 
 Add mavenLocal as a plugin repository (settings.gradle.kts)
