@@ -32,6 +32,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -160,7 +161,17 @@ public class SpdxDocumentBuilder {
 
     this.resolvedArtifacts =
         resolvedArtifacts.entrySet().stream()
-            .collect(Collectors.toMap(e -> e.getKey().getComponentIdentifier(), Entry::getValue));
+            .collect(
+                Collectors.toMap(
+                    e -> e.getKey().getComponentIdentifier(),
+                    Entry::getValue,
+                    (file1, file2) -> {
+                      if (Objects.equals(file1, file2)) {
+                        return file1;
+                      } else
+                        throw new IllegalStateException(
+                            "cannot merge duplicate " + file1 + " and " + file2);
+                    }));
     this.mavenArtifactRepositories = mavenArtifactRepositories;
     this.poms = poms;
 
