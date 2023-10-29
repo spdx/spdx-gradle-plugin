@@ -29,6 +29,7 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.OutputDirectory;
+import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 import org.spdx.jacksonstore.MultiFormatStore;
 import org.spdx.jacksonstore.MultiFormatStore.Format;
@@ -56,6 +57,11 @@ public abstract class SpdxSbomTask extends DefaultTask {
 
   @OutputDirectory
   public abstract DirectoryProperty getOutputDirectory();
+
+  @OutputFile
+  public File getOutputFile() {
+    return getOutputDirectory().file(getFilename()).get().getAsFile();
+  }
 
   @Internal
   abstract Property<ProjectInfoService> getProjectInfoService();
@@ -109,8 +115,7 @@ public abstract class SpdxSbomTask extends DefaultTask {
     List<String> verificationErrors = doc.verify();
     verificationErrors.forEach(errors -> getLogger().warn(errors));
 
-    FileOutputStream out =
-        new FileOutputStream(getOutputDirectory().file(getFilename()).get().getAsFile());
+    FileOutputStream out = new FileOutputStream(getOutputFile());
     modelStore.serialize(doc.getDocumentUri(), out);
   }
 }
