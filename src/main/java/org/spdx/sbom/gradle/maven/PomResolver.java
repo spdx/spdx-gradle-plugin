@@ -19,6 +19,7 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,10 +30,10 @@ import org.apache.maven.model.building.DefaultModelBuildingRequest;
 import org.apache.maven.model.building.ModelBuildingException;
 import org.apache.maven.model.building.ModelBuildingRequest;
 import org.gradle.api.GradleException;
-import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.artifacts.component.ComponentIdentifier;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
+import org.gradle.api.artifacts.result.ResolvedArtifactResult;
 import org.gradle.api.logging.Logger;
 
 /** This needs to be run *before* while configuring the task, so use it in the Plugin. */
@@ -58,9 +59,9 @@ public class PomResolver {
     this.logger = logger;
   }
 
-  public Map<String, PomInfo> effectivePoms(Configuration pomsConfig) {
+  public Map<String, PomInfo> effectivePoms(List<ResolvedArtifactResult> resolvedArtifactResults) {
     Map<String, PomInfo> effectivePoms = new HashMap<>();
-    for (var ra : pomsConfig.getIncoming().getArtifacts().getResolvedArtifacts().get()) {
+    for (var ra : resolvedArtifactResults) {
       var pomFile = ra.getFile();
       Model model = resolveEffectivePom(pomFile);
       effectivePoms.put(
