@@ -172,7 +172,11 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                         .putAll(
                             pomsConfigProvider.map(
                                 pomsConfig ->
-                                    PomResolver.newPomResolver(project).effectivePoms(pomsConfig)));
+                                    PomResolver.newPomResolver(
+                                            project.getDependencies(),
+                                            project.getConfigurations(),
+                                            project.getLogger())
+                                        .effectivePoms(pomsConfig)));
 
                     t.getRootComponents().add(rootComponent);
                   }
