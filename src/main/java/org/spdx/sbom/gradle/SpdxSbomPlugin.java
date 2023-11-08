@@ -31,10 +31,12 @@ import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.artifacts.component.ComponentArtifactIdentifier;
 import org.gradle.api.artifacts.component.ModuleComponentIdentifier;
+import org.gradle.api.artifacts.repositories.ArtifactRepository;
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
 import org.gradle.api.artifacts.result.ArtifactResult;
 import org.gradle.api.artifacts.result.ResolvedArtifactResult;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
+import org.gradle.api.internal.GradleInternal;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.TaskProvider;
 import org.gradle.internal.component.local.model.OpaqueComponentIdentifier;
@@ -178,18 +180,31 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                       .set(
                           project.provider(
                               () ->
-                                  project.getRepositories().getAsMap().entrySet().stream()
+                                  getAllRepositories(project).entrySet().stream()
                                       .filter(e -> e.getValue() instanceof MavenArtifactRepository)
-                                      .map(Entry::getKey)
                                       .collect(
                                           Collectors.toMap(
-                                              e -> e,
+                                              Entry::getKey,
                                               e ->
-                                                  ((MavenArtifactRepository)
-                                                          project.getRepositories().getByName(e))
+                                                  ((MavenArtifactRepository) e.getValue())
                                                       .getUrl()))));
                 });
     aggregate.configure(t -> t.dependsOn(task));
+  }
+
+  private Map<String, ArtifactRepository> getAllRepositories(Project project) {
+    Map<String, ArtifactRepository> projectRepositories = project.getRepositories().getAsMap();
+
+    // nasty cast because of https://github.com/gradle/gradle/issues/17295
+    Map<String, ArtifactRepository> settingsRepositories =
+        ((GradleInternal) project.getGradle())
+            .getSettings()
+            .getDependencyResolutionManagement()
+            .getRepositories()
+            .getAsMap();
+
+    settingsRepositories.putAll(projectRepositories);
+    return settingsRepositories;
   }
 
   private static class ArtifactTransformer
