@@ -18,10 +18,22 @@ package org.spdx.sbom.gradle;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import javax.inject.Inject;
 import org.gradle.api.DefaultTask;
+import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.artifacts.component.ComponentArtifactIdentifier;
+import org.gradle.api.artifacts.component.ComponentIdentifier;
+import org.gradle.api.artifacts.dsl.DependencyHandler;
+import org.gradle.api.artifacts.result.DependencyResult;
+import org.gradle.api.artifacts.result.ResolvedArtifactResult;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
+import org.gradle.api.artifacts.result.ResolvedDependencyResult;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.MapProperty;
@@ -31,11 +43,13 @@ import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.maven.MavenModule;
+import org.gradle.maven.MavenPomArtifact;
 import org.spdx.jacksonstore.MultiFormatStore;
 import org.spdx.jacksonstore.MultiFormatStore.Format;
 import org.spdx.library.model.SpdxDocument;
 import org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension;
-import org.spdx.sbom.gradle.maven.PomInfo;
+import org.spdx.sbom.gradle.maven.PomResolver;
 import org.spdx.sbom.gradle.project.DocumentInfo;
 import org.spdx.sbom.gradle.project.ProjectInfo;
 import org.spdx.sbom.gradle.project.ScmInfo;
@@ -45,15 +59,17 @@ import org.spdx.storage.ISerializableModelStore;
 import org.spdx.storage.simple.InMemSpdxStore;
 
 public abstract class SpdxSbomTask extends DefaultTask {
+  @Inject
+  protected abstract DependencyHandler getDependencyHandler();
+
+  @Inject
+  protected abstract ConfigurationContainer getConfigurations();
 
   @Internal
   abstract Property<SpdxKnownLicensesService> getSpdxKnownLicensesService();
 
   @Input
   abstract ListProperty<ResolvedComponentResult> getRootComponents();
-
-  @Input
-  abstract MapProperty<ComponentArtifactIdentifier, File> getResolvedArtifacts();
 
   @OutputDirectory
   public abstract DirectoryProperty getOutputDirectory();
@@ -63,9 +79,6 @@ public abstract class SpdxSbomTask extends DefaultTask {
 
   @Input
   abstract MapProperty<String, URI> getMavenRepositories();
-
-  @Input
-  abstract MapProperty<String, PomInfo> getPoms();
 
   @Input
   abstract Property<String> getFilename();
@@ -84,6 +97,37 @@ public abstract class SpdxSbomTask extends DefaultTask {
 
   @TaskAction
   public void generateSbom() throws Exception {
+    Set<ComponentIdentifier> componentIds = new HashSet<>();
+    for (var rootComponent : getRootComponents().get()) {
+      componentIds.addAll(
+          gatherSelectedDependencies(rootComponent, new HashSet<>(), new HashSet<>()));
+    }
+
+    Map<ComponentArtifactIdentifier, File> resolvedArtifactsById = new HashMap<>();
+
+    @SuppressWarnings("unchecked")
+    List<ResolvedArtifactResult> resolvedArtifactResults =
+        getDependencyHandler()
+            .createArtifactResolutionQuery()
+            .forComponents(componentIds)
+            .withArtifacts(MavenModule.class, MavenPomArtifact.class)
+            .execute()
+            .getResolvedComponents()
+            .stream()
+            .flatMap(
+                componentArtifactsResult ->
+                    componentArtifactsResult.getArtifacts(MavenPomArtifact.class).stream())
+            .filter(artifactResult -> artifactResult instanceof ResolvedArtifactResult)
+            .map(artifactResult -> (ResolvedArtifactResult) artifactResult)
+            .peek(
+                resolvedArtifactResult ->
+                    resolvedArtifactsById.put(
+                        resolvedArtifactResult.getId(), resolvedArtifactResult.getFile()))
+            .collect(Collectors.toList());
+
+    PomResolver pomResolver =
+        PomResolver.newPomResolver(getDependencyHandler(), getConfigurations(), getLogger());
+
     ISerializableModelStore modelStore =
         new MultiFormatStore(new InMemSpdxStore(), Format.JSON_PRETTY);
     SpdxDocumentBuilder documentBuilder =
@@ -92,9 +136,9 @@ public abstract class SpdxSbomTask extends DefaultTask {
             getAllProjects().get(),
             getLogger(),
             modelStore,
-            getResolvedArtifacts().get(),
+            resolvedArtifactsById,
             getMavenRepositories().get(),
-            getPoms().get(),
+            pomResolver.effectivePoms(resolvedArtifactResults),
             getTaskExtension().getOrNull(),
             getDocumentInfo().get(),
             getScmInfo().get(),
@@ -113,5 +157,22 @@ public abstract class SpdxSbomTask extends DefaultTask {
     FileOutputStream out =
         new FileOutputStream(getOutputDirectory().file(getFilename()).get().getAsFile());
     modelStore.serialize(doc.getDocumentUri(), out);
+  }
+
+  private Set<ComponentIdentifier> gatherSelectedDependencies(
+      ResolvedComponentResult component,
+      Set<ResolvedComponentResult> seenComponents,
+      Set<ComponentIdentifier> componentIds) {
+    if (seenComponents.add(component)) {
+      for (DependencyResult dep : component.getDependencies()) {
+        if (dep instanceof ResolvedDependencyResult) {
+          ResolvedDependencyResult resolvedDep = (ResolvedDependencyResult) dep;
+          componentIds.add(resolvedDep.getSelected().getId());
+          gatherSelectedDependencies(resolvedDep.getSelected(), seenComponents, componentIds);
+        }
+      }
+    }
+
+    return componentIds;
   }
 }

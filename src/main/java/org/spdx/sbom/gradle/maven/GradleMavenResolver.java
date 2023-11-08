@@ -21,20 +21,24 @@ import org.apache.maven.model.Repository;
 import org.apache.maven.model.building.FileModelSource;
 import org.apache.maven.model.building.ModelSource2;
 import org.apache.maven.model.resolution.ModelResolver;
-import org.gradle.api.Project;
+import org.gradle.api.artifacts.ConfigurationContainer;
+import org.gradle.api.artifacts.dsl.DependencyHandler;
 
 public class GradleMavenResolver implements ModelResolver {
-  private final Project project;
+  private final DependencyHandler dependencies;
+  private final ConfigurationContainer configurations;
 
-  public GradleMavenResolver(Project project) {
-    this.project = project;
+  public GradleMavenResolver(
+      DependencyHandler dependencies, ConfigurationContainer configurations) {
+    this.dependencies = dependencies;
+    this.configurations = configurations;
   }
 
   @Override
   public ModelSource2 resolveModel(String groupId, String artifactId, String version) {
     var dep = groupId + ":" + artifactId + ":" + version + "@pom";
-    var dependency = project.getDependencies().create(dep);
-    var config = project.getConfigurations().detachedConfiguration(dependency);
+    var dependency = dependencies.create(dep);
+    var config = configurations.detachedConfiguration(dependency);
 
     var pomXml = config.getSingleFile();
     return new FileModelSource(pomXml);

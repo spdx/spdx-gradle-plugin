@@ -15,31 +15,18 @@
  */
 package org.spdx.sbom.gradle;
 
-import java.io.File;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.stream.Collectors;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
-import org.gradle.api.Transformer;
-import org.gradle.api.artifacts.Configuration;
-import org.gradle.api.artifacts.Dependency;
-import org.gradle.api.artifacts.component.ComponentArtifactIdentifier;
-import org.gradle.api.artifacts.component.ModuleComponentIdentifier;
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
-import org.gradle.api.artifacts.result.ArtifactResult;
-import org.gradle.api.artifacts.result.ResolvedArtifactResult;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.TaskProvider;
-import org.gradle.internal.component.local.model.OpaqueComponentIdentifier;
 import org.spdx.sbom.gradle.SpdxSbomExtension.Target;
-import org.spdx.sbom.gradle.maven.PomResolver;
 import org.spdx.sbom.gradle.project.DocumentInfo;
 import org.spdx.sbom.gradle.project.ProjectInfo;
 import org.spdx.sbom.gradle.project.ScmInfo;
@@ -111,15 +98,6 @@ public class SpdxSbomPlugin implements Plugin<Project> {
 
                   List<String> configurationNames = target.getConfigurations().get();
                   for (var configurationName : configurationNames) {
-                    Provider<Set<ResolvedArtifactResult>> artifacts =
-                        project
-                            .getConfigurations()
-                            .getByName(configurationName)
-                            .getIncoming()
-                            .getArtifacts()
-                            .getResolvedArtifacts();
-                    t.getResolvedArtifacts().putAll(artifacts.map(new ArtifactTransformer()));
-
                     Provider<ResolvedComponentResult> rootComponent =
                         project
                             .getConfigurations()
@@ -127,24 +105,6 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                             .getIncoming()
                             .getResolutionResult()
                             .getRootComponent();
-
-                    Configuration pomsConfig =
-                        project
-                            .getConfigurations()
-                            .detachedConfiguration(
-                                project
-                                    .getConfigurations()
-                                    .getByName(configurationName)
-                                    .getIncoming()
-                                    .getResolutionResult()
-                                    .getAllComponents()
-                                    .stream()
-                                    .filter(rcr -> rcr.getId() instanceof ModuleComponentIdentifier)
-                                    .map(rcr -> rcr.getId().getDisplayName() + "@pom")
-                                    .map(pom -> project.getDependencies().create(pom))
-                                    .toArray(Dependency[]::new));
-                    t.getPoms()
-                        .putAll(PomResolver.newPomResolver(project).effectivePoms(pomsConfig));
 
                     t.getRootComponents().add(rootComponent);
                   }
@@ -160,23 +120,9 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                                               e -> e,
                                               e ->
                                                   ((MavenArtifactRepository)
-                                                          project.getRepositories().getByName(e))
+                                                      project.getRepositories().getByName(e))
                                                       .getUrl()))));
                 });
     aggregate.configure(t -> t.dependsOn(task));
-  }
-
-  private static class ArtifactTransformer
-      implements Transformer<
-          Map<ComponentArtifactIdentifier, File>, Collection<ResolvedArtifactResult>> {
-
-    @Override
-    public Map<ComponentArtifactIdentifier, File> transform(
-        Collection<ResolvedArtifactResult> resolvedArtifactResults) {
-      return resolvedArtifactResults.stream()
-          // ignore gradle API components as they cannot be serialized
-          .filter(x -> !(x.getId().getComponentIdentifier() instanceof OpaqueComponentIdentifier))
-          .collect(Collectors.toMap(ArtifactResult::getId, ResolvedArtifactResult::getFile));
-    }
   }
 }
