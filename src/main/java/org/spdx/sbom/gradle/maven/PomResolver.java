@@ -29,9 +29,10 @@ import org.apache.maven.model.building.DefaultModelBuildingRequest;
 import org.apache.maven.model.building.ModelBuildingException;
 import org.apache.maven.model.building.ModelBuildingRequest;
 import org.gradle.api.GradleException;
-import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.artifacts.component.ComponentIdentifier;
+import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.logging.Logger;
 
 /** This needs to be run *before* while configuring the task, so use it in the Plugin. */
@@ -40,9 +41,12 @@ public class PomResolver {
   private final GradleMavenResolver gradleMavenResolver;
   private final Logger logger;
 
-  public static PomResolver newPomResolver(Project project) {
+  public static PomResolver newPomResolver(
+      DependencyHandler dependencies, ConfigurationContainer configurations, Logger logger) {
     return new PomResolver(
-        new GradleMavenResolver(project), new DefaultModelBuilderFactory(), project.getLogger());
+        new GradleMavenResolver(dependencies, configurations),
+        new DefaultModelBuilderFactory(),
+        logger);
   }
 
   PomResolver(
