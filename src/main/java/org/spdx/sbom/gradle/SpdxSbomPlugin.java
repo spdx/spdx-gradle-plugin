@@ -196,6 +196,7 @@ public class SpdxSbomPlugin implements Plugin<Project> {
     Map<String, ArtifactRepository> projectRepositories = project.getRepositories().getAsMap();
 
     // nasty cast because of https://github.com/gradle/gradle/issues/17295
+    // see https://github.com/spdx/spdx-gradle-plugin/issues/73
     Map<String, ArtifactRepository> settingsRepositories =
         ((GradleInternal) project.getGradle())
             .getSettings()
