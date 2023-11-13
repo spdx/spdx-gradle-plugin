@@ -122,6 +122,7 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                   t.usesService(knownLicenseServiceProvider);
 
                   List<String> configurationNames = target.getConfigurations().get();
+                  var rootComponentsProperty = project.getObjects().listProperty(ResolvedComponentResult.class);
                   for (var configurationName : configurationNames) {
                     Provider<ResolvedComponentResult> rootComponent =
                         project
@@ -131,11 +132,12 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                             .getResolutionResult()
                             .getRootComponent();
 
-                    t.getRootComponents().add(rootComponent);
+                    rootComponentsProperty.add(rootComponent);
                   }
+                  t.getRootComponents().addAll(rootComponentsProperty);
 
                   Provider<List<ResolvedArtifactResult>> resolvedArtifactsProvider =
-                      t.getRootComponents()
+                      rootComponentsProperty
                           .map(
                               rootComponents ->
                                   DependencyResolver.newDependencyResolver(
