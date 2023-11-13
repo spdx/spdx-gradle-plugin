@@ -30,37 +30,37 @@ import org.gradle.maven.MavenModule;
 import org.gradle.maven.MavenPomArtifact;
 
 /**
- * DependencyResolver identifies and collects the component identifiers for dependencies in a project's dependency
- * graph, focusing specifically on Maven artifacts. It filters out non-serializable Gradle API components
- * to concentrate on Maven dependencies.
+ * DependencyResolver identifies and collects the component identifiers for dependencies in a
+ * project's dependency graph, focusing specifically on Maven artifacts. It filters out
+ * non-serializable Gradle API components to concentrate on Maven dependencies.
  *
- * <p>Process:</p>
+ * <p>Process:
+ *
  * <ol>
- *     <li><b>Identifying Component Identifiers:</b>
- *         The process starts by identifying the component identifiers of all dependencies in a project's
- *         dependency graph. This is achieved by iterating over the root components (instances of
- *         {@link org.gradle.api.artifacts.result.ResolvedComponentResult}) of the dependency graph. Each
- *         root component is analyzed to extract its dependencies and their respective component identifiers.</li>
- *
- *     <li><b>Resolving Dependencies:</b>
- *         With the component identifiers collected, the class then proceeds to resolve these dependencies.
- *         This is done using the {@link org.gradle.api.artifacts.dsl.DependencyHandler} to create an
- *         artifact resolution query. The query targets the collected component identifiers and specifies
- *         the types of artifacts to resolve, in this case, Maven POM artifacts (represented by
- *         {@link org.gradle.maven.MavenPomArtifact}).</li>
- *
- *     <li><b>Filtering and Collecting Artifacts:</b>
- *         The resolved artifacts are then processed to filter out non-serializable Gradle components
- *         (identified by {@link org.gradle.internal.component.local.model.OpaqueComponentIdentifier}).
- *         This step ensures the focus remains on Maven artifacts. The final output is a list of
- *         {@link org.gradle.api.artifacts.result.ResolvedArtifactResult} instances, representing the
- *         resolved Maven POM artifacts. Each ResolvedArtifactResult provides access to the artifact file
- *         and metadata.</li>
+ *   <li><b>Identifying Component Identifiers:</b> The process starts by identifying the component
+ *       identifiers of all dependencies in a project's dependency graph. This is achieved by
+ *       iterating over the root components (instances of {@link
+ *       org.gradle.api.artifacts.result.ResolvedComponentResult}) of the dependency graph. Each
+ *       root component is analyzed to extract its dependencies and their respective component
+ *       identifiers.
+ *   <li><b>Resolving Dependencies:</b> With the component identifiers collected, the class then
+ *       proceeds to resolve these dependencies. This is done using the {@link
+ *       org.gradle.api.artifacts.dsl.DependencyHandler} to create an artifact resolution query. The
+ *       query targets the collected component identifiers and specifies the types of artifacts to
+ *       resolve, in this case, Maven POM artifacts (represented by {@link
+ *       org.gradle.maven.MavenPomArtifact}).
+ *   <li><b>Filtering and Collecting Artifacts:</b> The resolved artifacts are then processed to
+ *       filter out non-serializable Gradle components (identified by {@link
+ *       org.gradle.internal.component.local.model.OpaqueComponentIdentifier}). This step ensures
+ *       the focus remains on Maven artifacts. The final output is a list of {@link
+ *       org.gradle.api.artifacts.result.ResolvedArtifactResult} instances, representing the
+ *       resolved Maven POM artifacts. Each ResolvedArtifactResult provides access to the artifact
+ *       file and metadata.
  * </ol>
  *
- * <p>Result:</p>
- * The outcome is a list of {@link org.gradle.api.artifacts.result.ResolvedArtifactResult}, which provides
- * access to the files of resolved Maven POM artifacts, giving detailed insight into the project's Maven dependencies.
+ * <p>Result: The outcome is a list of {@link
+ * org.gradle.api.artifacts.result.ResolvedArtifactResult}, which provides access to the files of
+ * resolved Maven POM artifacts, giving detailed insight into the project's Maven dependencies.
  *
  * @see org.gradle.api.artifacts.dsl.DependencyHandler
  * @see org.gradle.api.artifacts.result.ResolvedArtifactResult
