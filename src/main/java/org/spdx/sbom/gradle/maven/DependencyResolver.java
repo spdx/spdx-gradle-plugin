@@ -25,6 +25,7 @@ import org.gradle.api.artifacts.result.DependencyResult;
 import org.gradle.api.artifacts.result.ResolvedArtifactResult;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
 import org.gradle.api.artifacts.result.ResolvedDependencyResult;
+import org.gradle.internal.component.local.model.OpaqueComponentIdentifier;
 import org.gradle.maven.MavenModule;
 import org.gradle.maven.MavenPomArtifact;
 
@@ -56,6 +57,8 @@ public class DependencyResolver {
                 componentArtifactsResult.getArtifacts(MavenPomArtifact.class).stream())
         .filter(ResolvedArtifactResult.class::isInstance)
         .map(ResolvedArtifactResult.class::cast)
+        // ignore gradle API components as they cannot be serialized
+        .filter(x -> !(x.getId().getComponentIdentifier() instanceof OpaqueComponentIdentifier))
         .collect(Collectors.toList());
   }
 
