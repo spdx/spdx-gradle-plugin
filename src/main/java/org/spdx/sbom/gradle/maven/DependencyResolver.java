@@ -54,8 +54,8 @@ public class DependencyResolver {
         .flatMap(
             componentArtifactsResult ->
                 componentArtifactsResult.getArtifacts(MavenPomArtifact.class).stream())
-        .filter(artifactResult -> artifactResult instanceof ResolvedArtifactResult)
-        .map(artifactResult -> (ResolvedArtifactResult) artifactResult)
+        .filter(ResolvedArtifactResult.class::isInstance)
+        .map(ResolvedArtifactResult.class::cast)
         .collect(Collectors.toList());
   }
 
