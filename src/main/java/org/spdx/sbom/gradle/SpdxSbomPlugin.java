@@ -128,6 +128,13 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                   t.getSpdxKnownLicensesService().set(knownLicenseServiceProvider);
                   t.usesService(knownLicenseServiceProvider);
 
+                  final String artifactType;
+                  if (project.getPlugins().hasPlugin("com.android.base")) {
+                    artifactType = "android-aar-or-jar";
+                  } else {
+                    artifactType = "jar";
+                  }
+
                   List<String> configurationNames = target.getConfigurations().get();
                   var rootComponentsProperty =
                       project.getObjects().listProperty(ResolvedComponentResult.class);
@@ -143,7 +150,7 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                                         attributes ->
                                             attributes.attribute(
                                                 Attribute.of("artifactType", String.class),
-                                                "android-aar-or-jar")))
+                                                artifactType)))
                             .getArtifacts()
                             .getResolvedArtifacts();
                     t.getResolvedArtifacts().putAll(artifacts.map(new ArtifactTransformer()));
