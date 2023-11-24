@@ -15,22 +15,29 @@
  */
 package org.spdx.sbom.gradle;
 
+import java.io.File;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
+import org.gradle.api.Transformer;
+import org.gradle.api.artifacts.component.ComponentArtifactIdentifier;
 import org.gradle.api.artifacts.repositories.ArtifactRepository;
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
 import org.gradle.api.artifacts.result.ArtifactResult;
 import org.gradle.api.artifacts.result.ResolvedArtifactResult;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
+import org.gradle.api.attributes.Attribute;
 import org.gradle.api.internal.GradleInternal;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.TaskProvider;
+import org.gradle.internal.component.local.model.OpaqueComponentIdentifier;
 import org.spdx.sbom.gradle.SpdxSbomExtension.Target;
 import org.spdx.sbom.gradle.maven.DependencyResolver;
 import org.spdx.sbom.gradle.maven.PomResolver;
@@ -125,6 +132,22 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                   var rootComponentsProperty =
                       project.getObjects().listProperty(ResolvedComponentResult.class);
                   for (var configurationName : configurationNames) {
+                    Provider<Set<ResolvedArtifactResult>> artifacts =
+                        project
+                            .getConfigurations()
+                            .getByName(configurationName)
+                            .getIncoming()
+                            .artifactView(
+                                viewConfiguration ->
+                                    viewConfiguration.attributes(
+                                        attributes ->
+                                            attributes.attribute(
+                                                Attribute.of("artifactType", String.class),
+                                                "android-aar-or-jar")))
+                            .getArtifacts()
+                            .getResolvedArtifacts();
+                    t.getResolvedArtifacts().putAll(artifacts.map(new ArtifactTransformer()));
+
                     Provider<ResolvedComponentResult> rootComponent =
                         project
                             .getConfigurations()
@@ -142,16 +165,6 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                           rootComponents ->
                               DependencyResolver.newDependencyResolver(project.getDependencies())
                                   .resolveDependencies(rootComponents));
-
-                  t.getResolvedArtifacts()
-                      .putAll(
-                          resolvedArtifactsProvider.map(
-                              resolvedArtifactResults ->
-                                  resolvedArtifactResults.stream()
-                                      .collect(
-                                          Collectors.toMap(
-                                              ArtifactResult::getId,
-                                              ResolvedArtifactResult::getFile))));
 
                   t.getPoms()
                       .putAll(
@@ -193,5 +206,19 @@ public class SpdxSbomPlugin implements Plugin<Project> {
 
     settingsRepositories.putAll(projectRepositories);
     return settingsRepositories;
+  }
+
+  private static class ArtifactTransformer
+      implements Transformer<
+          Map<ComponentArtifactIdentifier, File>, Collection<ResolvedArtifactResult>> {
+
+    @Override
+    public Map<ComponentArtifactIdentifier, File> transform(
+        Collection<ResolvedArtifactResult> resolvedArtifactResults) {
+      return resolvedArtifactResults.stream()
+          // ignore gradle API components as they cannot be serialized
+          .filter(x -> !(x.getId().getComponentIdentifier() instanceof OpaqueComponentIdentifier))
+          .collect(Collectors.toMap(ArtifactResult::getId, ResolvedArtifactResult::getFile));
+    }
   }
 }
