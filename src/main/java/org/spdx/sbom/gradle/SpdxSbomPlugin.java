@@ -39,7 +39,6 @@ import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.TaskProvider;
 import org.gradle.internal.component.local.model.OpaqueComponentIdentifier;
 import org.spdx.sbom.gradle.SpdxSbomExtension.Target;
-import org.spdx.sbom.gradle.maven.DependencyResolver;
 import org.spdx.sbom.gradle.maven.PomResolver;
 import org.spdx.sbom.gradle.project.DocumentInfo;
 import org.spdx.sbom.gradle.project.ProjectInfo;
@@ -167,21 +166,20 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                   }
                   t.getRootComponents().addAll(rootComponentsProperty);
 
-                  Provider<List<ResolvedArtifactResult>> resolvedArtifactsProvider =
-                      rootComponentsProperty.map(
-                          rootComponents ->
-                              DependencyResolver.newDependencyResolver(project.getDependencies())
-                                  .resolveDependencies(rootComponents));
-
                   t.getPoms()
                       .putAll(
-                          resolvedArtifactsProvider.map(
-                              resolvedArtifactResults ->
-                                  PomResolver.newPomResolver(
-                                          project.getDependencies(),
-                                          project.getConfigurations(),
-                                          project.getLogger())
-                                      .effectivePoms(resolvedArtifactResults)));
+                          rootComponentsProperty.map(
+                              rootComponents -> {
+                                PomResolver pomResolver =
+                                    PomResolver.newPomResolver(
+                                        project.getDependencies(),
+                                        project.getConfigurations(),
+                                        project.getLogger());
+
+                                var resolvedPomArtifacts =
+                                    pomResolver.resolvePomArtifacts(rootComponents);
+                                return pomResolver.effectivePoms(resolvedPomArtifacts);
+                              }));
 
                   t.getMavenRepositories()
                       .set(
