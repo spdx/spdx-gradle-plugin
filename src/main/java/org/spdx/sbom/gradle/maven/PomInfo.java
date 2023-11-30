@@ -33,6 +33,8 @@ public interface PomInfo {
 
   List<DeveloperInfo> getDevelopers();
 
+  String getPackaging();
+
   @Immutable
   interface LicenseInfo {
     String getUrl();

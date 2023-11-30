@@ -178,6 +178,7 @@ public class PomResolver {
                                   .organization(Optional.ofNullable(d.getOrganization()))
                                   .build())
                       .collect(Collectors.toList()))
+              .packaging(model.getPackaging())
               .build());
     }
     return effectivePoms;

@@ -33,12 +33,13 @@ import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
 import org.gradle.api.artifacts.result.ArtifactResult;
 import org.gradle.api.artifacts.result.ResolvedArtifactResult;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
-import org.gradle.api.attributes.Attribute;
+import org.gradle.api.artifacts.type.ArtifactTypeDefinition;
 import org.gradle.api.internal.GradleInternal;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.TaskProvider;
 import org.gradle.internal.component.local.model.OpaqueComponentIdentifier;
 import org.spdx.sbom.gradle.SpdxSbomExtension.Target;
+import org.spdx.sbom.gradle.maven.PomInfo;
 import org.spdx.sbom.gradle.maven.PomResolver;
 import org.spdx.sbom.gradle.project.DocumentInfo;
 import org.spdx.sbom.gradle.project.ProjectInfo;
@@ -127,31 +128,38 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                   t.getSpdxKnownLicensesService().set(knownLicenseServiceProvider);
                   t.usesService(knownLicenseServiceProvider);
 
-                  final String artifactType;
-                  if (project.getPlugins().hasPlugin("com.android.base")) {
-                    artifactType = "android-aar-or-jar";
-                  } else {
-                    artifactType = "jar";
-                  }
+                  boolean hasAndroidPlugin = project.getPlugins().hasPlugin("com.android.base");
 
                   List<String> configurationNames = target.getConfigurations().get();
+                  var pomPackagingsProperty = project.getObjects().setProperty(String.class);
                   var rootComponentsProperty =
                       project.getObjects().listProperty(ResolvedComponentResult.class);
                   for (var configurationName : configurationNames) {
+                    var incoming =
+                        project.getConfigurations().getByName(configurationName).getIncoming();
+
                     Provider<Set<ResolvedArtifactResult>> artifacts =
-                        project
-                            .getConfigurations()
-                            .getByName(configurationName)
-                            .getIncoming()
-                            .artifactView(
-                                viewConfiguration ->
-                                    viewConfiguration.attributes(
-                                        attributes ->
-                                            attributes.attribute(
-                                                Attribute.of("artifactType", String.class),
-                                                artifactType)))
-                            .getArtifacts()
-                            .getResolvedArtifacts();
+                        pomPackagingsProperty.flatMap(
+                            packagings -> {
+                              var resolvedArtifactsProperty =
+                                  project.getObjects().setProperty(ResolvedArtifactResult.class);
+                              for (String packaging : packagings) {
+                                resolvedArtifactsProperty.addAll(
+                                    incoming
+                                        .artifactView(
+                                            viewConfiguration ->
+                                                viewConfiguration.attributes(
+                                                    attributes ->
+                                                        attributes.attribute(
+                                                            ArtifactTypeDefinition
+                                                                .ARTIFACT_TYPE_ATTRIBUTE,
+                                                            packaging)))
+                                        .getArtifacts()
+                                        .getResolvedArtifacts());
+                              }
+
+                              return resolvedArtifactsProperty;
+                            });
                     t.getResolvedArtifacts().putAll(artifacts.map(new ArtifactTransformer()));
 
                     Provider<ResolvedComponentResult> rootComponent =
@@ -165,6 +173,37 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                     rootComponentsProperty.add(rootComponent);
                   }
                   t.getRootComponents().addAll(rootComponentsProperty);
+
+                  var pomInfo =
+                      rootComponentsProperty.map(
+                          rootComponents -> {
+                            PomResolver pomResolver =
+                                PomResolver.newPomResolver(
+                                    project.getDependencies(),
+                                    project.getConfigurations(),
+                                    project.getLogger());
+
+                            var resolvedPomArtifacts =
+                                pomResolver.resolvePomArtifacts(rootComponents);
+                            return pomResolver.effectivePoms(resolvedPomArtifacts);
+                          });
+
+                  pomPackagingsProperty.addAll(
+                      pomInfo.map(
+                          poms ->
+                              poms.values().stream()
+                                  .map(PomInfo::getPackaging)
+                                  .map(
+                                      packaging -> {
+                                        boolean isAarOrJar =
+                                            packaging.equals("jar") || packaging.equals("aar");
+                                        if (hasAndroidPlugin && isAarOrJar) {
+                                          return "android-aar-or-jar";
+                                        } else {
+                                          return packaging;
+                                        }
+                                      })
+                                  .collect(Collectors.toSet())));
 
                   t.getPoms()
                       .putAll(
