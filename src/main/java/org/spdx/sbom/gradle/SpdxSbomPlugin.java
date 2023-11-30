@@ -33,7 +33,7 @@ import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
 import org.gradle.api.artifacts.result.ArtifactResult;
 import org.gradle.api.artifacts.result.ResolvedArtifactResult;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
-import org.gradle.api.attributes.Attribute;
+import org.gradle.api.artifacts.type.ArtifactTypeDefinition;
 import org.gradle.api.internal.GradleInternal;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.TaskProvider;
@@ -127,31 +127,39 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                   t.getSpdxKnownLicensesService().set(knownLicenseServiceProvider);
                   t.usesService(knownLicenseServiceProvider);
 
-                  final String artifactType;
-                  if (project.getPlugins().hasPlugin("com.android.base")) {
-                    artifactType = "android-aar-or-jar";
-                  } else {
-                    artifactType = "jar";
-                  }
+                  boolean hasAndroidPlugin = project.getPlugins().hasPlugin("com.android.base");
 
                   List<String> configurationNames = target.getConfigurations().get();
                   var rootComponentsProperty =
                       project.getObjects().listProperty(ResolvedComponentResult.class);
                   for (var configurationName : configurationNames) {
-                    Provider<Set<ResolvedArtifactResult>> artifacts =
-                        project
-                            .getConfigurations()
-                            .getByName(configurationName)
-                            .getIncoming()
-                            .artifactView(
-                                viewConfiguration ->
-                                    viewConfiguration.attributes(
-                                        attributes ->
-                                            attributes.attribute(
-                                                Attribute.of("artifactType", String.class),
-                                                artifactType)))
-                            .getArtifacts()
-                            .getResolvedArtifacts();
+                    final Provider<Set<ResolvedArtifactResult>> artifacts;
+                    if (hasAndroidPlugin) {
+                      // https://cs.android.com/android-studio/platform/tools/base/+/mirror-goog-studio-main:build-system/gradle-core/src/main/java/com/android/build/gradle/internal/publishing/AndroidArtifacts.java;l=575?q=AndroidArtifacts.java
+                      String artifactType = "android-aar-or-jar";
+                      artifacts =
+                          project
+                              .getConfigurations()
+                              .getByName(configurationName)
+                              .getIncoming()
+                              .artifactView(
+                                  viewConfiguration ->
+                                      viewConfiguration.attributes(
+                                          attributes ->
+                                              attributes.attribute(
+                                                  ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE,
+                                                  artifactType)))
+                              .getArtifacts()
+                              .getResolvedArtifacts();
+                    } else {
+                      artifacts =
+                          project
+                              .getConfigurations()
+                              .getByName(configurationName)
+                              .getIncoming()
+                              .getArtifacts()
+                              .getResolvedArtifacts();
+                    }
                     t.getResolvedArtifacts().putAll(artifacts.map(new ArtifactTransformer()));
 
                     Provider<ResolvedComponentResult> rootComponent =
