@@ -34,7 +34,6 @@ public class MavenPackageSupplierBuilderTest {
             .homepage(URI.create("https://example.com"))
             .organization(pomOrganization)
             .addDevelopers(ImmutableDeveloperInfo.builder().name("Eli Graber").build())
-            .packaging("jar")
             .build();
 
     Assertions.assertEquals(
@@ -47,7 +46,6 @@ public class MavenPackageSupplierBuilderTest {
         ImmutablePomInfo.builder()
             .homepage(URI.create("https://example.com"))
             .addDevelopers(ImmutableDeveloperInfo.builder().name("Eli Graber").build())
-            .packaging("jar")
             .build();
 
     Assertions.assertEquals(
@@ -64,7 +62,6 @@ public class MavenPackageSupplierBuilderTest {
                     .name("Eli Graber")
                     .email("eli@example.com")
                     .build())
-            .packaging("jar")
             .build();
 
     Assertions.assertEquals(
@@ -82,7 +79,6 @@ public class MavenPackageSupplierBuilderTest {
                     .organization("ACME")
                     .email("eli@example.com")
                     .build())
-            .packaging("jar")
             .build();
 
     Assertions.assertEquals(
@@ -95,7 +91,6 @@ public class MavenPackageSupplierBuilderTest {
         ImmutablePomInfo.builder()
             .homepage(URI.create("https://example.com"))
             .addDevelopers(ImmutableDeveloperInfo.builder().email("eli@example.com").build())
-            .packaging("jar")
             .build();
 
     Assertions.assertEquals(
