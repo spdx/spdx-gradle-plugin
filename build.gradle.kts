@@ -19,8 +19,8 @@ dependencies {
 
     implementation("org.spdx:java-spdx-library:1.1.8")
     implementation("org.spdx:spdx-jackson-store:1.1.7")
-    implementation("org.apache.maven:maven-model-builder:3.9.5")
-    implementation("org.apache.maven:maven-model:3.9.5")
+    implementation("org.apache.maven:maven-model-builder:3.9.6")
+    implementation("org.apache.maven:maven-model:3.9.6")
     implementation("com.google.guava:guava:32.1.3-jre")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
