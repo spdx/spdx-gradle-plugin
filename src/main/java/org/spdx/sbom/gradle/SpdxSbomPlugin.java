@@ -27,15 +27,13 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.Transformer;
-import org.gradle.api.artifacts.Configuration;
-import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.artifacts.component.ComponentArtifactIdentifier;
-import org.gradle.api.artifacts.component.ModuleComponentIdentifier;
 import org.gradle.api.artifacts.repositories.ArtifactRepository;
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
 import org.gradle.api.artifacts.result.ArtifactResult;
 import org.gradle.api.artifacts.result.ResolvedArtifactResult;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
+import org.gradle.api.artifacts.type.ArtifactTypeDefinition;
 import org.gradle.api.internal.GradleInternal;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.TaskProvider;
@@ -129,15 +127,39 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                   t.getSpdxKnownLicensesService().set(knownLicenseServiceProvider);
                   t.usesService(knownLicenseServiceProvider);
 
+                  boolean hasAndroidPlugin = project.getPlugins().hasPlugin("com.android.base");
+
                   List<String> configurationNames = target.getConfigurations().get();
+                  var rootComponentsProperty =
+                      project.getObjects().listProperty(ResolvedComponentResult.class);
                   for (var configurationName : configurationNames) {
-                    Provider<Set<ResolvedArtifactResult>> artifacts =
-                        project
-                            .getConfigurations()
-                            .getByName(configurationName)
-                            .getIncoming()
-                            .getArtifacts()
-                            .getResolvedArtifacts();
+                    final Provider<Set<ResolvedArtifactResult>> artifacts;
+                    if (hasAndroidPlugin) {
+                      // https://cs.android.com/android-studio/platform/tools/base/+/mirror-goog-studio-main:build-system/gradle-core/src/main/java/com/android/build/gradle/internal/publishing/AndroidArtifacts.java;l=575?q=AndroidArtifacts.java
+                      String artifactType = "android-aar-or-jar";
+                      artifacts =
+                          project
+                              .getConfigurations()
+                              .getByName(configurationName)
+                              .getIncoming()
+                              .artifactView(
+                                  viewConfiguration ->
+                                      viewConfiguration.attributes(
+                                          attributes ->
+                                              attributes.attribute(
+                                                  ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE,
+                                                  artifactType)))
+                              .getArtifacts()
+                              .getResolvedArtifacts();
+                    } else {
+                      artifacts =
+                          project
+                              .getConfigurations()
+                              .getByName(configurationName)
+                              .getIncoming()
+                              .getArtifacts()
+                              .getResolvedArtifacts();
+                    }
                     t.getResolvedArtifacts().putAll(artifacts.map(new ArtifactTransformer()));
 
                     Provider<ResolvedComponentResult> rootComponent =
@@ -148,38 +170,25 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                             .getResolutionResult()
                             .getRootComponent();
 
-                    Provider<Configuration> pomsConfigProvider =
-                        project.provider(
-                            () ->
-                                project
-                                    .getConfigurations()
-                                    .detachedConfiguration(
-                                        project
-                                            .getConfigurations()
-                                            .getByName(configurationName)
-                                            .getIncoming()
-                                            .getResolutionResult()
-                                            .getAllComponents()
-                                            .stream()
-                                            .filter(
-                                                rcr ->
-                                                    rcr.getId()
-                                                        instanceof ModuleComponentIdentifier)
-                                            .map(rcr -> rcr.getId().getDisplayName() + "@pom")
-                                            .map(pom -> project.getDependencies().create(pom))
-                                            .toArray(Dependency[]::new)));
-                    t.getPoms()
-                        .putAll(
-                            pomsConfigProvider.map(
-                                pomsConfig ->
-                                    PomResolver.newPomResolver(
-                                            project.getDependencies(),
-                                            project.getConfigurations(),
-                                            project.getLogger())
-                                        .effectivePoms(pomsConfig)));
-
-                    t.getRootComponents().add(rootComponent);
+                    rootComponentsProperty.add(rootComponent);
                   }
+                  t.getRootComponents().addAll(rootComponentsProperty);
+
+                  t.getPoms()
+                      .putAll(
+                          rootComponentsProperty.map(
+                              rootComponents -> {
+                                PomResolver pomResolver =
+                                    PomResolver.newPomResolver(
+                                        project.getDependencies(),
+                                        project.getConfigurations(),
+                                        project.getLogger());
+
+                                var resolvedPomArtifacts =
+                                    pomResolver.resolvePomArtifacts(rootComponents);
+                                return pomResolver.effectivePoms(resolvedPomArtifacts);
+                              }));
+
                   t.getMavenRepositories()
                       .set(
                           project.provider(

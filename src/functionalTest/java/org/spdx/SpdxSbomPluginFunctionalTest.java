@@ -28,6 +28,7 @@ import org.gradle.testkit.runner.GradleRunner;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.api.io.TempDir;
 import org.spdx.tools.SpdxToolsHelper.SerFileType;
 import org.spdx.tools.SpdxVerificationException;
@@ -226,6 +227,116 @@ class SpdxSbomPluginFunctionalTest {
     // Verify the result
     assertTrue(Files.isRegularFile(outputFile));
     assertTrue(Files.isRegularFile(outputFile2));
+  }
+
+  @SuppressWarnings("ResultOfMethodCallIgnored")
+  @EnabledIfEnvironmentVariable(named = "CI", matches = "true")
+  @Test
+  public void canResolveVariantDependencies() throws IOException {
+    File app = new File(projectDir, "app");
+    app.mkdir();
+    File appKotlinBuildFile = new File(app, "build.gradle.kts");
+
+    File library = new File(projectDir, "library");
+    library.mkdir();
+    File libraryKotlinBuildFile = new File(library, "build.gradle.kts");
+
+    writeString(
+        getKotlinSettingsFile(),
+        "pluginManagement {\n"
+            + "  repositories {\n"
+            + "    google()\n"
+            + "    mavenCentral()\n"
+            + "  }\n"
+            + "}\n"
+            + "rootProject.name = \"spdx-functional-test-project\"\n"
+            + "include(\":app\")\n"
+            + "include(\":library\")");
+
+    writeString(
+        appKotlinBuildFile,
+        "plugins {\n"
+            + " kotlin(\"android\") version \"1.9.21\"\n"
+            + "  id(\"org.spdx.sbom\")\n"
+            + "  id(\"com.android.application\") version \"8.1.4\"\n"
+            + "}\n"
+            + "repositories {\n"
+            + "  google()\n"
+            + "  mavenCentral()\n"
+            + "}\n"
+            + "version = \"1\"\n"
+            + "android {\n"
+            + "  namespace=\"org.spdx.app\"\n"
+            + "  compileSdk = 34\n"
+            + "  defaultConfig {\n"
+            + "    targetSdk = 24\n"
+            + "    minSdk = 24\n"
+            + "    applicationId = \"org.spdx.sbom.app\"\n"
+            + "    versionCode = 1\n"
+            + "    versionName = \"1.0.0\"\n"
+            + "  }\n"
+            + "  buildTypes {\n"
+            + "    named(\"release\") {\n"
+            + "      isMinifyEnabled = true\n"
+            + "      isShrinkResources = true\n"
+            + "    }\n"
+            + "    named(\"debug\") {\n"
+            + "      applicationIdSuffix = \".debug\"\n"
+            + "      versionNameSuffix = \"-DEBUG\"\n"
+            + "      isMinifyEnabled = false\n"
+            + "    }\n"
+            + "  }\n"
+            + "  dependencies {\n"
+            + "    implementation(project(\":library\"))\n"
+            + "    implementation(\"dev.sigstore:sigstore-java:0.3.0\")\n"
+            + "  }\n"
+            + "}\n"
+            + "spdxSbom {\n"
+            + "  targets {\n"
+            + "    create(\"sbom\") {\n"
+            + "      configurations.set(listOf(\"debugRuntimeClasspath\"))\n"
+            + "    }\n"
+            + "  }\n"
+            + "}\n");
+
+    writeString(
+        libraryKotlinBuildFile,
+        "plugins {\n"
+            + " kotlin(\"android\") version \"1.9.21\"\n"
+            + "  id(\"com.android.library\") version \"8.1.4\"\n"
+            + "}\n"
+            + "repositories {\n"
+            + "  google()\n"
+            + "  mavenCentral()\n"
+            + "}\n"
+            + "android {\n"
+            + "  namespace=\"org.spdx.library\"\n"
+            + "  compileSdk = 34\n"
+            + "  defaultConfig {\n"
+            + "    minSdk = 24\n"
+            + "  }\n"
+            + "  buildTypes {\n"
+            + "    named(\"release\") {\n"
+            + "      isMinifyEnabled = false\n"
+            + "    }\n"
+            + "    named(\"debug\") {\n"
+            + "      isMinifyEnabled = false\n"
+            + "    }\n"
+            + "  }\n"
+            + "  dependencies {\n"
+            + "    implementation(\"dev.sigstore:sigstore-java:0.3.0\")\n"
+            + "  }\n"
+            + "}\n");
+
+    GradleRunner runner = GradleRunner.create();
+    runner.forwardOutput();
+    runner.withPluginClasspath();
+    runner.withDebug(true);
+    runner.withArguments(":app:spdxSbom", "--stacktrace");
+    runner.withProjectDir(projectDir);
+    var result = runner.build();
+
+    assertTrue(result.getOutput().contains("BUILD SUCCESSFUL"));
   }
 
   @Test
