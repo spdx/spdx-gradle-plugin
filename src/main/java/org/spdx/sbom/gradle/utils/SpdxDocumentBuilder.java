@@ -82,7 +82,7 @@ public class SpdxDocumentBuilder {
 
   private final HashMap<ComponentIdentifier, LinkedHashSet<ComponentIdentifier>> tree =
       new LinkedHashMap<>();
-  private final Map<ComponentIdentifier, File> resolvedArtifacts;
+  private final Map<ComponentIdentifier, File> resolvedExternalArtifacts;
   private final Map<String, URI> mavenArtifactRepositories;
   private final Map<String, PomInfo> poms;
   private final Logger logger;
@@ -104,7 +104,7 @@ public class SpdxDocumentBuilder {
       Set<ProjectInfo> allProjects,
       Logger logger,
       IModelStore modelStore,
-      Map<ComponentArtifactIdentifier, File> resolvedArtifacts,
+      Map<ComponentArtifactIdentifier, File> resolvedExternalArtifacts,
       Map<String, URI> mavenArtifactRepositories,
       Map<String, PomInfo> poms,
       SpdxSbomTaskExtension spdxSbomTaskExtension,
@@ -159,8 +159,10 @@ public class SpdxDocumentBuilder {
         allProjects.stream().collect(Collectors.toMap(ProjectInfo::getPath, Function.identity()));
     this.describesProject = knownProjects.get(projectPath);
 
-    this.resolvedArtifacts =
-        resolvedArtifacts.entrySet().stream()
+    this.resolvedExternalArtifacts =
+        resolvedExternalArtifacts.entrySet().stream()
+            .filter(
+                e -> !(e.getKey().getComponentIdentifier() instanceof ProjectComponentIdentifier))
             .collect(
                 Collectors.toMap(
                     e -> e.getKey().getComponentIdentifier(),
@@ -312,7 +314,7 @@ public class SpdxDocumentBuilder {
       throws InvalidSPDXAnalysisException, IOException {
 
     // if the project doesn't resolve to anything, ignore it
-    File dependencyFile = resolvedArtifacts.get(resolvedComponentResult.getId());
+    File dependencyFile = resolvedExternalArtifacts.get(resolvedComponentResult.getId());
     if (dependencyFile != null) {
       ModuleVersionIdentifier moduleId = resolvedComponentResult.getModuleVersion();
       PomInfo pomInfo = poms.get(resolvedComponentResult.getId().getDisplayName());
