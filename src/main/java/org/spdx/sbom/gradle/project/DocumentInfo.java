@@ -32,7 +32,7 @@ public interface DocumentInfo {
 
   Optional<UberPackageInfo> getUberPackageInfo();
 
-  Optional<String> getPackageSupplier();
+  Optional<String> getSupplier();
 
   @Immutable
   @Serial.Version(1)
@@ -51,7 +51,7 @@ public interface DocumentInfo {
             .name(document.getName().get())
             .namespace(document.getNamespace().get())
             .creator(Optional.ofNullable(document.getCreator().getOrNull()))
-            .packageSupplier(Optional.ofNullable(document.getPackageSupplier().getOrNull()));
+            .supplier(Optional.ofNullable(document.getPackageSupplier().getOrNull()));
     var uberPackage = target.getDocument().getUberPackage();
     if (!uberPackage.getName().isPresent()
         && !uberPackage.getSupplier().isPresent()

@@ -282,7 +282,7 @@ public class SpdxDocumentBuilder {
               + " has no specified version");
       version = "NOASSERTION";
     }
-    var supplier = documentInfo.getPackageSupplier().orElse("NOASSERTION");
+    var supplier = documentInfo.getSupplier().orElse("NOASSERTION");
     if (supplier.equals("NOASSERTION")) {
       logger.warn("supplier not set for project " + pi.getName());
     }
