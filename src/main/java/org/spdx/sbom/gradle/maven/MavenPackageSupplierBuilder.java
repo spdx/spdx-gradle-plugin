@@ -25,7 +25,8 @@ public class MavenPackageSupplierBuilder {
     var organizationName =
         pomInfo
             .getOrganization()
-            .flatMap(o -> Optional.ofNullable(o.getName()))
+            .map(o -> o.getName().trim())
+            .flatMap(o -> Optional.ofNullable(o.isEmpty() ? null : o))
             .map(n -> "Organization: " + n);
 
     // if all the developers have the same organization, use it as the supplier

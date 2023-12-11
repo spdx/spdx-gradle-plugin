@@ -41,10 +41,68 @@ public class MavenPackageSupplierBuilderTest {
   }
 
   @Test
+  void useTheDevelopersOrganizationIfPresentAndAllDeveloperOrganizationsHaveTheSameName() {
+    PomInfo pomInfo =
+        ImmutablePomInfo.builder()
+            .homepage(URI.create("https://example.com"))
+            .addDevelopers(
+                ImmutableDeveloperInfo.builder()
+                    .name("Eli Graber")
+                    .organization("Foo Corp")
+                    .build())
+            .addDevelopers(
+                ImmutableDeveloperInfo.builder()
+                    .name("Graber Eli")
+                    .organization("Foo Corp")
+                    .build())
+            .build();
+
+    Assertions.assertEquals(
+        "Organization: Foo Corp", MavenPackageSupplierBuilder.buildPackageSupplier(pomInfo));
+  }
+
+  @Test
+  void useTheDevelopersNameIfPresentAndNotAllDeveloperOrganizationsHaveTheSameName() {
+    PomInfo pomInfo =
+        ImmutablePomInfo.builder()
+            .homepage(URI.create("https://example.com"))
+            .addDevelopers(
+                ImmutableDeveloperInfo.builder()
+                    .name("Eli Graber")
+                    .organization("Foo Corp")
+                    .build())
+            .addDevelopers(
+                ImmutableDeveloperInfo.builder()
+                    .name("Graber Eli")
+                    .organization("Corp Foo")
+                    .build())
+            .build();
+
+    Assertions.assertEquals(
+        "Person: Eli Graber", MavenPackageSupplierBuilder.buildPackageSupplier(pomInfo));
+  }
+
+  @Test
   void useTheDevelopersNameIfPresent() {
     PomInfo pomInfo =
         ImmutablePomInfo.builder()
             .homepage(URI.create("https://example.com"))
+            .addDevelopers(ImmutableDeveloperInfo.builder().name("Eli Graber").build())
+            .build();
+
+    Assertions.assertEquals(
+        "Person: Eli Graber", MavenPackageSupplierBuilder.buildPackageSupplier(pomInfo));
+  }
+
+  @Test
+  void useTheDevelopersNameIfPresentAndOrganizationNameIsEmpty() {
+    var emptyNameOrganization = new Organization();
+    emptyNameOrganization.setName(" ");
+
+    PomInfo pomInfo =
+        ImmutablePomInfo.builder()
+            .homepage(URI.create("https://example.com"))
+            .organization(emptyNameOrganization)
             .addDevelopers(ImmutableDeveloperInfo.builder().name("Eli Graber").build())
             .build();
 
