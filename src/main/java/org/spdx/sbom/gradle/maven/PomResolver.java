@@ -162,8 +162,8 @@ public class PomResolver {
                       .map(
                           l ->
                               ImmutableLicenseInfo.builder()
-                                  .name(Optional.ofNullable(l.getName()).orElse("NOASSERTION"))
-                                  .url(Optional.ofNullable(l.getUrl()).orElse("NOASSERTION"))
+                                  .name(OptionalOfNonEmpty(l.getName()).orElse("NOASSERTION"))
+                                  .url(OptionalOfNonEmpty(l.getUrl()).orElse("NOASSERTION"))
                                   .build())
                       .collect(Collectors.toList()))
               .homepage(extractHomepage(model, ra.getId().getComponentIdentifier()))
@@ -173,14 +173,25 @@ public class PomResolver {
                       .map(
                           d ->
                               ImmutableDeveloperInfo.builder()
-                                  .name(Optional.ofNullable(d.getName()))
-                                  .email(Optional.ofNullable(d.getEmail()))
-                                  .organization(Optional.ofNullable(d.getOrganization()))
+                                  .name(OptionalOfNonEmpty(d.getName()))
+                                  .email(OptionalOfNonEmpty(d.getEmail()))
+                                  .organization(OptionalOfNonEmpty(d.getOrganization()))
                                   .build())
                       .collect(Collectors.toList()))
               .build());
     }
     return effectivePoms;
+  }
+
+  private Optional<String> OptionalOfNonEmpty(String s) {
+    if (s == null) return Optional.empty();
+
+    String trimmed = s.trim();
+    if (trimmed.isEmpty()) {
+      return Optional.empty();
+    } else {
+      return Optional.of(s);
+    }
   }
 
   private Model resolveEffectivePom(File pomFile) {
