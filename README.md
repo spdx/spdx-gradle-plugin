@@ -34,7 +34,7 @@ Apply and configure the plugin
 plugins {
   `java`
   ...
-  id("org.spdx.sbom") version "0.4.0"
+  id("org.spdx.sbom") version "0.5.0"
 }
 ...
 // there is no default build, you *must* specify a target
@@ -85,7 +85,7 @@ spdxSbom {
         name.set("my spdx document")
         namespace.set("https://my.org/spdx/<some UUID>")
         creator.set("Person:Goose Loosebazooka")
-        packageSupplier.set("Organization:loosebazooka industries")
+        supplier.set("Organization:loosebazooka industries")
 
         // add an uber package on the document between the document and the
         // root module of the project being analyzed, you probably don't need this
