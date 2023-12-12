@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import org.gradle.api.Project;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value.Immutable;
+import org.spdx.sbom.gradle.internal.AndroidVersionLoader;
 
 @Immutable
 @Serial.Version(1)
@@ -42,11 +43,24 @@ public interface ProjectInfo {
     return ImmutableProjectInfo.builder()
         .name(project.getName())
         .description(Optional.ofNullable(project.getDescription()))
-        .version(project.getVersion().toString())
+        .version(version(project))
         .projectDirectory(project.getProjectDir())
         .path(project.getPath())
         .group(project.getGroup().toString())
         .build();
+  }
+
+  static String version(Project project) {
+    String version = project.getVersion().toString();
+
+    if (project.getPlugins().hasPlugin("com.android.application")) {
+      String androidVersion = new AndroidVersionLoader().getApplicationVersion(project);
+      if (androidVersion != null) {
+        version = androidVersion;
+      }
+    }
+
+    return version;
   }
 
   static Set<ProjectInfo> from(Set<Project> projects) {

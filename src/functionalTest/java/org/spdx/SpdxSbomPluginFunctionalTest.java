@@ -24,6 +24,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.stream.Collectors;
 import org.gradle.testkit.runner.GradleRunner;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -232,7 +233,7 @@ class SpdxSbomPluginFunctionalTest {
   @SuppressWarnings("ResultOfMethodCallIgnored")
   @EnabledIfEnvironmentVariable(named = "CI", matches = "true")
   @Test
-  public void canResolveVariantDependencies() throws IOException {
+  public void canResolveVariantDependencies() throws IOException, SpdxVerificationException {
     File app = new File(projectDir, "app");
     app.mkdir();
     File appKotlinBuildFile = new File(app, "build.gradle.kts");
@@ -258,7 +259,7 @@ class SpdxSbomPluginFunctionalTest {
         "plugins {\n"
             + " kotlin(\"android\") version \"1.9.21\"\n"
             + "  id(\"org.spdx.sbom\")\n"
-            + "  id(\"com.android.application\") version \"8.1.4\"\n"
+            + "  id(\"com.android.application\") version \"8.2.0\"\n"
             + "}\n"
             + "repositories {\n"
             + "  google()\n"
@@ -303,7 +304,7 @@ class SpdxSbomPluginFunctionalTest {
         libraryKotlinBuildFile,
         "plugins {\n"
             + " kotlin(\"android\") version \"1.9.21\"\n"
-            + "  id(\"com.android.library\") version \"8.1.4\"\n"
+            + "  id(\"com.android.library\") version \"8.2.0\"\n"
             + "}\n"
             + "repositories {\n"
             + "  google()\n"
@@ -337,6 +338,20 @@ class SpdxSbomPluginFunctionalTest {
     var result = runner.build();
 
     assertTrue(result.getOutput().contains("BUILD SUCCESSFUL"));
+
+    Path outputFile = projectDir.toPath().resolve(Paths.get("app/build/spdx/sbom.spdx.json"));
+    Verify.verify(outputFile.toFile().getAbsolutePath(), SerFileType.JSON);
+
+    // Verify the result
+    assertTrue(Files.isRegularFile(outputFile));
+    var sbom = Files.readAllLines(outputFile);
+    var actualVersion =
+        sbom.stream()
+            .filter(line -> line.contains("\"versionInfo\" : \"1.0.0\""))
+            .collect(Collectors.joining());
+    MatcherAssert.assertThat(
+        "versionInfo is not correct (expected 1.0.0 but was " + actualVersion + ")",
+        sbom.stream().filter(line -> line.contains("\"versionInfo\" : \"1.0.0\"")).count() == 1);
   }
 
   @Test
