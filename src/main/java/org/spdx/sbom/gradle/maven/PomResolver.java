@@ -18,12 +18,13 @@ package org.spdx.sbom.gradle.maven;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.building.DefaultModelBuilder;
@@ -150,7 +151,7 @@ public class PomResolver {
   }
 
   public Map<String, PomInfo> effectivePoms(List<ResolvedArtifactResult> resolvedPomArtifacts) {
-    Map<String, PomInfo> effectivePoms = new HashMap<>();
+    Map<String, PomInfo> effectivePoms = new TreeMap<>();
     for (var ra : resolvedPomArtifacts) {
       var pomFile = ra.getFile();
       Model model = resolveEffectivePom(pomFile);
@@ -180,7 +181,7 @@ public class PomResolver {
                       .collect(Collectors.toList()))
               .build());
     }
-    return effectivePoms;
+    return new LinkedHashMap<>(effectivePoms);
   }
 
   private Optional<String> OptionalOfNonEmpty(String s) {
