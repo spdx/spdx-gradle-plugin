@@ -29,6 +29,8 @@ import org.spdx.sbom.gradle.internal.AndroidVersionLoader;
 public interface ProjectInfo {
   String getName();
 
+  String getRootName();
+
   Optional<String> getDescription();
 
   String getVersion();
@@ -42,6 +44,7 @@ public interface ProjectInfo {
   static ProjectInfo from(Project project) {
     return ImmutableProjectInfo.builder()
         .name(project.getName())
+        .rootName(project.getRootProject().getName())
         .description(Optional.ofNullable(project.getDescription()))
         .version(version(project))
         .projectDirectory(project.getProjectDir())
