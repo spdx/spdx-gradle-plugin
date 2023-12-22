@@ -17,7 +17,7 @@ dependencies {
     compileOnly("org.immutables:value-annotations:2.10.0")
     annotationProcessor("org.immutables:value:2.10.0")
 
-    implementation("org.spdx:java-spdx-library:1.1.8")
+    implementation("org.spdx:java-spdx-library:1.1.10")
     implementation("org.spdx:spdx-jackson-store:1.1.9")
     implementation("org.apache.maven:maven-model-builder:3.9.6")
     implementation("org.apache.maven:maven-model:3.9.6")
