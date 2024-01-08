@@ -25,7 +25,7 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
     testImplementation("org.hamcrest:hamcrest-library:2.2")
-    testImplementation("org.spdx:tools-java:1.1.7")
+    testImplementation("org.spdx:tools-java:1.1.8")
 }
 
 gradlePlugin {
