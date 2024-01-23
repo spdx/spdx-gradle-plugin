@@ -199,8 +199,7 @@ public class PomResolver {
     ModelBuildingRequest request = new DefaultModelBuildingRequest();
     request.setPomFile(pomFile);
     request.setModelResolver(gradleMavenResolver);
-    // projects appears to read system properties in their pom(?), I dunno why
-    request.getSystemProperties().putAll(System.getProperties());
+    request.getSystemProperties().putAll(PropertiesForPom.instance().get());
     request.setValidationLevel(ModelBuildingRequest.VALIDATION_LEVEL_MINIMAL);
 
     DefaultModelBuilder builder = defaultModelBuilderFactory.newInstance();
