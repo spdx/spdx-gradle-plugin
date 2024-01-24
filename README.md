@@ -34,7 +34,7 @@ Apply and configure the plugin
 plugins {
   `java`
   ...
-  id("org.spdx.sbom") version "0.5.0"
+  id("org.spdx.sbom") version "0.6.0"
 }
 ...
 // there is no default build, you *must* specify a target
