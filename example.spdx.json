@@ -2,7 +2,7 @@
   "SPDXID" : "SPDXRef-DOCUMENT",
   "spdxVersion" : "SPDX-2.3",
   "creationInfo" : {
-    "created" : "2023-04-24T23:47:19Z",
+    "created" : "2024-02-07T17:40:39Z",
     "creators" : [ "Tool: spdx-gradle-plugin" ]
   },
   "name" : "spdx-gradle-plugin",
@@ -22,41 +22,138 @@
     "extractedText" : "Public Domain",
     "name" : "Public Domain",
     "seeAlsos" : [ "http://github.com/stleary/JSON-java/blob/master/LICENSE" ]
-  }, {
-    "licenseId" : "LicenseRef-gnrtd3",
-    "extractedText" : "CDDL + GPLv2 with classpath exception",
-    "name" : "CDDL + GPLv2 with classpath exception",
-    "seeAlsos" : [ "http://glassfish.dev.java.net/nonav/public/CDDL+GPL.html" ]
-  }, {
-    "licenseId" : "LicenseRef-gnrtd4",
-    "extractedText" : "Public Domain",
-    "name" : "Public Domain",
-    "seeAlsos" : [ "NOASSERTION" ]
   } ],
-  "documentDescribes" : [ "SPDXRef-gnrtd0" ],
   "documentNamespace" : "https://example.com/UUID",
   "packages" : [ {
-    "SPDXID" : "SPDXRef-gnrtd8",
+    "SPDXID" : "SPDXRef-gnrtd0",
+    "copyrightText" : "NOASSERTION",
+    "description" : "A gradle plugin generating spdx sboms",
+    "downloadLocation" : "NOASSERTION",
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "NOASSERTION",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "spdx-gradle-plugin",
+    "sourceInfo" : "git+<no-scm-uri>@<no-scm-revision>#spdx-gradle-plugin[:]",
+    "supplier" : "NOASSERTION",
+    "versionInfo" : "0.7.0"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd1",
     "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "d3999291855de495c94c743761b8ab5176cfeabe281a5ab0d8e8d45326fd703e"
-    }, {
       "algorithm" : "SHA1",
-      "checksumValue" : "8a432c1d6825781e21a02db2e2c33c5fde2833b9"
+      "checksumValue" : "0dc9e7af93007c88b98388209d231be2f838cb45"
+    }, {
+      "algorithm" : "SHA256",
+      "checksumValue" : "ef116816a4d221933d34d9f113fd47f6780bca2b0c826545081d742f4e7178fb"
     } ],
     "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.8.9/gson-2.8.9.jar",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/spdx/java-spdx-library/1.1.10/java-spdx-library-1.1.10.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/com.google.code.gson/gson@2.8.9",
+      "referenceLocator" : "pkg:maven/org.spdx/java-spdx-library@1.1.10?repository_url=repo.maven.apache.org%2Fmaven2",
       "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
-    "name" : "com.google.code.gson:gson:2.8.9"
+    "licenseInfoFromFiles" : [ ],
+    "name" : "org.spdx:java-spdx-library:1.1.10",
+    "supplier" : "Organization: SPDX",
+    "versionInfo" : "1.1.10"
   }, {
-    "SPDXID" : "SPDXRef-gnrtd9",
+    "SPDXID" : "SPDXRef-gnrtd2",
+    "checksums" : [ {
+      "algorithm" : "SHA256",
+      "checksumValue" : "5d6298b93a1905c32cda6478808ac14c2d4a47e91535e53c41f7feeb85d946f4"
+    }, {
+      "algorithm" : "SHA1",
+      "checksumValue" : "41eb7184ea9d556f23e18b5cb99cad1f8581fc00"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/slf4j/slf4j-api/2.0.7/slf4j-api-2.0.7.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/org.slf4j/slf4j-api@2.0.7?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "MIT",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "org.slf4j:slf4j-api:2.0.7",
+    "supplier" : "Organization: QOS.ch",
+    "versionInfo" : "2.0.7"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd3",
+    "checksums" : [ {
+      "algorithm" : "SHA1",
+      "checksumValue" : "c6842c86792ff03b9f1d1fe2aab8dc23aa6c6f0e"
+    }, {
+      "algorithm" : "SHA256",
+      "checksumValue" : "d919d904486c037f8d193412da0c92e22a9fa24230b9d67a57855c5c31c7e94e"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/org.apache.commons/commons-lang3@3.12.0?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "org.apache.commons:commons-lang3:3.12.0",
+    "supplier" : "Organization: The Apache Software Foundation",
+    "versionInfo" : "3.12.0"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd4",
+    "checksums" : [ {
+      "algorithm" : "SHA256",
+      "checksumValue" : "e20a5e78b1372f2a4e620832db4442d5077e5cbde280b24c666a3770844999bc"
+    }, {
+      "algorithm" : "SHA1",
+      "checksumValue" : "f6e1d8a8819f854b681c8eaa57fd59a42329e10c"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/jsoup/jsoup/1.15.3/jsoup-1.15.3.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/org.jsoup/jsoup@1.15.3?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "LicenseRef-gnrtd0",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "org.jsoup:jsoup:1.15.3",
+    "supplier" : "Organization: Jonathan Hedley",
+    "versionInfo" : "1.15.3"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd5",
+    "checksums" : [ {
+      "algorithm" : "SHA1",
+      "checksumValue" : "8a432c1d6825781e21a02db2e2c33c5fde2833b9"
+    }, {
+      "algorithm" : "SHA256",
+      "checksumValue" : "d3999291855de495c94c743761b8ab5176cfeabe281a5ab0d8e8d45326fd703e"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.8.9/gson-2.8.9.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/com.google.code.gson/gson@2.8.9?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "com.google.code.gson:gson:2.8.9",
+    "supplier" : "Organization: NOASSERTION",
+    "versionInfo" : "2.8.9"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd6",
     "checksums" : [ {
       "algorithm" : "SHA256",
       "checksumValue" : "766ad2a0783f2687962c8ad74ceecc38a28b9f72a2d085ee438b7813e928d0c7"
@@ -68,1047 +165,133 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/com.google.code.findbugs/jsr305@3.0.2",
+      "referenceLocator" : "pkg:maven/com.google.code.findbugs/jsr305@3.0.2?repository_url=repo.maven.apache.org%2Fmaven2",
       "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
-    "name" : "com.google.code.findbugs:jsr305:3.0.2"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd0",
-    "copyrightText" : "NOASSERTION",
-    "description" : "A gradle plugin generating spdx sboms",
-    "downloadLocation" : "NOASSERTION",
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "NOASSERTION",
     "licenseInfoFromFiles" : [ ],
-    "name" : "spdx-gradle-plugin",
-    "sourceInfo" : "git+<no-scm-uri>@<no-scm-revision>#spdx-gradle-plugin[:]",
-    "versionInfo" : "0.1.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd1",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "1711c4b3fe9a9f24050ed60cfc166765959b19e3c0ea749558a09f6cbd474e16"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "7faeff17335dfa6b81f6dae9f8fbd6153d1491ae"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/spdx/java-spdx-library/1.1.5/java-spdx-library-1.1.5.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.spdx/java-spdx-library@1.1.5",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.spdx:java-spdx-library:1.1.5"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd2",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "218f58c72d849eff33f058ba994cc3f0543c1886b74721d584fbf12574d0fd26"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "12ac9a08c4115746d8f52f9b01d32c25d9a41add"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/logging/log4j/log4j-slf4j18-impl/2.18.0/log4j-slf4j18-impl-2.18.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.logging.log4j/log4j-slf4j18-impl@2.18.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.logging.log4j:log4j-slf4j18-impl:2.18.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd3",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "602b712329c84b4a83c40464f4fdfd0fe4238c53ef397139a867064739dbf4e0"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "83b0359d847ee053d745be7ec0d8e9e8a44304b4"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/slf4j/slf4j-api/1.8.0-beta4/slf4j-api-1.8.0-beta4.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.slf4j/slf4j-api@1.8.0-beta4",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "MIT",
-    "name" : "org.slf4j:slf4j-api:1.8.0-beta4"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd4",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "b977057233153b242ac58cc5b7d3121136b9c34c86c1e191c042ba4a828144c5"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "c72ad9b1d8d42e4ea7befd8248bf05877af4c63d"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/logging/log4j/log4j-api/2.18.0/log4j-api-2.18.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.logging.log4j/log4j-api@2.18.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.logging.log4j:log4j-api:2.18.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd5",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "ec7a23bfaf4d8ddf3394671561dd4a0f35b69d6fa6918734e3e8bc4066f741c4"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "07c1882ede137548925eadb750615edab2f6e13c"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/logging/log4j/log4j-core/2.18.0/log4j-core-2.18.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.logging.log4j/log4j-core@2.18.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.logging.log4j:log4j-core:2.18.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd6",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "d919d904486c037f8d193412da0c92e22a9fa24230b9d67a57855c5c31c7e94e"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "c6842c86792ff03b9f1d1fe2aab8dc23aa6c6f0e"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.commons/commons-lang3@3.12.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.commons:commons-lang3:3.12.0"
+    "name" : "com.google.code.findbugs:jsr305:3.0.2",
+    "supplier" : "Organization: NOASSERTION",
+    "versionInfo" : "3.0.2"
   }, {
     "SPDXID" : "SPDXRef-gnrtd7",
     "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "f6e1d8a8819f854b681c8eaa57fd59a42329e10c"
-    }, {
       "algorithm" : "SHA256",
-      "checksumValue" : "e20a5e78b1372f2a4e620832db4442d5077e5cbde280b24c666a3770844999bc"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/jsoup/jsoup/1.15.3/jsoup-1.15.3.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.jsoup/jsoup@1.15.3",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "LicenseRef-gnrtd0",
-    "name" : "org.jsoup:jsoup:1.15.3"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd20",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "9ed26791dc2d8629fdf8a207f1aebadcb50d641be637664310ef51c0f73e269b"
+      "checksumValue" : "00b8e125df6008b5b631834678965f1b7e3ab461f0d3d0420a949310d1aea953"
     }, {
       "algorithm" : "SHA1",
-      "checksumValue" : "7a0d4aca76513d8ce81f9b044ce8126b84809ad8"
+      "checksumValue" : "d6dac173cd23c8b2be15bfd03bb7de7748dfcfc0"
     } ],
     "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/json/json/20230227/json-20230227.jar",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/spdx/spdx-jackson-store/1.1.9.1/spdx-jackson-store-1.1.9.1.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.json/json@20230227",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "LicenseRef-gnrtd2",
-    "name" : "org.json:json:20230227"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd21",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "bf5cb60213af5b9d9fda0121adff9275fd90b20bcd3fd34db2ac18b89f36887b"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "23693fcd7456be6c8235e0cf86cd41db7a7b2cdd"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-core/3.9.0/maven-core-3.9.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.maven/maven-core@3.9.0",
+      "referenceLocator" : "pkg:maven/org.spdx/spdx-jackson-store@1.1.9.1?repository_url=repo.maven.apache.org%2Fmaven2",
       "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.maven:maven-core:3.9.0"
+    "licenseInfoFromFiles" : [ ],
+    "name" : "org.spdx:spdx-jackson-store:1.1.9.1",
+    "supplier" : "Organization: SPDX",
+    "versionInfo" : "1.1.9.1"
   }, {
-    "SPDXID" : "SPDXRef-gnrtd24",
+    "SPDXID" : "SPDXRef-gnrtd8",
     "checksums" : [ {
       "algorithm" : "SHA1",
-      "checksumValue" : "16ab0d2021005ef88099299d00fbeeb119602efb"
+      "checksumValue" : "3a6b7f8ff7b30d518bbd65678e9c30cd881f19a7"
     }, {
       "algorithm" : "SHA256",
-      "checksumValue" : "3274a52234d864a9c70e71fb3043ecfc1b7f684e0c9b480a81de7de49861884f"
+      "checksumValue" : "8aaf1753823be70b798290e5826ab5bfe015d35b3a36a5d3c2ec9f57d4b0138b"
     } ],
     "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-settings/3.9.0/maven-settings-3.9.0.jar",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.16.0/jackson-databind-2.16.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.maven/maven-settings@3.9.0",
+      "referenceLocator" : "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.16.0?repository_url=repo.maven.apache.org%2Fmaven2",
       "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.maven:maven-settings:3.9.0"
+    "licenseInfoFromFiles" : [ ],
+    "name" : "com.fasterxml.jackson.core:jackson-databind:2.16.0",
+    "supplier" : "Organization: FasterXML",
+    "versionInfo" : "2.16.0"
   }, {
-    "SPDXID" : "SPDXRef-gnrtd25",
+    "SPDXID" : "SPDXRef-gnrtd9",
     "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "07792ffb73c8736e679b74978088034af3eeab6ce0d220ee104bd10abc4b9952"
-    }, {
       "algorithm" : "SHA1",
-      "checksumValue" : "88478895a4912e61c2644023261431b721b71e1c"
+      "checksumValue" : "dc30995f7428c0a405eba9b8c619b20d2b3b9905"
+    }, {
+      "algorithm" : "SHA256",
+      "checksumValue" : "c4b90ea0c0074da17efdc3aa23973525f25d6f34725692169748f529547334a6"
     } ],
     "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-settings-builder/3.9.0/maven-settings-builder-3.9.0.jar",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.16.0/jackson-annotations-2.16.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.maven/maven-settings-builder@3.9.0",
+      "referenceLocator" : "pkg:maven/com.fasterxml.jackson.core/jackson-annotations@2.16.0?repository_url=repo.maven.apache.org%2Fmaven2",
       "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.maven:maven-settings-builder:3.9.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd22",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "83ffee8fb7c986acfd3e14ad869a6f3c4c0c25a5"
-    }, {
-      "algorithm" : "SHA256",
-      "checksumValue" : "8dd41e5f0a5c97194594d589a0005ae1c6cd827163da396c9fcd1cdcf189c6b1"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-model/3.9.0/maven-model-3.9.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.maven/maven-model@3.9.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.maven:maven-model:3.9.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd23",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "f957f13604ea1686de805801862f339dbbb6eab9a66f9cc7e4a5c5b27e4fcecc"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "82445e007f9009ac5ba6ae5d6b6898c4ce54dcf6"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-utils/3.4.2/plexus-utils-3.4.2.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.codehaus.plexus/plexus-utils@3.4.2",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.codehaus.plexus:plexus-utils:3.4.2"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd28",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "b3b5412ce17889103ea564bcdfcf9fb3dfa540344ffeac6b538a73c9d7182662"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "25b919c664b79795ccde0ede5cee0fd68b544197"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-interpolation/1.26/plexus-interpolation-1.26.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.codehaus.plexus/plexus-interpolation@1.26",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.codehaus.plexus:plexus-interpolation:1.26"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd29",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "873139960c4c780176dda580b003a2c4bf82188bdce5bb99234e224ef7acfceb"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "f89c5080614ffd0764e49861895dbedde1b47237"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-sec-dispatcher/2.0/plexus-sec-dispatcher-2.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.codehaus.plexus/plexus-sec-dispatcher@2.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.codehaus.plexus:plexus-sec-dispatcher:2.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd26",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "3050190ebcfc7cd9c22230946c1be43bdef6629dc61a87351f937f443d2dccb6"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "b04431d0bc7c0b71efa4f6307d70dfaa865c804c"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-builder-support/3.9.0/maven-builder-support-3.9.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.maven/maven-builder-support@3.9.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.maven:maven-builder-support:3.9.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd27",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "91c77044a50c481636c32d916fd89c9118a72195390452c81065080f957de7ff"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "6975da39a7040257bd51d21a231b76c915872d38"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/javax/inject/javax.inject/1/javax.inject-1.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/javax.inject/javax.inject@1",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "javax.inject:javax.inject:1"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd31",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "c66eab1a2d9bc9548d0b0c84253af53d723e7d18e64fbe0d984b2aae2c6830ad"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "1f6441ae5ba4f4426802e93fb37795cafdbf3230"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-repository-metadata/3.9.0/maven-repository-metadata-3.9.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.maven/maven-repository-metadata@3.9.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.maven:maven-repository-metadata:3.9.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd32",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "6b9ccefae6a2c56bc296ab22adde7f67c6ad84d664cd8dcd6ecb8d615111c5cc"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "25be39b22d1ce6e2f8e07036d3580e506431b0d4"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-artifact/3.9.0/maven-artifact-3.9.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.maven/maven-artifact@3.9.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.maven:maven-artifact:3.9.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd30",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "425ea8e534716b4bff1ea90f39bd76be951d651b"
-    }, {
-      "algorithm" : "SHA256",
-      "checksumValue" : "9a7f1b5c5a9effd61eadfd8731452a2f76a8e79111fac391ef75ea801bea203a"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-cipher/2.0/plexus-cipher-2.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.codehaus.plexus/plexus-cipher@2.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.codehaus.plexus:plexus-cipher:2.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd35",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "479c1e06db31c432330183f5cae684163f186146"
-    }, {
-      "algorithm" : "SHA256",
-      "checksumValue" : "5909b396ca3a2be10d0eea32c74ef78d816e1b4ead21de1d78de1f890d033e04"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/javax/annotation/javax.annotation-api/1.2/javax.annotation-api-1.2.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/javax.annotation/javax.annotation-api@1.2",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "LicenseRef-gnrtd3",
-    "name" : "javax.annotation:javax.annotation-api:1.2"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd36",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "c5994010bcdce1d2bd603a4d50c47191ddbd7875d1157b23aaa26d33c82fda13"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "d4265dd4f0f1d7a06d80df5a5f475d5ff9c17140"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/eclipse/sisu/org.eclipse.sisu.inject/0.3.5/org.eclipse.sisu.inject-0.3.5.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.eclipse.sisu/org.eclipse.sisu.inject@0.3.5",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "EPL-1.0",
-    "name" : "org.eclipse.sisu:org.eclipse.sisu.inject:0.3.5"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd33",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "9a67d314d17cb9b94e951f6a3514f21b4aa77f614f719fa8a7bd2708c079ba79"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "b61f5020f1ef78ddf061fb119f70d23dd0e6efeb"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-plugin-api/3.9.0/maven-plugin-api-3.9.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.maven/maven-plugin-api@3.9.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.maven:maven-plugin-api:3.9.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd34",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "d71996bb2e536f966b3b70e647067fff3b73d32f"
-    }, {
-      "algorithm" : "SHA256",
-      "checksumValue" : "7e4c61096d70826f20f7a7d55c59a5528e7aa5ad247ee2dfe544e4dd25f6a784"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/eclipse/sisu/org.eclipse.sisu.plexus/0.3.5/org.eclipse.sisu.plexus-0.3.5.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.eclipse.sisu/org.eclipse.sisu.plexus@0.3.5",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "EPL-1.0",
-    "name" : "org.eclipse.sisu:org.eclipse.sisu.plexus:0.3.5"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd39",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "7e986e9bbdc356ae9156d79c2bf7b441a1e752ae54dccb46e0a5ec0656b8a70b"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "2e2ce2011395e20af5df89f8c6eec4f463f8e002"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-model-builder/3.9.0/maven-model-builder-3.9.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.maven/maven-model-builder@3.9.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.maven:maven-model-builder:3.9.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd37",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "2f2147a6cc6a119a1b51a96f31d45c557f6244b9"
-    }, {
-      "algorithm" : "SHA256",
-      "checksumValue" : "bde3617ce9b5bcf9584126046080043af6a4b3baea40a3b153f02e7bbc32acac"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-component-annotations/2.1.0/plexus-component-annotations-2.1.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.codehaus.plexus/plexus-component-annotations@2.1.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.codehaus.plexus:plexus-component-annotations:2.1.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd38",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "52f77c5ec49f787c9c417ebed5d6efd9922f44a202f217376e4f94c0d74f3549"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "8587e80fcb38e70b70fae8d5914b6376bfad6259"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-classworlds/2.6.0/plexus-classworlds-2.6.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.codehaus.plexus/plexus-classworlds@2.6.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.codehaus.plexus:plexus-classworlds:2.6.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd42",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "b8a6ec8ace311db57d098641cd56016d002bb8f8f44d1ff4cd2ca69d1d3497ac"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "9a73fd22d92e9ee80785920fd36efa0585f7818b"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-spi/1.9.4/maven-resolver-spi-1.9.4.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.maven.resolver/maven-resolver-spi@1.9.4",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.maven.resolver:maven-resolver-spi:1.9.4"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd43",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "aa2cf7d43e84e81a843f87b28541c93527f017ab8d424db86b68a5089cd2b8d8"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "d8e8476fffba77d4fc193b60cff03e414c78a580"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-util/1.9.4/maven-resolver-util-1.9.4.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.maven.resolver/maven-resolver-util@1.9.4",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.maven.resolver:maven-resolver-util:1.9.4"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd40",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "30ff35e3293c9991a14022294ca8556db74d3096"
-    }, {
-      "algorithm" : "SHA256",
-      "checksumValue" : "cc749f080cda08fbed715606c4f612223b461895fbbb5c61e178a58ba1d0120e"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-resolver-provider/3.9.0/maven-resolver-provider-3.9.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.maven/maven-resolver-provider@3.9.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.maven:maven-resolver-provider:3.9.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd41",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "7c51c97722da5abd1623d16f0224229c364a55ecac832833a54c23fe4b3569cd"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "e5d1d93ef97ccb74cd16e81ecf58e4c244439a40"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-api/1.9.4/maven-resolver-api-1.9.4.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.maven.resolver/maven-resolver-api@1.9.4",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.maven.resolver:maven-resolver-api:1.9.4"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd46",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "f87a61adb1e12a00dcc6cc6005a51e693aa7c4ac"
-    }, {
-      "algorithm" : "SHA256",
-      "checksumValue" : "7925d9c5a0e2040d24b8fae3f612eb399cbffe5838b33ba368777dc7bddf6dda"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/shared/maven-shared-utils/3.3.4/maven-shared-utils-3.3.4.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.maven.shared/maven-shared-utils@3.3.4",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.maven.shared:maven-shared-utils:3.3.4"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd47",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "4130e50bfac48099c860f0d903b91860c81a249c90f38245f8fed58fc817bc26"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "da25056c694c54ba16e78e4fc35f17fc60f0d1b4"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/inject/guice/5.1.0/guice-5.1.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/com.google.inject/guice@5.1.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.google.inject:guice:5.1.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd44",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "eae8ca453c0a9476e58b4622e0034388be80254a172997fe747d8baf285c0017"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "4b935e5b8e2928ccd4fda8d9ebb357158534571f"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-impl/1.9.4/maven-resolver-impl-1.9.4.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.maven.resolver/maven-resolver-impl@1.9.4",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.maven.resolver:maven-resolver-impl:1.9.4"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd45",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "5573f97e84d57f6cd41eba4caccd1ff1b62b649f73a80910a3f992a00fb95b1f"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "2ab6d851f225024e8379913450c0c57d30f7bdd5"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/resolver/maven-resolver-named-locks/1.9.4/maven-resolver-named-locks-1.9.4.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.apache.maven.resolver/maven-resolver-named-locks@1.9.4",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.apache.maven.resolver:maven-resolver-named-locks:1.9.4"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd48",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "0235ba8b489512805ac13a8f9ea77a1ca5ebe3e8"
-    }, {
-      "algorithm" : "SHA256",
-      "checksumValue" : "0addec670fedcd3f113c5c8091d783280d23f75e3acb841b61a9cdb079376a08"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/aopalliance/aopalliance/1.0/aopalliance-1.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/aopalliance/aopalliance@1.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "LicenseRef-gnrtd4",
-    "name" : "aopalliance:aopalliance:1.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd49",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "a42edc9cab792e39fe39bb94f3fca655ed157ff87a8af78e1d6ba5b07c4a00ab"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "60458f877d055d0c9114d9e1a2efb737b4bc282c"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/guava/guava/31.1-jre/guava-31.1-jre.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/com.google.guava/guava@31.1-jre",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.google.guava:guava:31.1-jre"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd50",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "a171ee4c734dd2da837e4b16be9df4661afab72a41adaf31eb84dfdaf936ca26"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "1dcf1de382a0bf95a3d8b0849546c88bac1292c9"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/com.google.guava/failureaccess@1.0.1",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.google.guava:failureaccess:1.0.1"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd53",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "721cb91842b46fa056847d104d5225c8b8e1e8b62263b993051e1e5a0137b7ec"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "c5a0ace696d3f8b1c1d8cc036d8c03cc0cbe6b69"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.11.0/error_prone_annotations-2.11.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/com.google.errorprone/error_prone_annotations@2.11.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.google.errorprone:error_prone_annotations:2.11.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd54",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "21af30c92267bd6122c0e0b4d20cccb6641a37eaf956c6540ec471d584e64a7b"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "ba035118bc8bac37d7eff77700720999acd9986d"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/j2objc/j2objc-annotations/1.3/j2objc-annotations-1.3.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/com.google.j2objc/j2objc-annotations@1.3",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.google.j2objc:j2objc-annotations:1.3"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd51",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "b421526c5f297295adef1c886e5246c39d4ac629"
-    }, {
-      "algorithm" : "SHA256",
-      "checksumValue" : "b372a037d4230aa57fbeffdef30fd6123f9c0c2db85d0aced00c91b974f33f99"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/com.google.guava/listenablefuture@9999.0-empty-to-avoid-conflict-with-guava",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd52",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "d5692f0526415fcc6de94bb5bfbd3afd9dd3b3e5"
-    }, {
-      "algorithm" : "SHA256",
-      "checksumValue" : "ff10785ac2a357ec5de9c293cb982a2cbb605c0309ea4cc1cb9b9bc6dbe7f3cb"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/checkerframework/checker-qual/3.12.0/checker-qual-3.12.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.checkerframework/checker-qual@3.12.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "MIT",
-    "name" : "org.checkerframework:checker-qual:3.12.0"
+    "licenseInfoFromFiles" : [ ],
+    "name" : "com.fasterxml.jackson.core:jackson-annotations:2.16.0",
+    "supplier" : "Organization: FasterXML",
+    "versionInfo" : "2.16.0"
   }, {
     "SPDXID" : "SPDXRef-gnrtd10",
     "checksums" : [ {
       "algorithm" : "SHA256",
-      "checksumValue" : "ce7cce311a23c3b8bc93e130f6052322dec95e20113a56d1ea5dd307a6c4c9f1"
+      "checksumValue" : "66e2cde4cc7e565d5fce2a2998b64e991777bf9fad4d220735c525fd8d01c31a"
     }, {
       "algorithm" : "SHA1",
-      "checksumValue" : "a32960d93a3d00eef57bcab8d0faae54d9b0cb06"
+      "checksumValue" : "899e5cf01be55fbf094ad72b2edb0c5df99111ee"
     } ],
     "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/spdx/spdx-jackson-store/1.1.5/spdx-jackson-store-1.1.5.jar",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-core/2.16.0/jackson-core-2.16.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.spdx/spdx-jackson-store@1.1.5",
+      "referenceLocator" : "pkg:maven/com.fasterxml.jackson.core/jackson-core@2.16.0?repository_url=repo.maven.apache.org%2Fmaven2",
       "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
-    "name" : "org.spdx:spdx-jackson-store:1.1.5"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd19",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "3aab2116756442bf0d4cd1c089b24d34c3baa253"
-    }, {
-      "algorithm" : "SHA256",
-      "checksumValue" : "880c9d896e4b74a06c549c15ca496450165d6909fa15d7e662bee8f6a66d7afa"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/yaml/snakeyaml/2.0/snakeyaml-2.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.yaml/snakeyaml@2.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "org.yaml:snakeyaml:2.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd13",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "68130eb4894ebf1616c05291e262fcfa37af2797"
-    }, {
-      "algorithm" : "SHA256",
-      "checksumValue" : "8f545048da11018fc7c880fe63dd278ad83bb3da13b00373ce8a8fb5234e7787"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-core/2.15.0-rc3/jackson-core-2.15.0-rc3.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/com.fasterxml.jackson.core/jackson-core@2.15.0-rc3",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.fasterxml.jackson.core:jackson-core:2.15.0-rc3"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd14",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "10fe288fd7a2cdaf5175332b73529f9abf8fd54dcfff317d6967c0c35ffb133b"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "85c25540369921659556ead85e02c99ef0d24280"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/ch/randelshofer/fastdoubleparser/0.8.0/fastdoubleparser-0.8.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/ch.randelshofer/fastdoubleparser@0.8.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "MIT",
-    "name" : "ch.randelshofer:fastdoubleparser:0.8.0"
+    "licenseInfoFromFiles" : [ ],
+    "name" : "com.fasterxml.jackson.core:jackson-core:2.16.0",
+    "supplier" : "Organization: FasterXML",
+    "versionInfo" : "2.16.0"
   }, {
     "SPDXID" : "SPDXRef-gnrtd11",
     "checksums" : [ {
       "algorithm" : "SHA256",
-      "checksumValue" : "76271e68deb1e55ba50394039c0d6dba96ee29e6c82829baf626ea4d1dbdd5d2"
+      "checksumValue" : "e490c949ba82f9576275bd225e9dacf1216bca13838776f47e7c22900b1d64b6"
     }, {
       "algorithm" : "SHA1",
-      "checksumValue" : "f077ef4512d3fa596471121abc3843ea81288d2f"
+      "checksumValue" : "f3cdb002e0f2f30ad9c5fd053d78b1a485511ab1"
     } ],
     "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.15.0-rc3/jackson-databind-2.15.0-rc3.jar",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-xml/2.16.0/jackson-dataformat-xml-2.16.0.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/com.fasterxml.jackson.core/jackson-databind@2.15.0-rc3",
+      "referenceLocator" : "pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-xml@2.16.0?repository_url=repo.maven.apache.org%2Fmaven2",
       "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
-    "name" : "com.fasterxml.jackson.core:jackson-databind:2.15.0-rc3"
+    "licenseInfoFromFiles" : [ ],
+    "name" : "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.16.0",
+    "supplier" : "Organization: FasterXML",
+    "versionInfo" : "2.16.0"
   }, {
     "SPDXID" : "SPDXRef-gnrtd12",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "1853deb12f6833d37b3ce5e2edda9a890c556ead"
-    }, {
-      "algorithm" : "SHA256",
-      "checksumValue" : "0b0534d51eaa1dd01b8437185368b9d9e6f4652713727724bd8f4ff4ba836071"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.15.0-rc3/jackson-annotations-2.15.0-rc3.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/com.fasterxml.jackson.core/jackson-annotations@2.15.0-rc3",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.fasterxml.jackson.core:jackson-annotations:2.15.0-rc3"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd17",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "21ad5f842f5332e0e2b56631178df45a8d205921d8370e2d5f557dc7f76cf4e2"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "cafa8aac5ddf104d28f172f19294d88d5e8c24c0"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/woodstox/woodstox-core/6.5.0/woodstox-core-6.5.0.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/com.fasterxml.woodstox/woodstox-core@6.5.0",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.fasterxml.woodstox:woodstox-core:6.5.0"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd18",
-    "checksums" : [ {
-      "algorithm" : "SHA1",
-      "checksumValue" : "c7810bdd981abc4ebae35e1a84dc5291aa89c1a2"
-    }, {
-      "algorithm" : "SHA256",
-      "checksumValue" : "9fa941d2cc30e641947c69b3e64ecdc22164a43aebc8210917d3040cb879e628"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.15.0-rc3/jackson-dataformat-yaml-2.15.0-rc3.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml@2.15.0-rc3",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.0-rc3"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd15",
-    "checksums" : [ {
-      "algorithm" : "SHA256",
-      "checksumValue" : "6c6ab6f44337ce57dfc806d54e4ebbdee621e31774543d89a716354f72142584"
-    }, {
-      "algorithm" : "SHA1",
-      "checksumValue" : "9dc3b8d15d04a45bc56155d264457ae67b6e6ee6"
-    } ],
-    "copyrightText" : "NOASSERTION",
-    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-xml/2.15.0-rc3/jackson-dataformat-xml-2.15.0-rc3.jar",
-    "externalRefs" : [ {
-      "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/com.fasterxml.jackson.dataformat/jackson-dataformat-xml@2.15.0-rc3",
-      "referenceType" : "purl"
-    } ],
-    "filesAnalyzed" : false,
-    "licenseConcluded" : "NOASSERTION",
-    "licenseDeclared" : "Apache-2.0",
-    "name" : "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.15.0-rc3"
-  }, {
-    "SPDXID" : "SPDXRef-gnrtd16",
     "checksums" : [ {
       "algorithm" : "SHA256",
       "checksumValue" : "678567e48b51a42c65c699f266539ad3d676d4b1a5b0ad7d89ece8b9d5772579"
@@ -1120,18 +303,416 @@
     "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/woodstox/stax2-api/4.2.1/stax2-api-4.2.1.jar",
     "externalRefs" : [ {
       "referenceCategory" : "PACKAGE-MANAGER",
-      "referenceLocator" : "pkg://maven/org.codehaus.woodstox/stax2-api@4.2.1",
+      "referenceLocator" : "pkg:maven/org.codehaus.woodstox/stax2-api@4.2.1?repository_url=repo.maven.apache.org%2Fmaven2",
       "referenceType" : "purl"
     } ],
     "filesAnalyzed" : false,
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "LicenseRef-gnrtd1",
-    "name" : "org.codehaus.woodstox:stax2-api:4.2.1"
+    "licenseInfoFromFiles" : [ ],
+    "name" : "org.codehaus.woodstox:stax2-api:4.2.1",
+    "supplier" : "Organization: fasterxml.com",
+    "versionInfo" : "4.2.1"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd13",
+    "checksums" : [ {
+      "algorithm" : "SHA256",
+      "checksumValue" : "c928d60665c6415fb1c39775cf95cfc44f7f4580cf5ab01b1c380ebffd76887f"
+    }, {
+      "algorithm" : "SHA1",
+      "checksumValue" : "c6e52e84fe959e69a243c83ec7d24cd889444ddf"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/woodstox/woodstox-core/6.5.1/woodstox-core-6.5.1.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/com.fasterxml.woodstox/woodstox-core@6.5.1?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "com.fasterxml.woodstox:woodstox-core:6.5.1",
+    "supplier" : "Organization: FasterXML",
+    "versionInfo" : "6.5.1"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd14",
+    "checksums" : [ {
+      "algorithm" : "SHA1",
+      "checksumValue" : "2033e2c5f531785d17f3a2bc31842e3bbb7983b2"
+    }, {
+      "algorithm" : "SHA256",
+      "checksumValue" : "7d0a50227f4cbd298be7971815534600bd626f9887659b8d91c286c62f17bd0b"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.16.0/jackson-dataformat-yaml-2.16.0.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml@2.16.0?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.16.0",
+    "supplier" : "Organization: FasterXML",
+    "versionInfo" : "2.16.0"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd15",
+    "checksums" : [ {
+      "algorithm" : "SHA1",
+      "checksumValue" : "3af797a25458550a16bf89acc8e4ab2b7f2bfce0"
+    }, {
+      "algorithm" : "SHA256",
+      "checksumValue" : "1467931448a0817696ae2805b7b8b20bfb082652bf9c4efaed528930dc49389b"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/org.yaml/snakeyaml@2.2?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "org.yaml:snakeyaml:2.2",
+    "supplier" : "Person: Andrey Somov (public.somov@gmail.com)",
+    "versionInfo" : "2.2"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd16",
+    "checksums" : [ {
+      "algorithm" : "SHA256",
+      "checksumValue" : "0f18192df289114e17aa1a0d0a7f8372cc9f5c7e4f7e39adcf8906fe714fa7d3"
+    }, {
+      "algorithm" : "SHA1",
+      "checksumValue" : "e22e0c040fe16f04ffdb85d851d77b07fc05ea52"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/json/json/20231013/json-20231013.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/org.json/json@20231013?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "LicenseRef-gnrtd2",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "org.json:json:20231013",
+    "supplier" : "Person: Douglas Crockford (douglas@crockford.com)",
+    "versionInfo" : "20231013"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd17",
+    "checksums" : [ {
+      "algorithm" : "SHA256",
+      "checksumValue" : "5f96dafbc411ee4b1e8426368d0d31d05ab5a4dace69808143142a0017598721"
+    }, {
+      "algorithm" : "SHA1",
+      "checksumValue" : "983ce00d50a9f78ad1b805e21e4fd71807fa6ebf"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-model-builder/3.9.6/maven-model-builder-3.9.6.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/org.apache.maven/maven-model-builder@3.9.6?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "org.apache.maven:maven-model-builder:3.9.6",
+    "supplier" : "Organization: The Apache Software Foundation",
+    "versionInfo" : "3.9.6"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd18",
+    "checksums" : [ {
+      "algorithm" : "SHA256",
+      "checksumValue" : "86e0255d4c879c61b4833ed7f13124e8bb679df47debb127326e7db7dd49a07b"
+    }, {
+      "algorithm" : "SHA1",
+      "checksumValue" : "c6bfb17c97ecc8863e88778ea301be742c62b06d"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-utils/3.5.1/plexus-utils-3.5.1.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/org.codehaus.plexus/plexus-utils@3.5.1?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "org.codehaus.plexus:plexus-utils:3.5.1",
+    "supplier" : "Organization: Codehaus Plexus",
+    "versionInfo" : "3.5.1"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd19",
+    "checksums" : [ {
+      "algorithm" : "SHA256",
+      "checksumValue" : "b3b5412ce17889103ea564bcdfcf9fb3dfa540344ffeac6b538a73c9d7182662"
+    }, {
+      "algorithm" : "SHA1",
+      "checksumValue" : "25b919c664b79795ccde0ede5cee0fd68b544197"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-interpolation/1.26/plexus-interpolation-1.26.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/org.codehaus.plexus/plexus-interpolation@1.26?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "org.codehaus.plexus:plexus-interpolation:1.26",
+    "supplier" : "Organization: Codehaus Plexus",
+    "versionInfo" : "1.26"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd20",
+    "checksums" : [ {
+      "algorithm" : "SHA1",
+      "checksumValue" : "6975da39a7040257bd51d21a231b76c915872d38"
+    }, {
+      "algorithm" : "SHA256",
+      "checksumValue" : "91c77044a50c481636c32d916fd89c9118a72195390452c81065080f957de7ff"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/javax/inject/javax.inject/1/javax.inject-1.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/javax.inject/javax.inject@1?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "javax.inject:javax.inject:1",
+    "supplier" : "Organization: NOASSERTION",
+    "versionInfo" : "1"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd21",
+    "checksums" : [ {
+      "algorithm" : "SHA256",
+      "checksumValue" : "4f8f07fdb6b8701fa89a23a2edf830808fd65892d90cce40c0e6df7c8f2fcb62"
+    }, {
+      "algorithm" : "SHA1",
+      "checksumValue" : "ac9a1c8a8cfa36f3a5489837e653ec0cd530d576"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-model/3.9.6/maven-model-3.9.6.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/org.apache.maven/maven-model@3.9.6?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "org.apache.maven:maven-model:3.9.6",
+    "supplier" : "Organization: The Apache Software Foundation",
+    "versionInfo" : "3.9.6"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd22",
+    "checksums" : [ {
+      "algorithm" : "SHA256",
+      "checksumValue" : "ad7a0fb408f8e47585ccc0d0011e0b501d93bfc9888d369bbd4a043d19475073"
+    }, {
+      "algorithm" : "SHA1",
+      "checksumValue" : "fb0979832c10c1a25d038a33ca862bef055fcdc8"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-artifact/3.9.6/maven-artifact-3.9.6.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/org.apache.maven/maven-artifact@3.9.6?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "org.apache.maven:maven-artifact:3.9.6",
+    "supplier" : "Organization: The Apache Software Foundation",
+    "versionInfo" : "3.9.6"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd23",
+    "checksums" : [ {
+      "algorithm" : "SHA256",
+      "checksumValue" : "e1f4d2784459ce8a34b9dae1829a1999b569e483e21ee9faa7368691e729296e"
+    }, {
+      "algorithm" : "SHA1",
+      "checksumValue" : "bcfc9d8175eaba21111edf21e0355a8523461abc"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/apache/maven/maven-builder-support/3.9.6/maven-builder-support-3.9.6.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/org.apache.maven/maven-builder-support@3.9.6?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "org.apache.maven:maven-builder-support:3.9.6",
+    "supplier" : "Organization: The Apache Software Foundation",
+    "versionInfo" : "3.9.6"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd24",
+    "checksums" : [ {
+      "algorithm" : "SHA256",
+      "checksumValue" : "9b62bcfc352a2ec87da8b01e37c952a54d358bbb1af3f212648aeafe7ab2dbb5"
+    }, {
+      "algorithm" : "SHA1",
+      "checksumValue" : "5ace70e1ea696d156f5034a42a615df13a52003a"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/eclipse/sisu/org.eclipse.sisu.inject/0.9.0.M2/org.eclipse.sisu.inject-0.9.0.M2.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/org.eclipse.sisu/org.eclipse.sisu.inject@0.9.0.M2?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "EPL-1.0",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "org.eclipse.sisu:org.eclipse.sisu.inject:0.9.0.M2",
+    "supplier" : "Organization: The Eclipse Foundation",
+    "versionInfo" : "0.9.0.M2"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd25",
+    "checksums" : [ {
+      "algorithm" : "SHA256",
+      "checksumValue" : "f4d85c3e4d411694337cb873abea09b242b664bb013320be6105327c45991537"
+    }, {
+      "algorithm" : "SHA1",
+      "checksumValue" : "161ba27964a62f241533807a46b8711b13c1d94b"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/guava/guava/33.0.0-jre/guava-33.0.0-jre.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/com.google.guava/guava@33.0.0-jre?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "com.google.guava:guava:33.0.0-jre",
+    "supplier" : "Organization: Google",
+    "versionInfo" : "33.0.0-jre"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd26",
+    "checksums" : [ {
+      "algorithm" : "SHA256",
+      "checksumValue" : "8a8f81cf9b359e3f6dfa691a1e776985c061ef2f223c9b2c80753e1b458e8064"
+    }, {
+      "algorithm" : "SHA1",
+      "checksumValue" : "c4a06a64e650562f30b7bf9aaec1bfed43aca12b"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/guava/failureaccess/1.0.2/failureaccess-1.0.2.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/com.google.guava/failureaccess@1.0.2?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "com.google.guava:failureaccess:1.0.2",
+    "supplier" : "Organization: Google",
+    "versionInfo" : "1.0.2"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd27",
+    "checksums" : [ {
+      "algorithm" : "SHA256",
+      "checksumValue" : "b372a037d4230aa57fbeffdef30fd6123f9c0c2db85d0aced00c91b974f33f99"
+    }, {
+      "algorithm" : "SHA1",
+      "checksumValue" : "b421526c5f297295adef1c886e5246c39d4ac629"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/com.google.guava/listenablefuture@9999.0-empty-to-avoid-conflict-with-guava?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava",
+    "supplier" : "Organization: Google",
+    "versionInfo" : "9999.0-empty-to-avoid-conflict-with-guava"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd28",
+    "checksums" : [ {
+      "algorithm" : "SHA256",
+      "checksumValue" : "2f9f245bf68e4259d610894f2406dc1f6363dc639302bd566e8272e4f4541172"
+    }, {
+      "algorithm" : "SHA1",
+      "checksumValue" : "08be6df7f1e9bccb19f8f351b3651f0bac2f5e0c"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/org/checkerframework/checker-qual/3.41.0/checker-qual-3.41.0.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/org.checkerframework/checker-qual@3.41.0?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "MIT",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "org.checkerframework:checker-qual:3.41.0",
+    "supplier" : "Organization: University of Washington",
+    "versionInfo" : "3.41.0"
+  }, {
+    "SPDXID" : "SPDXRef-gnrtd29",
+    "checksums" : [ {
+      "algorithm" : "SHA1",
+      "checksumValue" : "43a27853b6c7d54893e0b1997c2c778c347179eb"
+    }, {
+      "algorithm" : "SHA256",
+      "checksumValue" : "ec6f39f068b6ff9ac323c68e28b9299f8c0a80ca512dccb1d4a70f40ac3ec054"
+    } ],
+    "copyrightText" : "NOASSERTION",
+    "downloadLocation" : "https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.23.0/error_prone_annotations-2.23.0.jar",
+    "externalRefs" : [ {
+      "referenceCategory" : "PACKAGE-MANAGER",
+      "referenceLocator" : "pkg:maven/com.google.errorprone/error_prone_annotations@2.23.0?repository_url=repo.maven.apache.org%2Fmaven2",
+      "referenceType" : "purl"
+    } ],
+    "filesAnalyzed" : false,
+    "licenseConcluded" : "NOASSERTION",
+    "licenseDeclared" : "Apache-2.0",
+    "licenseInfoFromFiles" : [ ],
+    "name" : "com.google.errorprone:error_prone_annotations:2.23.0",
+    "supplier" : "Organization: Google LLC",
+    "versionInfo" : "2.23.0"
   } ],
   "relationships" : [ {
+    "spdxElementId" : "SPDXRef-DOCUMENT",
+    "relationshipType" : "DESCRIBES",
+    "relatedSpdxElement" : "SPDXRef-gnrtd0"
+  }, {
     "spdxElementId" : "SPDXRef-gnrtd0",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd10"
+    "relatedSpdxElement" : "SPDXRef-gnrtd7"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd0",
     "relationshipType" : "DEPENDS_ON",
@@ -1139,11 +720,19 @@
   }, {
     "spdxElementId" : "SPDXRef-gnrtd0",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd21"
+    "relatedSpdxElement" : "SPDXRef-gnrtd25"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd0",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd17"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd1",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd7"
+    "relatedSpdxElement" : "SPDXRef-gnrtd5"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd1",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd4"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd1",
     "relationshipType" : "DEPENDS_ON",
@@ -1151,71 +740,79 @@
   }, {
     "spdxElementId" : "SPDXRef-gnrtd1",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd9"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd1",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd8"
+    "relatedSpdxElement" : "SPDXRef-gnrtd3"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd1",
     "relationshipType" : "DEPENDS_ON",
     "relatedSpdxElement" : "SPDXRef-gnrtd2"
   }, {
-    "spdxElementId" : "SPDXRef-gnrtd2",
+    "spdxElementId" : "SPDXRef-gnrtd7",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd3"
+    "relatedSpdxElement" : "SPDXRef-gnrtd8"
   }, {
-    "spdxElementId" : "SPDXRef-gnrtd2",
+    "spdxElementId" : "SPDXRef-gnrtd7",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd5"
+    "relatedSpdxElement" : "SPDXRef-gnrtd16"
   }, {
-    "spdxElementId" : "SPDXRef-gnrtd2",
+    "spdxElementId" : "SPDXRef-gnrtd8",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd4"
+    "relatedSpdxElement" : "SPDXRef-gnrtd9"
   }, {
-    "spdxElementId" : "SPDXRef-gnrtd21",
+    "spdxElementId" : "SPDXRef-gnrtd9",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd49"
+    "relatedSpdxElement" : "SPDXRef-gnrtd14"
   }, {
-    "spdxElementId" : "SPDXRef-gnrtd21",
+    "spdxElementId" : "SPDXRef-gnrtd9",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd47"
+    "relatedSpdxElement" : "SPDXRef-gnrtd11"
   }, {
-    "spdxElementId" : "SPDXRef-gnrtd21",
+    "spdxElementId" : "SPDXRef-gnrtd9",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd39"
+    "relatedSpdxElement" : "SPDXRef-gnrtd10"
   }, {
-    "spdxElementId" : "SPDXRef-gnrtd21",
+    "spdxElementId" : "SPDXRef-gnrtd11",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd33"
+    "relatedSpdxElement" : "SPDXRef-gnrtd13"
   }, {
-    "spdxElementId" : "SPDXRef-gnrtd21",
+    "spdxElementId" : "SPDXRef-gnrtd11",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd46"
+    "relatedSpdxElement" : "SPDXRef-gnrtd12"
   }, {
-    "spdxElementId" : "SPDXRef-gnrtd21",
+    "spdxElementId" : "SPDXRef-gnrtd14",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd40"
+    "relatedSpdxElement" : "SPDXRef-gnrtd15"
   }, {
-    "spdxElementId" : "SPDXRef-gnrtd21",
+    "spdxElementId" : "SPDXRef-gnrtd17",
     "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd25"
+    "relatedSpdxElement" : "SPDXRef-gnrtd18"
   }, {
-    "spdxElementId" : "SPDXRef-gnrtd21",
+    "spdxElementId" : "SPDXRef-gnrtd17",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd20"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd17",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd19"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd17",
     "relationshipType" : "DEPENDS_ON",
     "relatedSpdxElement" : "SPDXRef-gnrtd24"
   }, {
-    "spdxElementId" : "SPDXRef-gnrtd21",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd32"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd21",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd31"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd21",
+    "spdxElementId" : "SPDXRef-gnrtd17",
     "relationshipType" : "DEPENDS_ON",
     "relatedSpdxElement" : "SPDXRef-gnrtd22"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd17",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd21"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd17",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd23"
+  }, {
+    "spdxElementId" : "SPDXRef-gnrtd25",
+    "relationshipType" : "DEPENDS_ON",
+    "relatedSpdxElement" : "SPDXRef-gnrtd29"
   }, {
     "spdxElementId" : "SPDXRef-gnrtd25",
     "relationshipType" : "DEPENDS_ON",
@@ -1228,121 +825,5 @@
     "spdxElementId" : "SPDXRef-gnrtd25",
     "relationshipType" : "DEPENDS_ON",
     "relatedSpdxElement" : "SPDXRef-gnrtd27"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd25",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd29"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd22",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd23"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd29",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd30"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd33",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd34"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd34",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd38"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd34",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd37"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd34",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd36"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd34",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd35"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd40",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd42"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd40",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd41"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd40",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd44"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd40",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd43"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd47",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd48"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd44",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd45"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd49",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd54"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd49",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd53"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd49",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd50"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd49",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd52"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd49",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd51"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd10",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd15"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd10",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd11"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd10",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd20"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd10",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd18"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd13",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd14"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd11",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd13"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd11",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd12"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd18",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd19"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd15",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd16"
-  }, {
-    "spdxElementId" : "SPDXRef-gnrtd15",
-    "relationshipType" : "DEPENDS_ON",
-    "relatedSpdxElement" : "SPDXRef-gnrtd17"
   } ]
 }

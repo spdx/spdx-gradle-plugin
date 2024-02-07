@@ -2,7 +2,7 @@ plugins {
     id("com.gradle.plugin-publish") version "1.2.1"
     id("com.diffplug.spotless") version "6.24.0"
     signing
-//    id("org.spdx.sbom") version "0.1.0"
+    id("org.spdx.sbom") version "0.6.0"
 }
 
 group = "org.spdx"
@@ -108,9 +108,9 @@ signing {
     useInMemoryPgpKeys(signingKey, signingPassword)
 }
 
-// spdxSbom {
-//     targets {
-//         create("example") {
-//         }
-//     }
-// }
+spdxSbom {
+    targets {
+        create("example") {
+        }
+    }
+}
