@@ -178,8 +178,9 @@ class SpdxSbomPluginFunctionalTest {
 
     // should contain both versions from both library references
     var sbom = Files.readString(outputFile);
-    MatcherAssert.assertThat(sbom, Matchers.containsString("sigstore-java:0.2.0"));
-    MatcherAssert.assertThat(sbom, Matchers.containsString("sigstore-java:0.3.0"));
+    MatcherAssert.assertThat(sbom, Matchers.containsString("dev.sigstore:sigstore-java\","));
+    MatcherAssert.assertThat(sbom, Matchers.containsString("sigstore-java@0.3.0"));
+    MatcherAssert.assertThat(sbom, Matchers.containsString("sigstore-java@0.2.0"));
     MatcherAssert.assertThat(sbom, Matchers.containsString("\"versionInfo\" : \"1.2.3\""));
 
     System.out.println(Files.readString(outputFile));

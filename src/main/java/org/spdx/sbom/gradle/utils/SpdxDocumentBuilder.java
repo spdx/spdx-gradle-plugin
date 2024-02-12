@@ -322,7 +322,7 @@ public class SpdxDocumentBuilder {
       SpdxPackageBuilder spdxPkgBuilder =
           doc.createPackage(
                   doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
-                  moduleId.getGroup() + ":" + moduleId.getName() + ":" + moduleId.getVersion(),
+                  moduleId.getGroup() + ":" + moduleId.getName(),
                   new SpdxNoAssertionLicense(),
                   "NOASSERTION",
                   licenses.asSpdxLicense(pomInfo.getLicenses()))
