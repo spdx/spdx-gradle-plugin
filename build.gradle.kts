@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.immutables:serial:2.10.0")
+    compileOnly("org.immutables:serial:2.10.1")
     compileOnly("org.immutables:value-annotations:2.10.0")
     annotationProcessor("org.immutables:value:2.10.0")
 
