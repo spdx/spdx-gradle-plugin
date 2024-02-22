@@ -13,9 +13,9 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.immutables:serial:2.10.0")
-    compileOnly("org.immutables:value-annotations:2.10.0")
-    annotationProcessor("org.immutables:value:2.10.0")
+    compileOnly("org.immutables:serial:2.10.1")
+    compileOnly("org.immutables:value-annotations:2.10.1")
+    annotationProcessor("org.immutables:value:2.10.1")
 
     implementation("org.spdx:java-spdx-library:1.1.10")
     implementation("org.spdx:spdx-jackson-store:1.1.9.1")
