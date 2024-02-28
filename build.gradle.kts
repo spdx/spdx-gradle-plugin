@@ -113,7 +113,11 @@ signing {
 spdxSbom {
     targets {
         create("example") {
-            outputFile.set(layout.buildDirectory.file("custom-spdx.filename"))
         }
     }
+}
+
+tasks.register("updateExample", Copy::class) {
+    from(tasks.named("spdxSbomForExample"))
+    into(layout.projectDirectory)
 }
