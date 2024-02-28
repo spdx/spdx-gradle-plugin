@@ -2,7 +2,7 @@
   "SPDXID" : "SPDXRef-DOCUMENT",
   "spdxVersion" : "SPDX-2.3",
   "creationInfo" : {
-    "created" : "2024-02-07T17:40:39Z",
+    "created" : "2024-02-28T20:42:56Z",
     "creators" : [ "Tool: spdx-gradle-plugin" ]
   },
   "name" : "spdx-gradle-plugin",
@@ -36,7 +36,7 @@
     "name" : "spdx-gradle-plugin",
     "sourceInfo" : "git+<no-scm-uri>@<no-scm-revision>#spdx-gradle-plugin[:]",
     "supplier" : "NOASSERTION",
-    "versionInfo" : "0.7.0"
+    "versionInfo" : "0.8.0"
   }, {
     "SPDXID" : "SPDXRef-gnrtd1",
     "checksums" : [ {
@@ -57,7 +57,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "org.spdx:java-spdx-library:1.1.10",
+    "name" : "org.spdx:java-spdx-library",
     "supplier" : "Organization: SPDX",
     "versionInfo" : "1.1.10"
   }, {
@@ -80,7 +80,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "MIT",
     "licenseInfoFromFiles" : [ ],
-    "name" : "org.slf4j:slf4j-api:2.0.7",
+    "name" : "org.slf4j:slf4j-api",
     "supplier" : "Organization: QOS.ch",
     "versionInfo" : "2.0.7"
   }, {
@@ -103,7 +103,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "org.apache.commons:commons-lang3:3.12.0",
+    "name" : "org.apache.commons:commons-lang3",
     "supplier" : "Organization: The Apache Software Foundation",
     "versionInfo" : "3.12.0"
   }, {
@@ -126,7 +126,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "LicenseRef-gnrtd0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "org.jsoup:jsoup:1.15.3",
+    "name" : "org.jsoup:jsoup",
     "supplier" : "Organization: Jonathan Hedley",
     "versionInfo" : "1.15.3"
   }, {
@@ -149,7 +149,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "com.google.code.gson:gson:2.8.9",
+    "name" : "com.google.code.gson:gson",
     "supplier" : "Organization: NOASSERTION",
     "versionInfo" : "2.8.9"
   }, {
@@ -172,7 +172,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "com.google.code.findbugs:jsr305:3.0.2",
+    "name" : "com.google.code.findbugs:jsr305",
     "supplier" : "Organization: NOASSERTION",
     "versionInfo" : "3.0.2"
   }, {
@@ -195,7 +195,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "org.spdx:spdx-jackson-store:1.1.9.1",
+    "name" : "org.spdx:spdx-jackson-store",
     "supplier" : "Organization: SPDX",
     "versionInfo" : "1.1.9.1"
   }, {
@@ -218,7 +218,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "com.fasterxml.jackson.core:jackson-databind:2.16.0",
+    "name" : "com.fasterxml.jackson.core:jackson-databind",
     "supplier" : "Organization: FasterXML",
     "versionInfo" : "2.16.0"
   }, {
@@ -241,7 +241,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "com.fasterxml.jackson.core:jackson-annotations:2.16.0",
+    "name" : "com.fasterxml.jackson.core:jackson-annotations",
     "supplier" : "Organization: FasterXML",
     "versionInfo" : "2.16.0"
   }, {
@@ -264,7 +264,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "com.fasterxml.jackson.core:jackson-core:2.16.0",
+    "name" : "com.fasterxml.jackson.core:jackson-core",
     "supplier" : "Organization: FasterXML",
     "versionInfo" : "2.16.0"
   }, {
@@ -287,7 +287,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.16.0",
+    "name" : "com.fasterxml.jackson.dataformat:jackson-dataformat-xml",
     "supplier" : "Organization: FasterXML",
     "versionInfo" : "2.16.0"
   }, {
@@ -310,7 +310,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "LicenseRef-gnrtd1",
     "licenseInfoFromFiles" : [ ],
-    "name" : "org.codehaus.woodstox:stax2-api:4.2.1",
+    "name" : "org.codehaus.woodstox:stax2-api",
     "supplier" : "Organization: fasterxml.com",
     "versionInfo" : "4.2.1"
   }, {
@@ -333,7 +333,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "com.fasterxml.woodstox:woodstox-core:6.5.1",
+    "name" : "com.fasterxml.woodstox:woodstox-core",
     "supplier" : "Organization: FasterXML",
     "versionInfo" : "6.5.1"
   }, {
@@ -356,7 +356,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.16.0",
+    "name" : "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml",
     "supplier" : "Organization: FasterXML",
     "versionInfo" : "2.16.0"
   }, {
@@ -379,7 +379,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "org.yaml:snakeyaml:2.2",
+    "name" : "org.yaml:snakeyaml",
     "supplier" : "Person: Andrey Somov (public.somov@gmail.com)",
     "versionInfo" : "2.2"
   }, {
@@ -402,7 +402,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "LicenseRef-gnrtd2",
     "licenseInfoFromFiles" : [ ],
-    "name" : "org.json:json:20231013",
+    "name" : "org.json:json",
     "supplier" : "Person: Douglas Crockford (douglas@crockford.com)",
     "versionInfo" : "20231013"
   }, {
@@ -425,7 +425,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "org.apache.maven:maven-model-builder:3.9.6",
+    "name" : "org.apache.maven:maven-model-builder",
     "supplier" : "Organization: The Apache Software Foundation",
     "versionInfo" : "3.9.6"
   }, {
@@ -448,7 +448,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "org.codehaus.plexus:plexus-utils:3.5.1",
+    "name" : "org.codehaus.plexus:plexus-utils",
     "supplier" : "Organization: Codehaus Plexus",
     "versionInfo" : "3.5.1"
   }, {
@@ -471,7 +471,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "org.codehaus.plexus:plexus-interpolation:1.26",
+    "name" : "org.codehaus.plexus:plexus-interpolation",
     "supplier" : "Organization: Codehaus Plexus",
     "versionInfo" : "1.26"
   }, {
@@ -494,7 +494,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "javax.inject:javax.inject:1",
+    "name" : "javax.inject:javax.inject",
     "supplier" : "Organization: NOASSERTION",
     "versionInfo" : "1"
   }, {
@@ -517,7 +517,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "org.apache.maven:maven-model:3.9.6",
+    "name" : "org.apache.maven:maven-model",
     "supplier" : "Organization: The Apache Software Foundation",
     "versionInfo" : "3.9.6"
   }, {
@@ -540,7 +540,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "org.apache.maven:maven-artifact:3.9.6",
+    "name" : "org.apache.maven:maven-artifact",
     "supplier" : "Organization: The Apache Software Foundation",
     "versionInfo" : "3.9.6"
   }, {
@@ -563,7 +563,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "org.apache.maven:maven-builder-support:3.9.6",
+    "name" : "org.apache.maven:maven-builder-support",
     "supplier" : "Organization: The Apache Software Foundation",
     "versionInfo" : "3.9.6"
   }, {
@@ -586,7 +586,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "EPL-1.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "org.eclipse.sisu:org.eclipse.sisu.inject:0.9.0.M2",
+    "name" : "org.eclipse.sisu:org.eclipse.sisu.inject",
     "supplier" : "Organization: The Eclipse Foundation",
     "versionInfo" : "0.9.0.M2"
   }, {
@@ -609,7 +609,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "com.google.guava:guava:33.0.0-jre",
+    "name" : "com.google.guava:guava",
     "supplier" : "Organization: Google",
     "versionInfo" : "33.0.0-jre"
   }, {
@@ -632,7 +632,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "com.google.guava:failureaccess:1.0.2",
+    "name" : "com.google.guava:failureaccess",
     "supplier" : "Organization: Google",
     "versionInfo" : "1.0.2"
   }, {
@@ -655,7 +655,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava",
+    "name" : "com.google.guava:listenablefuture",
     "supplier" : "Organization: Google",
     "versionInfo" : "9999.0-empty-to-avoid-conflict-with-guava"
   }, {
@@ -678,7 +678,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "MIT",
     "licenseInfoFromFiles" : [ ],
-    "name" : "org.checkerframework:checker-qual:3.41.0",
+    "name" : "org.checkerframework:checker-qual",
     "supplier" : "Organization: University of Washington",
     "versionInfo" : "3.41.0"
   }, {
@@ -701,7 +701,7 @@
     "licenseConcluded" : "NOASSERTION",
     "licenseDeclared" : "Apache-2.0",
     "licenseInfoFromFiles" : [ ],
-    "name" : "com.google.errorprone:error_prone_annotations:2.23.0",
+    "name" : "com.google.errorprone:error_prone_annotations",
     "supplier" : "Organization: Google LLC",
     "versionInfo" : "2.23.0"
   } ],
