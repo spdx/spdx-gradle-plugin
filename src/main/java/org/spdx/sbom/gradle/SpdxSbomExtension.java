@@ -17,6 +17,7 @@ package org.spdx.sbom.gradle;
 
 import org.gradle.api.Action;
 import org.gradle.api.NamedDomainObjectContainer;
+import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Nested;
@@ -29,6 +30,8 @@ public interface SpdxSbomExtension {
     public abstract String getName();
 
     public abstract ListProperty<String> getConfigurations();
+
+    public abstract RegularFileProperty getOutputFile();
 
     @Nested
     public abstract Scm getScm();

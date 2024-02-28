@@ -81,6 +81,13 @@ public class SpdxSbomPlugin implements Plugin<Project> {
               target.getScm().getTool().convention("git");
               target.getScm().getRevision().convention("<no-scm-revision>");
               target.getScm().getUri().convention("<no-scm-uri>");
+              target
+                  .getOutputFile()
+                  .convention(
+                      project
+                          .getLayout()
+                          .getBuildDirectory()
+                          .file("spdx/" + target.getName() + ".spdx.json"));
             });
     TaskProvider<Task> aggregate =
         project
@@ -117,9 +124,8 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                 SpdxSbomTask.class,
                 t -> {
                   t.setGroup("Spdx sbom tasks");
-                  t.getOutputDirectory().set(project.getLayout().getBuildDirectory().dir("spdx"));
+                  t.getOutputFile().set(target.getOutputFile());
                   t.getProjectPath().set(project.getPath());
-                  t.getFilename().set(target.getName() + ".spdx.json");
                   t.getDocumentInfo().set(DocumentInfo.from(target));
                   t.getScmInfo().set(ScmInfo.from(target));
                   t.getProjectInfoService().set(projectInfoService);
