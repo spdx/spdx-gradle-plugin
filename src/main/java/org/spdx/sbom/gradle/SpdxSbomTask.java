@@ -22,13 +22,12 @@ import java.util.List;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.artifacts.component.ComponentArtifactIdentifier;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
-import org.gradle.api.file.DirectoryProperty;
+import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.MapProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Internal;
-import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 import org.spdx.jacksonstore.MultiFormatStore;
@@ -55,13 +54,8 @@ public abstract class SpdxSbomTask extends DefaultTask {
   @Input
   abstract MapProperty<ComponentArtifactIdentifier, File> getResolvedArtifacts();
 
-  @OutputDirectory
-  public abstract DirectoryProperty getOutputDirectory();
-
   @OutputFile
-  public File getOutputFile() {
-    return getOutputDirectory().file(getFilename()).get().getAsFile();
-  }
+  public abstract RegularFileProperty getOutputFile();
 
   @Internal
   abstract Property<ProjectInfoService> getProjectInfoService();
@@ -71,9 +65,6 @@ public abstract class SpdxSbomTask extends DefaultTask {
 
   @Input
   abstract MapProperty<String, PomInfo> getPoms();
-
-  @Input
-  abstract Property<String> getFilename();
 
   @Input
   abstract Property<DocumentInfo> getDocumentInfo();
@@ -115,7 +106,7 @@ public abstract class SpdxSbomTask extends DefaultTask {
     List<String> verificationErrors = doc.verify();
     verificationErrors.forEach(errors -> getLogger().warn(errors));
 
-    FileOutputStream out = new FileOutputStream(getOutputFile());
+    FileOutputStream out = new FileOutputStream(getOutputFile().get().getAsFile());
     modelStore.serialize(doc.getDocumentUri(), out);
   }
 }
