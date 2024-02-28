@@ -69,10 +69,13 @@ spdxSbom {
   targets {
     // create a target named "release",
     // this is used for the task name (spdxSbomForRelease)
-    // and output file (release.spdx.json)
+    // and output file (build/spdx/release.spdx.json)
     create("release") {
       // use a different configuration (or multiple configurations)
       configurations.set(listOf("myCustomConfiguration"))
+
+      // override the default output file
+      outputFile.set(layout.buildDirectory.file("custom-spdx.filename"))
 
       // provide scm info (usually from your CI)
       scm {
