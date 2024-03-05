@@ -42,15 +42,16 @@ public class SpdxKnownLicenses {
     this.licenses = ImmutableMap.copyOf(licenses);
   }
 
-  public static SpdxKnownLicenses knownLicenses()
-      throws IOException, InterruptedException, JsonParseException {
+  public static SpdxKnownLicenses knownLicenses() throws IOException, JsonParseException {
     InputStream inputStream =
-        SpdxKnownLicenses.class.getClassLoader().getResourceAsStream("spdx-licenses.json");
+        SpdxKnownLicenses.class
+            .getClassLoader()
+            .getResourceAsStream("standard_licenses/licenses.json");
     return fromStream(inputStream);
   }
 
   private static SpdxKnownLicenses fromStream(InputStream stream)
-      throws IOException, InterruptedException, JsonParseException {
+      throws IOException, JsonParseException {
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
       return new SpdxKnownLicenses(getLicenseToUrlMap(reader));
     }
