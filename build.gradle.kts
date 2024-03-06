@@ -10,7 +10,6 @@ description = "A gradle plugin generating spdx sboms"
 
 repositories {
     mavenCentral()
-    mavenLocal()
 }
 
 dependencies {
