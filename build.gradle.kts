@@ -10,6 +10,7 @@ description = "A gradle plugin generating spdx sboms"
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -20,7 +21,14 @@ dependencies {
     annotationProcessor("org.immutables:value")
 
     implementation("org.spdx:java-spdx-library:1.1.10")
-    implementation("org.spdx:spdx-jackson-store:1.1.9.1")
+    // To handle the gradle < 7.6.4 or 8.3 multi release jar issue replacing jackson 2.16 to 2.14
+    // https://github.com/FasterXML/jackson-core/issues/955
+    // https://github.com/gradle/gradle/issues/24390
+    implementation("org.spdx:spdx-jackson-store:1.1.9.1") {
+        exclude(group = "com.fasterxml.jackson.core")
+    }
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.14.0")
+
     implementation("org.apache.maven:maven-model-builder:3.9.6")
     implementation("org.apache.maven:maven-model:3.9.6")
     implementation("com.google.guava:guava:33.0.0-jre")
