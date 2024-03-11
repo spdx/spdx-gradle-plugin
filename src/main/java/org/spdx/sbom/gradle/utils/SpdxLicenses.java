@@ -27,6 +27,7 @@ import org.spdx.library.model.SpdxDocument;
 import org.spdx.library.model.license.AnyLicenseInfo;
 import org.spdx.library.model.license.ExtractedLicenseInfo;
 import org.spdx.library.model.license.LicenseInfoFactory;
+import org.spdx.library.model.license.ListedLicenses;
 import org.spdx.library.model.license.SpdxNoAssertionLicense;
 import org.spdx.sbom.gradle.maven.PomInfo.LicenseInfo;
 import org.spdx.storage.IModelStore;
@@ -56,7 +57,9 @@ public class SpdxLicenses {
   }
 
   public static SpdxLicenses newSpdxLicenes(
-      Logger logger, SpdxDocument doc, SpdxKnownLicenses spdxKnownLicenses) {
+      Logger logger, SpdxDocument doc, SpdxKnownLicenses spdxKnownLicenses)
+      throws InvalidSPDXAnalysisException {
+    ListedLicenses.initializeListedLicenses(new SpdxListedLicenseEmbeddedStore());
     return new SpdxLicenses(
         logger, doc, doc.getModelStore(), doc.getCopyManager(), spdxKnownLicenses);
   }

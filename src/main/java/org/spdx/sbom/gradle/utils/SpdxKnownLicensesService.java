@@ -25,7 +25,7 @@ public abstract class SpdxKnownLicensesService
 
   private final SpdxKnownLicenses spdxKnownLicenses;
 
-  public SpdxKnownLicensesService() throws IOException, InterruptedException {
+  public SpdxKnownLicensesService() throws IOException {
     this.spdxKnownLicenses = SpdxKnownLicenses.knownLicenses();
   }
 
