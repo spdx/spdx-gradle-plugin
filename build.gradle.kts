@@ -2,7 +2,7 @@ plugins {
     id("com.gradle.plugin-publish") version "1.2.1"
     id("com.diffplug.spotless") version "6.25.0"
     signing
-    id("org.spdx.sbom") version "0.7.0"
+    id("org.spdx.sbom") version "0.8.0"
 }
 
 group = "org.spdx"
