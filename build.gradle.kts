@@ -23,7 +23,7 @@ dependencies {
     implementation("org.spdx:spdx-jackson-store:1.1.9.1")
     implementation("org.apache.maven:maven-model-builder:3.9.6")
     implementation("org.apache.maven:maven-model:3.9.6")
-    implementation("com.google.guava:guava:33.1.0-jre")
+    implementation("com.google.guava:guava:33.2.0-jre")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
     testImplementation("org.hamcrest:hamcrest-library:2.2")
