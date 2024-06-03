@@ -29,7 +29,8 @@ public abstract class PropertiesForPom {
 
   PropertiesForPom() {}
 
-  private static final List<String> JAVA_PROP_KEYS = List.of("java.version", "java.home");
+  private static final List<String> JAVA_PROP_KEYS =
+      List.of("java.version", "java.home", "os.name", "os.arch", "os.version");
 
   @Lazy
   public Properties get() {
