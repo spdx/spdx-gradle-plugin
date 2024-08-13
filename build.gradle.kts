@@ -26,7 +26,7 @@ dependencies {
     implementation("com.google.guava:guava:33.2.1-jre")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.3")
-    testImplementation("org.hamcrest:hamcrest-library:2.2")
+    testImplementation("org.hamcrest:hamcrest-library:3.0")
     testImplementation("org.spdx:tools-java:1.1.8")
 }
 
