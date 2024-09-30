@@ -23,9 +23,9 @@ dependencies {
     implementation("org.spdx:spdx-jackson-store:1.1.9.1")
     implementation("org.apache.maven:maven-model-builder:3.9.9")
     implementation("org.apache.maven:maven-model:3.9.9")
-    implementation("com.google.guava:guava:33.3.0-jre")
+    implementation("com.google.guava:guava:33.3.1-jre")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.11.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.11.1")
     testImplementation("org.hamcrest:hamcrest-library:3.0")
     testImplementation("org.spdx:tools-java:1.1.8")
 }
