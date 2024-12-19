@@ -35,7 +35,6 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 import org.gradle.api.artifacts.ModuleVersionIdentifier;
@@ -67,6 +66,8 @@ import org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension;
 import org.spdx.sbom.gradle.maven.MavenPackageSupplierBuilder;
 import org.spdx.sbom.gradle.maven.PomInfo;
 import org.spdx.sbom.gradle.project.DocumentInfo;
+import org.spdx.sbom.gradle.project.ImmutableProjectInfo;
+import org.spdx.sbom.gradle.project.IsolatedProjectInfo;
 import org.spdx.sbom.gradle.project.ProjectInfo;
 import org.spdx.sbom.gradle.project.ScmInfo;
 import org.spdx.sbom.gradle.uri.URIs;
@@ -78,7 +79,9 @@ public class SpdxDocumentBuilder {
   private final SpdxPackage rootPackage;
   private final RootPackageIdentifier rootPackageId;
   private final SpdxLicenses licenses;
-  private final Map<String, ProjectInfo> knownProjects;
+  private final ProjectInfo thisProject;
+  private final Map<String, ProjectInfo> allProjectInfo;
+  private final Map<String, IsolatedProjectInfo> allIsolatedProjectInfo;
   private final HashMap<ComponentIdentifier, SpdxPackage> spdxPackages = new HashMap<>();
 
   private final HashMap<ComponentIdentifier, LinkedHashSet<ComponentIdentifier>> tree =
@@ -88,7 +91,6 @@ public class SpdxDocumentBuilder {
   private final Map<String, PomInfo> poms;
   private final Logger logger;
   private final DocumentInfo documentInfo;
-  private final ProjectInfo describesProject;
 
   @Nullable private final SpdxSbomTaskExtension taskExtension;
   private final ScmInfo scmInfo;
@@ -103,8 +105,9 @@ public class SpdxDocumentBuilder {
   }
 
   public SpdxDocumentBuilder(
-      String projectPath,
-      Set<ProjectInfo> allProjects,
+      ProjectInfo thisProject,
+      Map<String, ProjectInfo> allProjectInfo,
+      Map<String, IsolatedProjectInfo> allIsolatedProjectInfo,
       Logger logger,
       IModelStore modelStore,
       Map<ComponentArtifactIdentifier, File> resolvedExternalArtifacts,
@@ -159,9 +162,9 @@ public class SpdxDocumentBuilder {
 
     this.logger = logger;
     this.scmInfo = scmInfo;
-    this.knownProjects =
-        allProjects.stream().collect(Collectors.toMap(ProjectInfo::getPath, Function.identity()));
-    this.describesProject = knownProjects.get(projectPath);
+    this.thisProject = thisProject;
+    this.allProjectInfo = allProjectInfo;
+    this.allIsolatedProjectInfo = allIsolatedProjectInfo;
 
     this.resolvedExternalArtifacts =
         resolvedExternalArtifacts.entrySet().stream()
@@ -270,7 +273,7 @@ public class SpdxDocumentBuilder {
       return true;
     }
     var projectId = (ProjectComponentIdentifier) resolvedComponentResult.getId();
-    ProjectInfo pi = knownProjects.get(projectId.getProjectPath());
+    ProjectInfo pi = allProjectInfo.get(projectId.getProjectPath());
     return taskExtension.shouldCreatePackageForProject(pi);
   }
 
@@ -278,10 +281,16 @@ public class SpdxDocumentBuilder {
       throws InvalidSPDXAnalysisException {
     var projectId = (ProjectComponentIdentifier) resolvedComponentResult.getId();
 
-    resolvedComponentResult.getVariants();
-    ProjectInfo pi = knownProjects.get(projectId.getProjectPath());
+    var pi = getResolvedProjectInfo(projectId.getProjectPath());
     var version = pi.getVersion();
-    if (version.equals("unspecified")) {
+
+    if (ProjectInfo.VERSION_UNKNOWN.equals(version)) {
+      logger.warn(
+          "spdx sboms require a version but project: "
+              + pi.getName()
+              + " has no known version due to project isolation, experimental SpdxSbomTaskExtension can inject versions for these projects");
+      version = "NOASSERTION";
+    } else if (ProjectInfo.VERSION_UNSPECIFIED.equals(version)) {
       logger.warn(
           "spdx sboms require a version but project: "
               + pi.getName()
@@ -399,6 +408,27 @@ public class SpdxDocumentBuilder {
       return Optional.of(spdxPkgBuilder.build());
     }
     return Optional.empty();
+  }
+
+  /**
+   * Merge information determined by the system with user provided project info (missing due to
+   * project isolation), the project for which we are generating the sbom for will not be overridden
+   * as it already provides all information to the task.
+   */
+  ProjectInfo getResolvedProjectInfo(String projectPath) {
+    if (projectPath.equals(thisProject.getPath())) {
+      return thisProject;
+    }
+
+    var resolved = ImmutableProjectInfo.builder().from(allProjectInfo.get(projectPath));
+
+    var isolatedProjectInfo = allIsolatedProjectInfo.get(projectPath);
+    if (isolatedProjectInfo != null) {
+      resolved.version(isolatedProjectInfo.getVersion());
+      isolatedProjectInfo.getDescription().ifPresent(resolved::description);
+      isolatedProjectInfo.getGroup().ifPresent(resolved::group);
+    }
+    return resolved.build();
   }
 
   public SpdxDocument getSpdxDocument() {

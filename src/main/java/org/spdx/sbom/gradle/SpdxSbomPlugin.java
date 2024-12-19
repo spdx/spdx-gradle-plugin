@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.inject.Inject;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
@@ -35,6 +36,7 @@ import org.gradle.api.artifacts.result.ArtifactResult;
 import org.gradle.api.artifacts.result.ResolvedArtifactResult;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
 import org.gradle.api.artifacts.type.ArtifactTypeDefinition;
+import org.gradle.api.configuration.BuildFeatures;
 import org.gradle.api.internal.GradleInternal;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.TaskProvider;
@@ -49,6 +51,13 @@ import org.spdx.sbom.gradle.utils.SpdxKnownLicensesService;
 
 /** A plugin to generate spdx sboms. */
 public class SpdxSbomPlugin implements Plugin<Project> {
+
+  private final BuildFeatures buildFeatures;
+
+  @Inject
+  public SpdxSbomPlugin(BuildFeatures buildFeatures) {
+    this.buildFeatures = buildFeatures;
+  }
 
   public void apply(Project project) {
     Provider<SpdxKnownLicensesService> knownLicenseServiceProvider =
@@ -70,7 +79,9 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                         .set(
                             project.provider(
                                 () ->
-                                    ProjectInfo.from(project.getRootProject().getAllprojects()))));
+                                    ProjectInfo.from(
+                                        project.getRootProject().getAllprojects(),
+                                        buildFeatures.getIsolatedProjects().getActive()))));
     var extension = project.getExtensions().create("spdxSbom", SpdxSbomExtension.class);
     extension
         .getTargets()
@@ -82,6 +93,10 @@ public class SpdxSbomPlugin implements Plugin<Project> {
               target.getScm().getTool().convention("git");
               target.getScm().getRevision().convention("<no-scm-revision>");
               target.getScm().getUri().convention("<no-scm-uri>");
+              target
+                  .getIsolatedProjects()
+                  .getIsolatedProjectInfo()
+                  .convention(Collections.emptyMap());
               target
                   .getOutputFile()
                   .convention(
@@ -99,20 +114,10 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                   t.setGroup("Spdx sbom tasks");
                   t.setDescription("Run all sbom tasks in this project");
                 });
-    extension
-        .getTargets()
-        .all(
-            target ->
-                createTaskForTarget(
-                    project, target, aggregate, knownLicenseServiceProvider, projectInfoService));
+    extension.getTargets().all(target -> createTaskForTarget(project, target, aggregate));
   }
 
-  private void createTaskForTarget(
-      Project project,
-      Target target,
-      TaskProvider<Task> aggregate,
-      Provider<SpdxKnownLicensesService> knownLicenseServiceProvider,
-      Provider<ProjectInfoService> projectInfoService) {
+  private void createTaskForTarget(Project project, Target target, TaskProvider<Task> aggregate) {
     String name =
         (target.getName().length() <= 1)
             ? target.getName().toUpperCase()
@@ -126,13 +131,11 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                 t -> {
                   t.setGroup("Spdx sbom tasks");
                   t.getOutputFile().set(target.getOutputFile());
-                  t.getProjectPath().set(project.getPath());
+                  t.getThisProject().set(ProjectInfo.from(project));
                   t.getDocumentInfo().set(DocumentInfo.from(target));
                   t.getScmInfo().set(ScmInfo.from(target));
-                  t.getProjectInfoService().set(projectInfoService);
-                  t.usesService(projectInfoService);
-                  t.getSpdxKnownLicensesService().set(knownLicenseServiceProvider);
-                  t.usesService(knownLicenseServiceProvider);
+                  t.getIsolatedProjectInfo()
+                      .set(target.getIsolatedProjects().getIsolatedProjectInfo());
                   t.getIgnoreNonMavenDependencies().set(target.getIgnoreNonMavenDependencies());
 
                   boolean hasAndroidPlugin = project.getPlugins().hasPlugin("com.android.base");
@@ -208,7 +211,8 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                                               Entry::getKey,
                                               e ->
                                                   ((MavenArtifactRepository) e.getValue())
-                                                      .getUrl()))));
+                                                      .getUrl()
+                                                      .toString()))));
                 });
     aggregate.configure(t -> t.dependsOn(task));
   }

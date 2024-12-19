@@ -16,8 +16,6 @@
 package org.spdx.sbom.gradle.maven;
 
 import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -210,20 +208,8 @@ public class PomResolver {
     }
   }
 
-  private URI extractHomepage(Model mavenModel, ComponentIdentifier componentIdentifier) {
+  private String extractHomepage(Model mavenModel, ComponentIdentifier componentIdentifier) {
     String url = mavenModel.getUrl();
-    if (url == null) {
-      return URI.create("");
-    }
-    try {
-      return new URI(mavenModel.getUrl());
-    } catch (URISyntaxException error) {
-      logger.warn(
-          "Ignoring invalid url detected in project '"
-              + componentIdentifier.getDisplayName()
-              + "': "
-              + url);
-      return URI.create("");
-    }
+    return (url == null) ? "" : url;
   }
 }

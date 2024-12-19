@@ -15,7 +15,6 @@
  */
 package org.spdx.sbom.gradle.maven;
 
-import java.net.URI;
 import org.apache.maven.model.Organization;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -31,7 +30,7 @@ public class MavenPackageSupplierBuilderTest {
   void useThePomOrganizationIfPresent() {
     PomInfo pomInfo =
         ImmutablePomInfo.builder()
-            .homepage(URI.create("https://example.com"))
+            .homepage("https://example.com")
             .organization(pomOrganization)
             .addDevelopers(ImmutableDeveloperInfo.builder().name("Eli Graber").build())
             .build();
@@ -44,7 +43,7 @@ public class MavenPackageSupplierBuilderTest {
   void useTheDevelopersOrganizationIfPresentAndAllDeveloperOrganizationsHaveTheSameName() {
     PomInfo pomInfo =
         ImmutablePomInfo.builder()
-            .homepage(URI.create("https://example.com"))
+            .homepage("https://example.com")
             .addDevelopers(
                 ImmutableDeveloperInfo.builder()
                     .name("Eli Graber")
@@ -65,7 +64,7 @@ public class MavenPackageSupplierBuilderTest {
   void useTheDevelopersNameIfPresentAndNotAllDeveloperOrganizationsHaveTheSameName() {
     PomInfo pomInfo =
         ImmutablePomInfo.builder()
-            .homepage(URI.create("https://example.com"))
+            .homepage("https://example.com")
             .addDevelopers(
                 ImmutableDeveloperInfo.builder()
                     .name("Eli Graber")
@@ -86,7 +85,7 @@ public class MavenPackageSupplierBuilderTest {
   void useTheDevelopersNameIfPresent() {
     PomInfo pomInfo =
         ImmutablePomInfo.builder()
-            .homepage(URI.create("https://example.com"))
+            .homepage("https://example.com")
             .addDevelopers(ImmutableDeveloperInfo.builder().name("Eli Graber").build())
             .build();
 
@@ -101,7 +100,7 @@ public class MavenPackageSupplierBuilderTest {
 
     PomInfo pomInfo =
         ImmutablePomInfo.builder()
-            .homepage(URI.create("https://example.com"))
+            .homepage("https://example.com")
             .organization(emptyNameOrganization)
             .addDevelopers(ImmutableDeveloperInfo.builder().name("Eli Graber").build())
             .build();
@@ -114,7 +113,7 @@ public class MavenPackageSupplierBuilderTest {
   void useTheDevelopersNameAndEmailIfPresent() {
     PomInfo pomInfo =
         ImmutablePomInfo.builder()
-            .homepage(URI.create("https://example.com"))
+            .homepage("https://example.com")
             .addDevelopers(
                 ImmutableDeveloperInfo.builder()
                     .name("Eli Graber")
@@ -131,7 +130,7 @@ public class MavenPackageSupplierBuilderTest {
   void useTheDevelopersOrganizationIfPresentAndNameIsNotPresent() {
     PomInfo pomInfo =
         ImmutablePomInfo.builder()
-            .homepage(URI.create("https://example.com"))
+            .homepage("https://example.com")
             .addDevelopers(
                 ImmutableDeveloperInfo.builder()
                     .organization("ACME")
@@ -147,7 +146,7 @@ public class MavenPackageSupplierBuilderTest {
   void otherwiseUseOrganizationNoAssertion() {
     PomInfo pomInfo =
         ImmutablePomInfo.builder()
-            .homepage(URI.create("https://example.com"))
+            .homepage("https://example.com")
             .addDevelopers(ImmutableDeveloperInfo.builder().email("eli@example.com").build())
             .build();
 
