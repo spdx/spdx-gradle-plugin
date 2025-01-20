@@ -1,6 +1,6 @@
 plugins {
     id("com.gradle.plugin-publish") version "1.3.0"
-    id("com.diffplug.spotless") version "6.25.0"
+    id("com.diffplug.spotless") version "7.0.2"
     signing
     id("org.spdx.sbom") version "0.8.0"
 }
@@ -23,9 +23,9 @@ dependencies {
     implementation("org.spdx:spdx-jackson-store:1.1.9.1")
     implementation("org.apache.maven:maven-model-builder:3.9.9")
     implementation("org.apache.maven:maven-model:3.9.9")
-    implementation("com.google.guava:guava:33.3.1-jre")
+    implementation("com.google.guava:guava:33.4.0-jre")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.11.3")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
     testImplementation("org.hamcrest:hamcrest-library:3.0")
     testImplementation("org.spdx:tools-java:1.1.8")
 }
