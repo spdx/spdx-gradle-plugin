@@ -318,6 +318,10 @@ public class SpdxDocumentBuilder {
     if (dependencyFile != null) {
       ModuleVersionIdentifier moduleId = resolvedComponentResult.getModuleVersion();
       PomInfo pomInfo = poms.get(resolvedComponentResult.getId().getDisplayName());
+      if (pomInfo == null) {
+        logger.warn("Ignoring dependency without POM file: " + moduleId);
+        return Optional.empty();
+      }
 
       SpdxPackageBuilder spdxPkgBuilder =
           doc.createPackage(
