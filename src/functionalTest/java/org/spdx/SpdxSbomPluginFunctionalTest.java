@@ -27,7 +27,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
-
 import org.apache.commons.io.FileUtils;
 import org.gradle.testkit.runner.GradleRunner;
 import org.hamcrest.MatcherAssert;
@@ -518,46 +517,47 @@ class SpdxSbomPluginFunctionalTest {
   }
 
   @Test
-  void canGenerateReportWithIvyDependencies() throws IOException, SpdxVerificationException, URISyntaxException {
+  void canGenerateReportWithIvyDependencies()
+      throws IOException, SpdxVerificationException, URISyntaxException {
+    writeString(getSettingsFile(), "rootProject.name = 'spdx-functional-test-project'\n");
     writeString(
-            getSettingsFile(),
-            "rootProject.name = 'spdx-functional-test-project'\n");
-    writeString(
-            getBuildFile(),
-            "plugins {\n"
-                    + "  id('org.spdx.sbom')\n"
-                    + "  id('java')\n"
-                    + "}\n"
-                    + "version = 1\n"
-                    + "repositories {\n"
-                    + "  ivy {\n"
-                    + "    name = \"ivyRepository\"\n"
-                    + "    url = \"" + projectDir.getAbsolutePath().replaceAll("\\\\", "/") + "/ivy-repository\"\n"
-                    + "    patternLayout {\n"
-                    + "      artifact('[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier])(.[ext])')\n"
-                    + "      ivy('[organisation]/[module]/[revision]/ivy-[revision].xml')\n"
-                    + "      setM2compatible(true)\n"
-                    + "    }\n"
-                    + "  }\n"
-                    + "}\n"
-                    + "dependencies {\n"
-                    + "  implementation 'org.example:module1:1.0.0'\n"
-                    + "}\n"
-                    + "spdxSbom {\n"
-                    + "  targets {\n"
-                    + "    release {\n"
-                    + "    }\n"
-                    + "  }\n"
-                    + "}\n");
+        getBuildFile(),
+        "plugins {\n"
+            + "  id('org.spdx.sbom')\n"
+            + "  id('java')\n"
+            + "}\n"
+            + "version = 1\n"
+            + "repositories {\n"
+            + "  ivy {\n"
+            + "    name = \"ivyRepository\"\n"
+            + "    url = \""
+            + projectDir.getAbsolutePath().replaceAll("\\\\", "/")
+            + "/ivy-repository\"\n"
+            + "    patternLayout {\n"
+            + "      artifact('[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier])(.[ext])')\n"
+            + "      ivy('[organisation]/[module]/[revision]/ivy-[revision].xml')\n"
+            + "      setM2compatible(true)\n"
+            + "    }\n"
+            + "  }\n"
+            + "}\n"
+            + "dependencies {\n"
+            + "  implementation 'org.example:module1:1.0.0'\n"
+            + "}\n"
+            + "spdxSbom {\n"
+            + "  targets {\n"
+            + "    release {\n"
+            + "    }\n"
+            + "  }\n"
+            + "}\n");
 
     Path main = projectDir.toPath().resolve(Paths.get("src/main/java/main/Main.java"));
     Files.createDirectories(main.getParent());
     writeString(
-            Files.createFile(main).toFile(),
-            "package main;\n"
-                    + "public class Main {\n"
-                    + "  public static void main(String[] args) {  }\n"
-                    + "}");
+        Files.createFile(main).toFile(),
+        "package main;\n"
+            + "public class Main {\n"
+            + "  public static void main(String[] args) {  }\n"
+            + "}");
 
     URL ivyRepositoryFolder = this.getClass().getResource("/ivy-repository");
     FileUtils.copyDirectory(new File(ivyRepositoryFolder.toURI()).getParentFile(), projectDir);
@@ -575,9 +575,8 @@ class SpdxSbomPluginFunctionalTest {
     Verify.verify(outputFile.toFile().getAbsolutePath(), SerFileType.JSON);
 
     MatcherAssert.assertThat(
-            result.getOutput(),
-            Matchers.containsString(
-                    "Ignoring dependency without POM file: org.example:module1:1.0.0"));
+        result.getOutput(),
+        Matchers.containsString("Ignoring dependency without POM file: org.example:module1:1.0.0"));
 
     // Verify the result
     assertTrue(Files.isRegularFile(outputFile));
