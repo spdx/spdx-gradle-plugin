@@ -31,6 +31,8 @@ public interface SpdxSbomExtension {
 
     public abstract ListProperty<String> getConfigurations();
 
+    public abstract Property<Boolean> getIgnoreNonMavenDependencies();
+
     public abstract RegularFileProperty getOutputFile();
 
     @Nested

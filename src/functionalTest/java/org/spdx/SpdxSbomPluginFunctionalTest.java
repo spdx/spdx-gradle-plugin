@@ -517,7 +517,68 @@ class SpdxSbomPluginFunctionalTest {
   }
 
   @Test
-  void canGenerateReportWithIvyDependencies()
+  void cannotGenerateReportWithIvyDependenciesWhenMissingDependencies()
+          throws IOException, SpdxVerificationException, URISyntaxException {
+    writeString(getSettingsFile(), "rootProject.name = 'spdx-functional-test-project'\n");
+    writeString(
+            getBuildFile(),
+            "plugins {\n"
+                    + "  id('org.spdx.sbom')\n"
+                    + "  id('java')\n"
+                    + "}\n"
+                    + "version = 1\n"
+                    + "repositories {\n"
+                    + "  ivy {\n"
+                    + "    name = \"ivyRepository\"\n"
+                    + "    url = \""
+                    + projectDir.getAbsolutePath().replaceAll("\\\\", "/")
+                    + "/ivy-repository\"\n"
+                    + "    patternLayout {\n"
+                    + "      artifact('[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier])(.[ext])')\n"
+                    + "      ivy('[organisation]/[module]/[revision]/ivy-[revision].xml')\n"
+                    + "      setM2compatible(true)\n"
+                    + "    }\n"
+                    + "  }\n"
+                    + "}\n"
+                    + "dependencies {\n"
+                    + "  implementation 'org.example:module1:1.0.0'\n"
+                    + "}\n"
+                    + "spdxSbom {\n"
+                    + "  targets {\n"
+                    + "    release {\n"
+                    + "    }\n"
+                    + "  }\n"
+                    + "}\n");
+
+    Path main = projectDir.toPath().resolve(Paths.get("src/main/java/main/Main.java"));
+    Files.createDirectories(main.getParent());
+    writeString(
+            Files.createFile(main).toFile(),
+            "package main;\n"
+                    + "public class Main {\n"
+                    + "  public static void main(String[] args) {  }\n"
+                    + "}");
+
+    URL ivyRepositoryFolder = this.getClass().getResource("/ivy-repository");
+    FileUtils.copyDirectory(new File(ivyRepositoryFolder.toURI()).getParentFile(), projectDir);
+
+    // Run the build
+    GradleRunner runner = GradleRunner.create();
+    runner.forwardOutput();
+    runner.withPluginClasspath();
+    runner.withDebug(true);
+    runner.withArguments("spdxSbomForRelease", "--stacktrace");
+    runner.withProjectDir(projectDir);
+    var result = runner.buildAndFail();
+
+    // Verify
+    MatcherAssert.assertThat(
+            result.getOutput(),
+            Matchers.containsString("No POM file found for dependency org.example:module1:1.0.0"));
+  }
+
+  @Test
+  void canGenerateReportWithIvyDependenciesWhenIgnoringMissingDependencies()
       throws IOException, SpdxVerificationException, URISyntaxException {
     writeString(getSettingsFile(), "rootProject.name = 'spdx-functional-test-project'\n");
     writeString(
@@ -546,6 +607,7 @@ class SpdxSbomPluginFunctionalTest {
             + "spdxSbom {\n"
             + "  targets {\n"
             + "    release {\n"
+            + "      ignoreNonMavenDependencies = true\n"
             + "    }\n"
             + "  }\n"
             + "}\n");

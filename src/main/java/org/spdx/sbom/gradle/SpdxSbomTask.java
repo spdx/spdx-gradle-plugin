@@ -28,6 +28,7 @@ import org.gradle.api.provider.MapProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Internal;
+import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 import org.spdx.jacksonstore.MultiFormatStore;
@@ -53,6 +54,10 @@ public abstract class SpdxSbomTask extends DefaultTask {
 
   @Input
   abstract MapProperty<ComponentArtifactIdentifier, File> getResolvedArtifacts();
+
+  @Input
+  @Optional
+  abstract Property<Boolean> getIgnoreNonMavenDependencies();
 
   @OutputFile
   public abstract RegularFileProperty getOutputFile();
@@ -94,7 +99,8 @@ public abstract class SpdxSbomTask extends DefaultTask {
             getTaskExtension().getOrNull(),
             getDocumentInfo().get(),
             getScmInfo().get(),
-            getSpdxKnownLicensesService().get().getKnownLicenses());
+            getSpdxKnownLicensesService().get().getKnownLicenses(),
+            getIgnoreNonMavenDependencies().getOrElse(false));
 
     for (var rootComponent : getRootComponents().get()) {
       documentBuilder.add(rootComponent);
