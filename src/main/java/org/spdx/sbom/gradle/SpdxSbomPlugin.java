@@ -132,6 +132,7 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                   t.usesService(projectInfoService);
                   t.getSpdxKnownLicensesService().set(knownLicenseServiceProvider);
                   t.usesService(knownLicenseServiceProvider);
+                  t.getIgnoreNonMavenDependencies().set(target.getIgnoreNonMavenDependencies());
 
                   boolean hasAndroidPlugin = project.getPlugins().hasPlugin("com.android.base");
 

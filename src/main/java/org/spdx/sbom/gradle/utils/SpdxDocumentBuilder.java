@@ -92,6 +92,8 @@ public class SpdxDocumentBuilder {
   @Nullable private final SpdxSbomTaskExtension taskExtension;
   private final ScmInfo scmInfo;
 
+  private final boolean ignoreNonMavenDependencies;
+
   private static class RootPackageIdentifier implements ComponentIdentifier {
     @Override
     public @NotNull String getDisplayName() {
@@ -110,7 +112,8 @@ public class SpdxDocumentBuilder {
       SpdxSbomTaskExtension spdxSbomTaskExtension,
       DocumentInfo documentInfo,
       ScmInfo scmInfo,
-      SpdxKnownLicenses knownLicenses)
+      SpdxKnownLicenses knownLicenses,
+      boolean ignoreNonMavenDependencies)
       throws InvalidSPDXAnalysisException {
     this.documentInfo = documentInfo;
     doc =
@@ -176,6 +179,8 @@ public class SpdxDocumentBuilder {
                     }));
     this.mavenArtifactRepositories = mavenArtifactRepositories;
     this.poms = poms;
+
+    this.ignoreNonMavenDependencies = ignoreNonMavenDependencies;
 
     this.taskExtension = spdxSbomTaskExtension;
   }
@@ -318,6 +323,14 @@ public class SpdxDocumentBuilder {
     if (dependencyFile != null) {
       ModuleVersionIdentifier moduleId = resolvedComponentResult.getModuleVersion();
       PomInfo pomInfo = poms.get(resolvedComponentResult.getId().getDisplayName());
+      if (pomInfo == null) {
+        if (ignoreNonMavenDependencies) {
+          logger.warn("Ignoring dependency without POM file: " + moduleId);
+          return Optional.empty();
+        } else {
+          throw new RuntimeException("No POM file found for dependency " + moduleId);
+        }
+      }
 
       SpdxPackageBuilder spdxPkgBuilder =
           doc.createPackage(
