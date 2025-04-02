@@ -1,6 +1,6 @@
 plugins {
-    id("com.gradle.plugin-publish") version "1.3.0"
-    id("com.diffplug.spotless") version "6.25.0"
+    id("com.gradle.plugin-publish") version "1.3.1"
+    id("com.diffplug.spotless") version "7.0.2"
     signing
     id("org.spdx.sbom") version "0.8.0"
 }
@@ -23,9 +23,11 @@ dependencies {
     implementation("org.spdx:spdx-jackson-store:1.1.9.1")
     implementation("org.apache.maven:maven-model-builder:3.9.9")
     implementation("org.apache.maven:maven-model:3.9.9")
-    implementation("com.google.guava:guava:33.3.1-jre")
+    implementation("com.google.guava:guava:33.4.0-jre")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.11.3")
+    testImplementation(platform("org.junit:junit-bom:5.12.1"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher") // https://github.com/junit-team/junit5/issues/4374
     testImplementation("org.hamcrest:hamcrest-library:3.0")
     testImplementation("org.spdx:tools-java:1.1.8")
 }
@@ -52,6 +54,7 @@ java {
 val functionalTestSourceSet = sourceSets.create("functionalTest") {}
 
 configurations["functionalTestImplementation"].extendsFrom(configurations["testImplementation"])
+configurations["functionalTestRuntimeOnly"].extendsFrom(configurations["testRuntimeOnly"])
 
 val functionalTest by tasks.registering(Test::class) {
     testClassesDirs = functionalTestSourceSet.output.classesDirs
@@ -86,7 +89,7 @@ spotless {
         target("*.md", ".gitignore", "**/*.yaml")
 
         trimTrailingWhitespace()
-        indentWithSpaces()
+        leadingTabsToSpaces()
         endWithNewline()
     }
     java {
