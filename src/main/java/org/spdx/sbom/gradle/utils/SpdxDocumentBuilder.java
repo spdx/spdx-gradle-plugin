@@ -24,6 +24,8 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,9 +33,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -82,7 +81,7 @@ public class SpdxDocumentBuilder {
 
   private final HashMap<ComponentIdentifier, LinkedHashSet<ComponentIdentifier>> tree =
       new LinkedHashMap<>();
-  private final Map<ComponentIdentifier, File> resolvedExternalArtifacts;
+  private final Map<ComponentIdentifier, Collection<File>> resolvedExternalArtifacts;
   private final Map<String, URI> mavenArtifactRepositories;
   private final Map<String, PomInfo> poms;
   private final Logger logger;
@@ -162,21 +161,7 @@ public class SpdxDocumentBuilder {
         allProjects.stream().collect(Collectors.toMap(ProjectInfo::getPath, Function.identity()));
     this.describesProject = knownProjects.get(projectPath);
 
-    this.resolvedExternalArtifacts =
-        resolvedExternalArtifacts.entrySet().stream()
-            .filter(
-                e -> !(e.getKey().getComponentIdentifier() instanceof ProjectComponentIdentifier))
-            .collect(
-                Collectors.toMap(
-                    e -> e.getKey().getComponentIdentifier(),
-                    Entry::getValue,
-                    (file1, file2) -> {
-                      if (Objects.equals(file1, file2)) {
-                        return file1;
-                      } else
-                        throw new IllegalStateException(
-                            "cannot merge duplicate " + file1 + " and " + file2);
-                    }));
+    this.resolvedExternalArtifacts = fromResolvedArtifacts(resolvedExternalArtifacts);
     this.mavenArtifactRepositories = mavenArtifactRepositories;
     this.poms = poms;
 
@@ -188,8 +173,7 @@ public class SpdxDocumentBuilder {
   public void add(ResolvedComponentResult root) throws InvalidSPDXAnalysisException, IOException {
     add(rootPackageId, root, new HashSet<>());
     doc.setDocumentDescribes(
-        Collections.singletonList(
-            rootPackage == null ? spdxPackages.get(root.getId()) : rootPackage));
+        List.of(rootPackage == null ? spdxPackages.get(root.getId()) : rootPackage));
 
     for (var pkg : tree.keySet()) {
       for (var child : tree.get(pkg)) {
@@ -230,13 +214,13 @@ public class SpdxDocumentBuilder {
       return true;
     }
 
-    Optional<SpdxPackage> maybePackage = createPackageIfNeeded(component);
-    if (maybePackage.isEmpty()) {
+    List<SpdxPackage> createdPackages = createPackageIfNeeded(component);
+    if (createdPackages.isEmpty()) {
       logger.info("ignoring: " + component.getId());
       return false;
     }
-
-    spdxPackages.put(component.getId(), maybePackage.get());
+    // TODO: support createdPackages list if several packages created
+    spdxPackages.put(component.getId(), createdPackages.get(0));
     tree.putIfAbsent(component.getId(), new LinkedHashSet<>());
     if (parent != null) {
       tree.get(parent).add(component.getId());
@@ -245,14 +229,14 @@ public class SpdxDocumentBuilder {
     return true;
   }
 
-  private Optional<SpdxPackage> createPackageIfNeeded(ResolvedComponentResult component)
+  private List<SpdxPackage> createPackageIfNeeded(ResolvedComponentResult component)
       throws InvalidSPDXAnalysisException, IOException {
     if (component.getId() instanceof ProjectComponentIdentifier) {
       return shouldCreatePackageForProject(component)
-          ? Optional.of(createProjectPackage(component))
-          : Optional.empty();
+          ? List.of(createProjectPackage(component))
+          : List.of();
     } else if (component.getId() instanceof ModuleComponentIdentifier) {
-      return createMavenModulePackage(component);
+      return createMavenModulePackages(component);
     } else {
       throw new RuntimeException(
           "Unknown package type: "
@@ -275,6 +259,7 @@ public class SpdxDocumentBuilder {
 
   private SpdxPackage createProjectPackage(ResolvedComponentResult resolvedComponentResult)
       throws InvalidSPDXAnalysisException {
+    // TODO: project can expose several artifacts
     var projectId = (ProjectComponentIdentifier) resolvedComponentResult.getId();
 
     resolvedComponentResult.getVariants();
@@ -294,7 +279,7 @@ public class SpdxDocumentBuilder {
     SpdxPackageBuilder builder =
         doc.createPackage(
                 doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
-                pi.getName(),
+                pi.getName(), // TODO: name could be from file in case several files declared
                 new SpdxNoAssertionLicense(),
                 "NOASSERTION",
                 new SpdxNoAssertionLicense())
@@ -314,13 +299,17 @@ public class SpdxDocumentBuilder {
     return builder.build();
   }
 
-  private Optional<SpdxPackage> createMavenModulePackage(
+  private List<SpdxPackage> createMavenModulePackages(
       ResolvedComponentResult resolvedComponentResult)
       throws InvalidSPDXAnalysisException, IOException {
 
     // if the project doesn't resolve to anything, ignore it
-    File dependencyFile = resolvedExternalArtifacts.get(resolvedComponentResult.getId());
-    if (dependencyFile != null) {
+    Collection<File> dependencyFiles =
+        resolvedExternalArtifacts.get(resolvedComponentResult.getId());
+    if (dependencyFiles == null) return List.of();
+
+    List<SpdxPackage> results = new ArrayList<>();
+    for (var dependencyFile : dependencyFiles) {
       ModuleVersionIdentifier moduleId = resolvedComponentResult.getModuleVersion();
       PomInfo pomInfo = poms.get(resolvedComponentResult.getId().getDisplayName());
       if (pomInfo == null) {
@@ -388,9 +377,25 @@ public class SpdxDocumentBuilder {
       spdxPkgBuilder.setChecksums(List.of(checksumSha1, checksumSha256));
       spdxPkgBuilder.setFilesAnalyzed(false);
 
-      return Optional.of(spdxPkgBuilder.build());
+      results.add(spdxPkgBuilder.build());
     }
-    return Optional.empty();
+    return results;
+  }
+
+  private static Map<ComponentIdentifier, Collection<File>> fromResolvedArtifacts(
+      Map<ComponentArtifactIdentifier, File> artifacts) {
+    Map<ComponentIdentifier, Collection<File>> results = new HashMap<>();
+    artifacts.forEach(
+        (identifier, file) -> {
+          if (results.containsKey(identifier.getComponentIdentifier())) {
+            results.get(identifier.getComponentIdentifier()).add(file);
+          } else {
+            List<File> files = new ArrayList<>();
+            files.add(file);
+            results.put(identifier.getComponentIdentifier(), files);
+          }
+        });
+    return results;
   }
 
   public SpdxDocument getSpdxDocument() {
