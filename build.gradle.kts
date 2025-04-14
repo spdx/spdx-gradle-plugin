@@ -1,6 +1,6 @@
 plugins {
     id("com.gradle.plugin-publish") version "1.3.1"
-    id("com.diffplug.spotless") version "7.0.2"
+    id("com.diffplug.spotless") version "7.0.3"
     signing
     id("org.spdx.sbom") version "0.9.0"
 }
@@ -23,9 +23,9 @@ dependencies {
     implementation("org.spdx:spdx-jackson-store:1.1.9.1")
     implementation("org.apache.maven:maven-model-builder:3.9.9")
     implementation("org.apache.maven:maven-model:3.9.9")
-    implementation("com.google.guava:guava:33.4.6-jre")
+    implementation("com.google.guava:guava:33.4.7-jre")
 
-    testImplementation(platform("org.junit:junit-bom:5.12.1"))
+    testImplementation(platform("org.junit:junit-bom:5.12.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher") // https://github.com/junit-team/junit5/issues/4374
     testImplementation("org.hamcrest:hamcrest-library:3.0")
