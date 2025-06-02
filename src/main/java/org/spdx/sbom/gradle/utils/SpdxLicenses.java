@@ -94,9 +94,14 @@ public class SpdxLicenses {
     }
     // it's a known license
     if (knownLicenses.contains(license)) {
-      var knownLicense =
-          LicenseInfoFactory.parseSPDXLicenseString(
-              knownLicenses.getIdFor(license), modelStore, doc.getDocumentUri(), copyManager);
+      AnyLicenseInfo knownLicense;
+      try {
+        knownLicense =
+            LicenseInfoFactory.parseSPDXLicenseString(
+                knownLicenses.getIdFor(license), modelStore, doc.getDocumentUri(), copyManager);
+      } catch (InvalidSPDXAnalysisException e) {
+        throw new InvalidSPDXAnalysisException("license: " + license, e);
+      }
       projectLicenses.put(normalizedLicenseUrl, knownLicense);
       return knownLicense;
     }

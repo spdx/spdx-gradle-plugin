@@ -15,6 +15,7 @@
  */
 package org.spdx.sbom.gradle;
 
+import com.google.common.collect.ImmutableMap;
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
@@ -223,9 +224,8 @@ public class SpdxSbomPlugin implements Plugin<Project> {
             .getDependencyResolutionManagement()
             .getRepositories()
             .getAsMap();
-
-    settingsRepositories.putAll(projectRepositories);
-    return settingsRepositories;
+    ImmutableMap.Builder<String, ArtifactRepository> repositories = ImmutableMap.builder();
+    return repositories.putAll(projectRepositories).putAll(settingsRepositories).build();
   }
 
   private static class ArtifactTransformer

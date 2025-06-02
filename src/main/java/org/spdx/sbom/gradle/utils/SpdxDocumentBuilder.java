@@ -61,6 +61,7 @@ import org.spdx.library.model.SpdxPackage.SpdxPackageBuilder;
 import org.spdx.library.model.enumerations.ChecksumAlgorithm;
 import org.spdx.library.model.enumerations.ReferenceCategory;
 import org.spdx.library.model.enumerations.RelationshipType;
+import org.spdx.library.model.license.AnyLicenseInfo;
 import org.spdx.library.model.license.SpdxNoAssertionLicense;
 import org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension;
 import org.spdx.sbom.gradle.maven.MavenPackageSupplierBuilder;
@@ -332,13 +333,20 @@ public class SpdxDocumentBuilder {
         }
       }
 
+      AnyLicenseInfo license;
+      try {
+        license = licenses.asSpdxLicense(pomInfo.getLicenses());
+      } catch (InvalidSPDXAnalysisException e) {
+        throw new InvalidSPDXAnalysisException("Component: " + resolvedComponentResult, e);
+      }
+
       SpdxPackageBuilder spdxPkgBuilder =
           doc.createPackage(
                   doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
                   moduleId.getGroup() + ":" + moduleId.getName(),
                   new SpdxNoAssertionLicense(),
                   "NOASSERTION",
-                  licenses.asSpdxLicense(pomInfo.getLicenses()))
+                  license)
               .setSupplier("NOASSERTION");
 
       String sourceRepo;
