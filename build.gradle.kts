@@ -1,6 +1,6 @@
 plugins {
-    id("com.gradle.plugin-publish") version "1.3.1"
-    id("com.diffplug.spotless") version "7.0.2"
+    id("com.gradle.plugin-publish") version "2.0.0"
+    id("com.diffplug.spotless") version "7.2.1"
     signing
     id("org.spdx.sbom") version "0.9.0"
 }
@@ -13,23 +13,23 @@ repositories {
 }
 
 dependencies {
-    compileOnly(platform("org.immutables:bom:2.10.1"))
-    annotationProcessor(platform("org.immutables:bom:2.10.1"))
+    compileOnly(platform("org.immutables:bom:2.11.3"))
+    annotationProcessor(platform("org.immutables:bom:2.11.3"))
     compileOnly("org.immutables:serial")
     compileOnly("org.immutables:value-annotations")
     annotationProcessor("org.immutables:value")
 
-    implementation("org.spdx:java-spdx-library:1.1.12")
-    implementation("org.spdx:spdx-jackson-store:1.1.9.1")
-    implementation("org.apache.maven:maven-model-builder:3.9.9")
-    implementation("org.apache.maven:maven-model:3.9.9")
-    implementation("com.google.guava:guava:33.4.6-jre")
+    implementation("org.spdx:java-spdx-library:2.0.0")
+    implementation("org.spdx:spdx-jackson-store:2.0.2")
+    implementation("org.apache.maven:maven-model-builder:3.9.11")
+    implementation("org.apache.maven:maven-model:3.9.11")
+    implementation("com.google.guava:guava:33.4.8-jre")
 
-    testImplementation(platform("org.junit:junit-bom:5.12.1"))
+    testImplementation(platform("org.junit:junit-bom:5.13.4"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher") // https://github.com/junit-team/junit5/issues/4374
     testImplementation("org.hamcrest:hamcrest-library:3.0")
-    testImplementation("org.spdx:tools-java:1.1.8")
+    testImplementation("org.spdx:tools-java:2.0.1")
 }
 
 gradlePlugin {
