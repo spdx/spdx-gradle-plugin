@@ -1,6 +1,6 @@
 plugins {
     id("com.gradle.plugin-publish") version "1.3.1"
-    id("com.diffplug.spotless") version "7.0.2"
+    id("com.diffplug.spotless") version "8.1.0"
     signing
     id("org.spdx.sbom") version "0.9.0"
 }
@@ -47,8 +47,8 @@ gradlePlugin {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 val functionalTestSourceSet = sourceSets.create("functionalTest") {}
@@ -93,7 +93,7 @@ spotless {
         endWithNewline()
     }
     java {
-        googleJavaFormat("1.17.0")
+        googleJavaFormat()
         licenseHeaderFile("$rootDir/config/licenseHeader")
     }
 }
