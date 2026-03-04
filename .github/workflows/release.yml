@@ -27,6 +27,15 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
 
+    - name: Check tag matches project version
+      run: |
+        PROJECT_VERSION=$(grep '^version=' gradle.properties | cut -d'=' -f2)
+        TAG_VERSION="${GITHUB_REF_NAME#v}"
+        if [ "$TAG_VERSION" != "$PROJECT_VERSION" ]; then
+          echo "Tag version ($TAG_VERSION) does not match project version ($PROJECT_VERSION)"
+          exit 1
+        fi
+
     - name: Build and Publish to Plugin Portal
       run: ./gradlew build check publishPlugins -Pgradle.publish.key=$GRADLE_PUBLISH_KEY -Pgradle.publish.secret=$GRADLE_PUBLISH_SECRET
       env:
