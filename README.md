@@ -72,6 +72,7 @@ spdxSbom {
     // and output file (build/spdx/release.spdx.json)
     create("release") {
       // use a different configuration (or multiple configurations)
+      // android users will need to set this to an android build specific configuration
       configurations.set(listOf("myCustomConfiguration"))
 
       // override the default output file
