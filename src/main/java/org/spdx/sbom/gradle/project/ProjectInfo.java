@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.gradle.api.Project;
+import org.gradle.api.provider.Provider;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value.Immutable;
 import org.spdx.sbom.gradle.internal.AndroidVersionLoader;
@@ -27,17 +28,24 @@ import org.spdx.sbom.gradle.internal.AndroidVersionLoader;
 @Immutable
 @Serial.Version(1)
 public interface ProjectInfo {
+
+  String VERSION_UNKNOWN = "unknown";
+  String VERSION_UNSPECIFIED = "unspecified";
+
   String getName();
 
+  // is not required and is not available in project isolation mode
   Optional<String> getDescription();
 
+  // is required but is not available in project isolation mode
   String getVersion();
 
   File getProjectDirectory();
 
   String getPath();
 
-  String getGroup();
+  // is not required and is not available in project isolation mode
+  Optional<String> getGroup();
 
   static ProjectInfo from(Project project) {
     return ImmutableProjectInfo.builder()
@@ -48,6 +56,20 @@ public interface ProjectInfo {
         .path(project.getPath())
         .group(project.getGroup().toString())
         .build();
+  }
+
+  static ProjectInfo from(Project project, Provider<Boolean> isProjectIsolated) {
+    if (isProjectIsolated.getOrElse(false)) {
+      var isolated = project.getIsolated();
+      return ImmutableProjectInfo.builder()
+          .name(isolated.getName())
+          .version(VERSION_UNKNOWN)
+          .projectDirectory(isolated.getProjectDirectory().getAsFile())
+          .path(isolated.getPath())
+          .build();
+    }
+
+    return from(project);
   }
 
   static String version(Project project) {
@@ -63,7 +85,9 @@ public interface ProjectInfo {
     return version;
   }
 
-  static Set<ProjectInfo> from(Set<Project> projects) {
-    return projects.stream().map(ProjectInfo::from).collect(Collectors.toSet());
+  static Set<ProjectInfo> from(Set<Project> projects, Provider<Boolean> isProjectIsolated) {
+    return projects.stream()
+        .map(p -> ProjectInfo.from(p, isProjectIsolated))
+        .collect(Collectors.toSet());
   }
 }

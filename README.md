@@ -111,12 +111,48 @@ spdxSbom {
 - Licensing and copyright is somewhat incomplete (works well for maven deps)
 - Output is always json
 
-### Experimental (do not use)
+### Experimental
 
 If you use these experimental features, they will change them whenever with no notification. They are
 to support very specific build usecases and are not for general consumption
 
-use `taskExtension` to map downloadLocations if they are cached somewhere other than original location
+#### Project Isolation (unreleased)
+To inject project information that would otherwise be unresolvable for all project dependencies
+by the tooling when setting `-Dorg.gradle.unsafe.isolated-projects=true`.
+
+Using this extension with caution and note the following behavior:
+- This data is accessed by the `org.spdx.sbom` plugin whether you are in isolated-projects mode or not.
+- You *cannot* change the values on the current `project` that an sbom is being generated for, only
+  on its project dependencies. Setting the IsolatedProjectInfo on the project in question will just
+  be ignored.
+- The plugin makes no effort to validate your inputs here, and if this goes out of sync with your
+  project build setup you may end up with inconsistent sboms.
+
+```kotlin
+import org.spdx.sbom.gradle.project.IsolatedProjectInfo
+
+spdxSbom {
+  targets {
+    create ("release") {
+      ...
+      isolatedProjects {
+        isolatedProjectInfo.set(project.provider {
+          mapOf<String, IsolatedProjectInfo>(
+            ":" to IsolatedProjectInfo.of(":", "root-project-version"),
+            ":sub-project" to IsolatedProjectInfo.of(":sub-project", "sub-project-version")
+          )
+        })
+      }
+    }
+  }
+}
+```
+
+#### Task Extension (probably bad idea to use)
+use `taskExtension` to modify sbom data provided to the sbom task. The goal is
+to gradually move these into the plugin extension, but they here for now. This may
+mess with up-to-date checks and caching so be careful when using.
+
 ```kotlin
 tasks.withType<SpdxSbomTask> {
    taskExtension.set(object : SpdxSbomTaskExtension {

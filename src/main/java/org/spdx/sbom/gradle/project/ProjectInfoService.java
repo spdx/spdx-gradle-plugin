@@ -15,7 +15,9 @@
  */
 package org.spdx.sbom.gradle.project;
 
-import java.util.Set;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.gradle.api.provider.SetProperty;
 import org.gradle.api.services.BuildService;
 import org.gradle.api.services.BuildServiceParameters;
@@ -27,13 +29,15 @@ public abstract class ProjectInfoService implements BuildService<RootProjectPara
     SetProperty<ProjectInfo> getAllProjects();
   }
 
-  private final Set<ProjectInfo> allProjects;
+  private final Map<String, ProjectInfo> allProjects;
 
   public ProjectInfoService() {
-    allProjects = getParameters().getAllProjects().get();
+    allProjects =
+        getParameters().getAllProjects().get().stream()
+            .collect(Collectors.toMap(ProjectInfo::getPath, Function.identity()));
   }
 
-  public Set<ProjectInfo> getAllProjectInfo() {
+  public Map<String, ProjectInfo> getAllProjectInfo() {
     return allProjects;
   }
 }

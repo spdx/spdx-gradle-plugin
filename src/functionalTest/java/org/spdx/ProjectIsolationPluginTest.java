@@ -19,37 +19,32 @@ import java.io.IOException;
 import java.nio.file.Path;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.CleanupMode;
 import org.junit.jupiter.api.io.TempDir;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.spdx.test.FunctionalTest;
 import org.spdx.tools.SpdxVerificationException;
 
-public class SmokeTest {
+public class ProjectIsolationPluginTest {
 
   @TempDir(cleanup = CleanupMode.ON_SUCCESS)
   Path projectDir;
 
-  @ParameterizedTest
-  @CsvSource(
-      value = {
-        "-Dorg.gradle.unsafe.isolated-projects=false, spdx sboms require a version but project: sub-project has no specified version",
-        "-Dorg.gradle.unsafe.isolated-projects=true, spdx sboms require a version but project: sub-project has no known version due to project isolation",
-      })
-  void smokeTest(String isolationParam, String versionWarning)
-      throws IOException, SpdxVerificationException {
+  @Test
+  void canUseProjectIsolationPlugin() throws IOException, SpdxVerificationException {
     var test =
         FunctionalTest.newTest(projectDir)
             .newKotlinSettings("spdx-functional-test-project", "sub-project")
             .newFile(
                 "build.gradle.kts",
                 """
+                import org.spdx.sbom.gradle.project.IsolatedProjectInfo
+
                 plugins {
                   id("org.spdx.sbom")
                   java
                 }
-                version = 1
+                version = "dont-override"
                 repositories {
                   google()
                   mavenCentral()
@@ -60,10 +55,19 @@ public class SmokeTest {
                   implementation(project(":sub-project"))
                 }
 
+
                 spdxSbom {
                   targets {
                     create ("release") {
                       configurations.set(listOf("testCompileClasspath"))
+                      isolatedProjects {
+                        isolatedProjectInfo.set(project.provider {
+                          mapOf<String, IsolatedProjectInfo>(
+                            ":" to IsolatedProjectInfo.of(":", "test-1.2.3"),
+                            ":sub-project" to IsolatedProjectInfo.of(":sub-project", "test-2.3.4")
+                          )
+                        })
+                      }
                     }
                   }
                 }
@@ -83,23 +87,24 @@ public class SmokeTest {
                 """
                 plugins {
                   id('java')
-                }
-                """)
+                }""")
             .newFile(
-                "src/main/java/lib/Lib.java",
+                "sub-project/src/main/java/lib/Lib.java",
                 """
                 package lib;
                 public class Lib { public static int doSomething() { return 5; } }
                 """);
 
-    var result =
-        test.newGradleRunner()
-            .withArguments("spdxSbomForRelease", "--stacktrace", isolationParam)
-            .build();
+    // you cannot debug with runner.withDebug(true) in project isolation
+    test.newGradleRunner()
+        .withArguments(
+            "spdxSbomForRelease", "--stacktrace", "-Dorg.gradle.unsafe.isolated-projects=true")
+        .build();
 
-    Path outputFile = test.getFile("build/spdx/release.spdx.json");
-    test.verifyBasic(outputFile);
+    var outputFile = test.getFile("build/spdx/release.spdx.json");
+    var sbom = test.verifyBasic(outputFile);
 
-    MatcherAssert.assertThat(result.getOutput(), Matchers.containsString(versionWarning));
+    MatcherAssert.assertThat(sbom, Matchers.containsString("\"versionInfo\" : \"dont-override\""));
+    MatcherAssert.assertThat(sbom, Matchers.containsString("\"versionInfo\" : \"test-2.3.4\""));
   }
 }
