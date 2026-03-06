@@ -19,8 +19,8 @@ dependencies {
     compileOnly("org.immutables:value-annotations")
     annotationProcessor("org.immutables:value")
 
-    implementation("org.spdx:java-spdx-library:1.1.12")
-    implementation("org.spdx:spdx-jackson-store:1.1.9.1")
+    implementation("org.spdx:java-spdx-library:2.0.2")
+    implementation("org.spdx:spdx-jackson-store:2.0.4")
     implementation("org.apache.maven:maven-model-builder:3.9.9")
     implementation("org.apache.maven:maven-model:3.9.9")
     implementation("com.google.guava:guava:33.4.6-jre")
@@ -29,7 +29,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher") // https://github.com/junit-team/junit5/issues/4374
     testImplementation("org.hamcrest:hamcrest-library:3.0")
-    testImplementation("org.spdx:tools-java:1.1.8")
+    testImplementation("org.spdx:tools-java:2.0.4")
 }
 
 gradlePlugin {
