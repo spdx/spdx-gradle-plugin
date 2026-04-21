@@ -66,8 +66,6 @@ import org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension;
 import org.spdx.sbom.gradle.maven.MavenPackageSupplierBuilder;
 import org.spdx.sbom.gradle.maven.PomInfo;
 import org.spdx.sbom.gradle.project.DocumentInfo;
-import org.spdx.sbom.gradle.project.ImmutableProjectInfo;
-import org.spdx.sbom.gradle.project.IsolatedProjectInfo;
 import org.spdx.sbom.gradle.project.ProjectInfo;
 import org.spdx.sbom.gradle.project.ScmInfo;
 import org.spdx.sbom.gradle.uri.URIs;
@@ -81,7 +79,6 @@ public class SpdxDocumentBuilder {
   private final SpdxLicenses licenses;
   private final ProjectInfo thisProject;
   private final Map<String, ProjectInfo> allProjectInfo;
-  private final Map<String, IsolatedProjectInfo> allIsolatedProjectInfo;
   private final HashMap<ComponentIdentifier, SpdxPackage> spdxPackages = new HashMap<>();
 
   private final HashMap<ComponentIdentifier, LinkedHashSet<ComponentIdentifier>> tree =
@@ -107,13 +104,12 @@ public class SpdxDocumentBuilder {
   public SpdxDocumentBuilder(
       ProjectInfo thisProject,
       Map<String, ProjectInfo> allProjectInfo,
-      Map<String, IsolatedProjectInfo> allIsolatedProjectInfo,
       Logger logger,
       IModelStore modelStore,
       Map<ComponentArtifactIdentifier, File> resolvedExternalArtifacts,
       Map<String, URI> mavenArtifactRepositories,
       Map<String, PomInfo> poms,
-      SpdxSbomTaskExtension spdxSbomTaskExtension,
+      @Nullable SpdxSbomTaskExtension spdxSbomTaskExtension,
       DocumentInfo documentInfo,
       ScmInfo scmInfo,
       SpdxKnownLicenses knownLicenses,
@@ -164,7 +160,6 @@ public class SpdxDocumentBuilder {
     this.scmInfo = scmInfo;
     this.thisProject = thisProject;
     this.allProjectInfo = allProjectInfo;
-    this.allIsolatedProjectInfo = allIsolatedProjectInfo;
 
     this.resolvedExternalArtifacts =
         resolvedExternalArtifacts.entrySet().stream()
@@ -288,7 +283,7 @@ public class SpdxDocumentBuilder {
       logger.warn(
           "spdx sboms require a version but project: "
               + pi.getName()
-              + " has no known version due to project isolation, experimental SpdxSbomTaskExtension can inject versions for these projects");
+              + " has no known version due to project isolation, use org.spdx.sbom.settings settings plugin to fix");
       version = "NOASSERTION";
     } else if (ProjectInfo.VERSION_UNSPECIFIED.equals(version)) {
       logger.warn(
@@ -420,15 +415,7 @@ public class SpdxDocumentBuilder {
       return thisProject;
     }
 
-    var resolved = ImmutableProjectInfo.builder().from(allProjectInfo.get(projectPath));
-
-    var isolatedProjectInfo = allIsolatedProjectInfo.get(projectPath);
-    if (isolatedProjectInfo != null) {
-      resolved.version(isolatedProjectInfo.getVersion());
-      isolatedProjectInfo.getDescription().ifPresent(resolved::description);
-      isolatedProjectInfo.getGroup().ifPresent(resolved::group);
-    }
-    return resolved.build();
+    return allProjectInfo.get(projectPath);
   }
 
   public SpdxDocument getSpdxDocument() {

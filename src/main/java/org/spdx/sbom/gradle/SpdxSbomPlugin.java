@@ -71,7 +71,7 @@ public class SpdxSbomPlugin implements Plugin<Project> {
             .getGradle()
             .getSharedServices()
             .registerIfAbsent(
-                "spdxProjectInfoService",
+                ProjectInfoService.SERVICE_NAME,
                 ProjectInfoService.class,
                 spec ->
                     spec.getParameters()
@@ -93,10 +93,6 @@ public class SpdxSbomPlugin implements Plugin<Project> {
               target.getScm().getTool().convention("git");
               target.getScm().getRevision().convention("<no-scm-revision>");
               target.getScm().getUri().convention("<no-scm-uri>");
-              target
-                  .getIsolatedProjects()
-                  .getIsolatedProjectInfo()
-                  .convention(Collections.emptyMap());
               target
                   .getOutputFile()
                   .convention(
@@ -134,8 +130,6 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                   t.getThisProject().set(ProjectInfo.from(project));
                   t.getDocumentInfo().set(DocumentInfo.from(target));
                   t.getScmInfo().set(ScmInfo.from(target));
-                  t.getIsolatedProjectInfo()
-                      .set(target.getIsolatedProjects().getIsolatedProjectInfo());
                   t.getIgnoreNonMavenDependencies().set(target.getIgnoreNonMavenDependencies());
 
                   boolean hasAndroidPlugin = project.getPlugins().hasPlugin("com.android.base");
@@ -228,8 +222,10 @@ public class SpdxSbomPlugin implements Plugin<Project> {
             .getDependencyResolutionManagement()
             .getRepositories()
             .getAsMap();
-    ImmutableMap.Builder<String, ArtifactRepository> repositories = ImmutableMap.builder();
-    return repositories.putAll(projectRepositories).putAll(settingsRepositories).build();
+    return ImmutableMap.<String, ArtifactRepository>builder()
+        .putAll(projectRepositories)
+        .putAll(settingsRepositories)
+        .build();
   }
 
   private static class ArtifactTransformer
