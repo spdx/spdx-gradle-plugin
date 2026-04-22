@@ -42,7 +42,6 @@ import org.spdx.library.model.SpdxDocument;
 import org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension;
 import org.spdx.sbom.gradle.maven.PomInfo;
 import org.spdx.sbom.gradle.project.DocumentInfo;
-import org.spdx.sbom.gradle.project.IsolatedProjectInfo;
 import org.spdx.sbom.gradle.project.ProjectInfo;
 import org.spdx.sbom.gradle.project.ProjectInfoService;
 import org.spdx.sbom.gradle.project.ScmInfo;
@@ -76,7 +75,9 @@ public abstract class SpdxSbomTask extends DefaultTask {
   abstract Property<ProjectInfoService> getProjectInfoService();
 
   @Input
-  abstract MapProperty<String, IsolatedProjectInfo> getIsolatedProjectInfo();
+  Map<String, ProjectInfo> getAllProjectInfo() {
+    return getProjectInfoService().get().getAllProjectInfo();
+  }
 
   @Input
   abstract MapProperty<String, String> getMavenRepositories();
@@ -107,8 +108,7 @@ public abstract class SpdxSbomTask extends DefaultTask {
     SpdxDocumentBuilder documentBuilder =
         new SpdxDocumentBuilder(
             getThisProject().get(),
-            getProjectInfoService().get().getAllProjectInfo(),
-            getIsolatedProjectInfo().get(),
+            getAllProjectInfo(),
             getLogger(),
             modelStore,
             getResolvedArtifacts().get(),

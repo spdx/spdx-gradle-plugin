@@ -111,6 +111,7 @@ spdxSbom {
 ### Notes
 - Licensing and copyright is somewhat incomplete (works well for maven deps)
 - Output is always json
+- Repository Management: Repository discovery works by inspecting the repositories of the project being analyzed as well as repositories defined in `dependencyResolutionManagement` in `settings.gradle`. For multi-project builds, it is highly recommended to define repositories in `settings.gradle` to ensure consistent discovery across all subprojects.
 
 ### Experimental
 
@@ -118,36 +119,18 @@ If you use these experimental features, they will change them whenever with no n
 to support very specific build usecases and are not for general consumption
 
 #### Project Isolation (unreleased)
-To inject project information that would otherwise be unresolvable for all project dependencies
-by the tooling when setting `-Dorg.gradle.unsafe.isolated-projects=true`.
+For projects using project isolation (`-Dorg.gradle.unsafe.isolated-projects=true`), project metadata (like version and group) for project dependencies is not automatically available to the plugin.
 
-Using this extension with caution and note the following behavior:
-- This data is accessed by the `org.spdx.sbom` plugin whether you are in isolated-projects mode or not.
-- You *cannot* change the values on the current `project` that an sbom is being generated for, only
-  on its project dependencies. Setting the IsolatedProjectInfo on the project in question will just
-  be ignored.
-- The plugin makes no effort to validate your inputs here, and if this goes out of sync with your
-  project build setup you may end up with inconsistent sboms.
+The preferred way to handle this is to apply the `org.spdx.sbom.settings` plugin in your `settings.gradle.kts` (or `settings.gradle`) file. This plugin automatically aggregates the necessary information from all projects in the build.
 
 ```kotlin
-import org.spdx.sbom.gradle.project.IsolatedProjectInfo
-
-spdxSbom {
-  targets {
-    create ("release") {
-      ...
-      isolatedProjects {
-        isolatedProjectInfo.set(project.provider {
-          mapOf<String, IsolatedProjectInfo>(
-            ":" to IsolatedProjectInfo.of(":", "root-project-version"),
-            ":sub-project" to IsolatedProjectInfo.of(":sub-project", "sub-project-version")
-          )
-        })
-      }
-    }
-  }
+// settings.gradle.kts
+plugins {
+    id("org.spdx.sbom.settings") version "TBD"
 }
 ```
+
+If you cannot use the settings plugin, the project metadata will be marked as `NOASSERTION` in the generated SBOM for project dependencies.
 
 #### Task Extension (probably bad idea to use)
 use `taskExtension` to modify sbom data provided to the sbom task. The goal is

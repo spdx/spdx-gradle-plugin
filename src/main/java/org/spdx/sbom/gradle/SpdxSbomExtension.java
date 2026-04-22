@@ -19,10 +19,8 @@ import org.gradle.api.Action;
 import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.provider.ListProperty;
-import org.gradle.api.provider.MapProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Nested;
-import org.spdx.sbom.gradle.project.IsolatedProjectInfo;
 
 public interface SpdxSbomExtension {
 
@@ -50,13 +48,6 @@ public interface SpdxSbomExtension {
     public void document(Action<? super Document> configure) {
       configure.execute(getDocument());
     }
-
-    @Nested
-    public abstract IsolatedProjects getIsolatedProjects();
-
-    public void isolatedProjects(Action<? super IsolatedProjects> configure) {
-      configure.execute(getIsolatedProjects());
-    }
   }
 
   abstract class Scm {
@@ -82,10 +73,6 @@ public interface SpdxSbomExtension {
     public void uberPackage(Action<? super UberPackage> configure) {
       configure.execute(getUberPackage());
     }
-  }
-
-  abstract class IsolatedProjects {
-    public abstract MapProperty<String, IsolatedProjectInfo> getIsolatedProjectInfo();
   }
 
   interface UberPackage {

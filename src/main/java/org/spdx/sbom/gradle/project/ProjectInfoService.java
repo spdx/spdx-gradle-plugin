@@ -23,7 +23,13 @@ import org.gradle.api.services.BuildService;
 import org.gradle.api.services.BuildServiceParameters;
 import org.spdx.sbom.gradle.project.ProjectInfoService.RootProjectParam;
 
+/**
+ * A service to keep all project data, this can be populated by either the SpdxSbomSettingsPlugin or
+ * the SpdxSbomPlugin depending on configuration, but should ideally be configured by the settings
+ * plugin to ensure maximal compatibility with project isolation.
+ */
 public abstract class ProjectInfoService implements BuildService<RootProjectParam> {
+  public static final String SERVICE_NAME = "spdxProjectInfoService";
 
   public interface RootProjectParam extends BuildServiceParameters {
     SetProperty<ProjectInfo> getAllProjects();
