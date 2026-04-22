@@ -2,7 +2,7 @@ plugins {
     id("com.gradle.plugin-publish") version "1.3.1"
     id("com.diffplug.spotless") version "8.1.0"
     signing
-    id("org.spdx.sbom") version "0.10.0"
+    id("org.spdx.sbom") version "0.11.0"
 }
 
 group = "org.spdx"
@@ -123,6 +123,10 @@ signing {
 spdxSbom {
     targets {
         create("example") {
+            scm {
+                uri.set("github.com/spdx/spdx-gradle-plugin")
+                revision.set("dev")
+            }
         }
     }
 }
