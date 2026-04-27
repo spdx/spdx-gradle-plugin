@@ -34,7 +34,7 @@ Apply and configure the plugin
 plugins {
   `java`
   ...
-  id("org.spdx.sbom") version "0.10.0"
+  id("org.spdx.sbom") version "0.11.0"
 }
 ...
 // there is no default build, you *must* specify a target
@@ -111,14 +111,19 @@ spdxSbom {
 ### Notes
 - Licensing and copyright is somewhat incomplete (works well for maven deps)
 - Output is always json
-- Repository Management: Repository discovery works by inspecting the repositories of the project being analyzed as well as repositories defined in `dependencyResolutionManagement` in `settings.gradle`. For multi-project builds, it is highly recommended to define repositories in `settings.gradle` to ensure consistent discovery across all subprojects.
+- Repository Management: Repository discovery works by inspecting the repositories of the project
+  being analyzed as well as repositories defined in `dependencyResolutionManagement` in `settings.gradle.kts`
+  (or `settings.gradle`). For multi-project builds, it is highly recommended to define repositories
+  at the settings level to ensure consistent discovery across all subprojects. This plugin may not
+  interpret advanced resolution strategies correctly if the same dependency can be resolved from multiple
+  locations and users should double check outputs in those cases.
 
 ### Experimental
 
-If you use these experimental features, they will change them whenever with no notification. They are
-to support very specific build usecases and are not for general consumption
+We try our best to prevent breakages with experimental features, but they may change with no
+warning. Check back here after every release if you use them.
 
-#### Project Isolation (unreleased)
+#### Project Isolation
 For projects using project isolation (`-Dorg.gradle.unsafe.isolated-projects=true`), project metadata (like version and group) for project dependencies is not automatically available to the plugin.
 
 The preferred way to handle this is to apply the `org.spdx.sbom.settings` plugin in your `settings.gradle.kts` (or `settings.gradle`) file. This plugin automatically aggregates the necessary information from all projects in the build.
@@ -126,7 +131,7 @@ The preferred way to handle this is to apply the `org.spdx.sbom.settings` plugin
 ```kotlin
 // settings.gradle.kts
 plugins {
-    id("org.spdx.sbom.settings") version "TBD"
+    id("org.spdx.sbom.settings") version "0.11.0"
 }
 ```
 
