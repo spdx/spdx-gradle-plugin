@@ -24,6 +24,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -79,11 +80,11 @@ public class SpdxDocumentBuilder {
   private final SpdxLicenses licenses;
   private final ProjectInfo thisProject;
   private final Map<String, ProjectInfo> allProjectInfo;
-  private final HashMap<ComponentIdentifier, SpdxPackage> spdxPackages = new HashMap<>();
+  private final HashMap<ComponentIdentifier, List<SpdxPackage>> spdxPackages = new HashMap<>();
 
   private final HashMap<ComponentIdentifier, LinkedHashSet<ComponentIdentifier>> tree =
       new LinkedHashMap<>();
-  private final Map<ComponentIdentifier, File> resolvedExternalArtifacts;
+  private final Map<ComponentIdentifier, Set<File>> resolvedExternalArtifacts;
   private final Map<String, URI> mavenArtifactRepositories;
   private final Map<String, PomInfo> poms;
   private final Logger logger;
@@ -147,7 +148,7 @@ public class SpdxDocumentBuilder {
               .build();
       this.rootPackageId = new RootPackageIdentifier();
       doc.setDocumentDescribes(Collections.singletonList(this.rootPackage));
-      this.spdxPackages.put(rootPackageId, rootPackage);
+      this.spdxPackages.put(rootPackageId, List.of(rootPackage));
       this.tree.putIfAbsent(rootPackageId, new LinkedHashSet<>());
     } else {
       this.rootPackage = null;
@@ -166,16 +167,10 @@ public class SpdxDocumentBuilder {
             .filter(
                 e -> !(e.getKey().getComponentIdentifier() instanceof ProjectComponentIdentifier))
             .collect(
-                Collectors.toMap(
+                Collectors.groupingBy(
                     e -> e.getKey().getComponentIdentifier(),
-                    Entry::getValue,
-                    (file1, file2) -> {
-                      if (Objects.equals(file1, file2)) {
-                        return file1;
-                      } else
-                        throw new IllegalStateException(
-                            "cannot merge duplicate " + file1 + " and " + file2);
-                    }));
+                    Collectors.mapping(Entry::getValue, Collectors.toSet())
+                ));
     this.mavenArtifactRepositories = mavenArtifactRepositories;
     this.poms = poms;
 
@@ -187,14 +182,19 @@ public class SpdxDocumentBuilder {
   public void add(ResolvedComponentResult root) throws InvalidSPDXAnalysisException, IOException {
     add(rootPackageId, root, new HashSet<>());
     doc.setDocumentDescribes(
-        Collections.singletonList(
-            rootPackage == null ? spdxPackages.get(root.getId()) : rootPackage));
+        rootPackage == null
+            ? new ArrayList<>(spdxPackages.get(root.getId()))
+            : List.of(rootPackage));
 
     for (var pkg : tree.keySet()) {
       for (var child : tree.get(pkg)) {
-        var rel =
-            doc.createRelationship(spdxPackages.get(child), RelationshipType.DEPENDS_ON, null);
-        spdxPackages.get(pkg).addRelationship(rel);
+        for (var childPkg : spdxPackages.get(child)) {
+          for (var parentPkg : spdxPackages.get(pkg)) {
+            var rel =
+                doc.createRelationship(childPkg, RelationshipType.DEPENDS_ON, null);
+            parentPkg.addRelationship(rel);
+          }
+        }
       }
     }
   }
@@ -229,13 +229,13 @@ public class SpdxDocumentBuilder {
       return true;
     }
 
-    Optional<SpdxPackage> maybePackage = createPackageIfNeeded(component);
-    if (maybePackage.isEmpty()) {
+    List<SpdxPackage> packages = createPackagesIfNeeded(component);
+    if (packages.isEmpty()) {
       logger.info("ignoring: " + component.getId());
       return false;
     }
 
-    spdxPackages.put(component.getId(), maybePackage.get());
+    spdxPackages.put(component.getId(), packages);
     tree.putIfAbsent(component.getId(), new LinkedHashSet<>());
     if (parent != null) {
       tree.get(parent).add(component.getId());
@@ -244,14 +244,14 @@ public class SpdxDocumentBuilder {
     return true;
   }
 
-  private Optional<SpdxPackage> createPackageIfNeeded(ResolvedComponentResult component)
+  private List<SpdxPackage> createPackagesIfNeeded(ResolvedComponentResult component)
       throws InvalidSPDXAnalysisException, IOException {
     if (component.getId() instanceof ProjectComponentIdentifier) {
       return shouldCreatePackageForProject(component)
-          ? Optional.of(createProjectPackage(component))
-          : Optional.empty();
+          ? List.of(createProjectPackage(component))
+          : List.of();
     } else if (component.getId() instanceof ModuleComponentIdentifier) {
-      return createMavenModulePackage(component);
+      return createMavenModulePackages(component);
     } else {
       throw new RuntimeException(
           "Unknown package type: "
@@ -319,19 +319,19 @@ public class SpdxDocumentBuilder {
     return builder.build();
   }
 
-  private Optional<SpdxPackage> createMavenModulePackage(
+  private List<SpdxPackage> createMavenModulePackages(
       ResolvedComponentResult resolvedComponentResult)
       throws InvalidSPDXAnalysisException, IOException {
 
     // if the project doesn't resolve to anything, ignore it
-    File dependencyFile = resolvedExternalArtifacts.get(resolvedComponentResult.getId());
-    if (dependencyFile != null) {
+    Set<File> dependencyFiles = resolvedExternalArtifacts.get(resolvedComponentResult.getId());
+    if (dependencyFiles != null && !dependencyFiles.isEmpty()) {
       ModuleVersionIdentifier moduleId = resolvedComponentResult.getModuleVersion();
       PomInfo pomInfo = poms.get(resolvedComponentResult.getId().getDisplayName());
       if (pomInfo == null) {
         if (ignoreNonMavenDependencies) {
           logger.warn("Ignoring dependency without POM file: " + moduleId);
-          return Optional.empty();
+          return Collections.emptyList();
         } else {
           throw new RuntimeException("No POM file found for dependency " + moduleId);
         }
@@ -343,15 +343,6 @@ public class SpdxDocumentBuilder {
       } catch (InvalidSPDXAnalysisException e) {
         throw new InvalidSPDXAnalysisException("Component: " + resolvedComponentResult, e);
       }
-
-      SpdxPackageBuilder spdxPkgBuilder =
-          doc.createPackage(
-                  doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
-                  moduleId.getGroup() + ":" + moduleId.getName(),
-                  new SpdxNoAssertionLicense(),
-                  "NOASSERTION",
-                  license)
-              .setSupplier("NOASSERTION");
 
       String sourceRepo;
       if (GradleVersion.current().compareTo(GradleVersion.version("8.2")) < 0) {
@@ -367,42 +358,57 @@ public class SpdxDocumentBuilder {
       // Gradle 8.2 has an issue that causes sourceRepo to be a generated id instead of the name
       // Gradle 8.2.1 resolved that issue
       var repoUri = mavenArtifactRepositories.get(sourceRepo);
-      if (taskExtension != null) {
-        repoUri = taskExtension.mapRepoUri(repoUri, moduleId);
+
+      List<SpdxPackage> packages = new ArrayList<>();
+      for (File dependencyFile : dependencyFiles) {
+        SpdxPackageBuilder spdxPkgBuilder =
+            doc.createPackage(
+                    doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
+                    moduleId.getGroup() + ":" + moduleId.getName(),
+                    new SpdxNoAssertionLicense(),
+                    "NOASSERTION",
+                    license)
+                .setSupplier("NOASSERTION");
+
+        var currentRepoUri = repoUri;
+        if (taskExtension != null) {
+          currentRepoUri = taskExtension.mapRepoUri(currentRepoUri, moduleId);
+        }
+        if (currentRepoUri == null) {
+          spdxPkgBuilder.setDownloadLocation("NOASSERTION");
+        } else {
+          spdxPkgBuilder.setDownloadLocation(
+              URIs.toDownloadLocation(currentRepoUri, moduleId, dependencyFile.getName()).toString());
+        }
+
+        if (currentRepoUri != null) {
+          var externalRef =
+              doc.createExternalRef(
+                  ReferenceCategory.PACKAGE_MANAGER,
+                  new ReferenceType(SpdxConstants.SPDX_LISTED_REFERENCE_TYPES_PREFIX + "purl"),
+                  URIs.toPurl(currentRepoUri, moduleId),
+                  null);
+          spdxPkgBuilder.setExternalRefs(List.of(externalRef));
+        }
+
+        spdxPkgBuilder.setVersionInfo(moduleId.getVersion());
+
+        spdxPkgBuilder.setSupplier(MavenPackageSupplierBuilder.buildPackageSupplier(pomInfo));
+
+        String sha1 =
+            com.google.common.io.Files.asByteSource(dependencyFile).hash(Hashing.sha1()).toString();
+        var checksumSha1 = doc.createChecksum(ChecksumAlgorithm.SHA1, sha1);
+        String sha256 =
+            com.google.common.io.Files.asByteSource(dependencyFile).hash(Hashing.sha256()).toString();
+        var checksumSha256 = doc.createChecksum(ChecksumAlgorithm.SHA256, sha256);
+        spdxPkgBuilder.setChecksums(List.of(checksumSha1, checksumSha256));
+        spdxPkgBuilder.setFilesAnalyzed(false);
+
+        packages.add(spdxPkgBuilder.build());
       }
-      if (repoUri == null) {
-        spdxPkgBuilder.setDownloadLocation("NOASSERTION");
-      } else {
-        spdxPkgBuilder.setDownloadLocation(
-            URIs.toDownloadLocation(repoUri, moduleId, dependencyFile.getName()).toString());
-      }
-
-      if (repoUri != null) {
-        var externalRef =
-            doc.createExternalRef(
-                ReferenceCategory.PACKAGE_MANAGER,
-                new ReferenceType(SpdxConstants.SPDX_LISTED_REFERENCE_TYPES_PREFIX + "purl"),
-                URIs.toPurl(repoUri, moduleId),
-                null);
-        spdxPkgBuilder.setExternalRefs(Collections.singletonList(externalRef));
-      }
-
-      spdxPkgBuilder.setVersionInfo(moduleId.getVersion());
-
-      spdxPkgBuilder.setSupplier(MavenPackageSupplierBuilder.buildPackageSupplier(pomInfo));
-
-      String sha1 =
-          com.google.common.io.Files.asByteSource(dependencyFile).hash(Hashing.sha1()).toString();
-      var checksumSha1 = doc.createChecksum(ChecksumAlgorithm.SHA1, sha1);
-      String sha256 =
-          com.google.common.io.Files.asByteSource(dependencyFile).hash(Hashing.sha256()).toString();
-      var checksumSha256 = doc.createChecksum(ChecksumAlgorithm.SHA256, sha256);
-      spdxPkgBuilder.setChecksums(List.of(checksumSha1, checksumSha256));
-      spdxPkgBuilder.setFilesAnalyzed(false);
-
-      return Optional.of(spdxPkgBuilder.build());
+      return packages;
     }
-    return Optional.empty();
+    return Collections.emptyList();
   }
 
   /**
