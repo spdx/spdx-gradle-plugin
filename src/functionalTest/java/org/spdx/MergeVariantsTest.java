@@ -37,7 +37,7 @@ public class MergeVariantsTest {
             .newKotlinSettings("spdx-functional-test-project")
             .newFile(
                 "build.gradle.kts",
-                """
+"""
 plugins {
   id("org.spdx.sbom")
   java
@@ -49,6 +49,7 @@ repositories {
 dependencies {
   implementation("org.xmlresolver:xmlresolver:5.2.1")
   implementation("org.xmlresolver:xmlresolver:5.2.1:data")
+  implementation("com.google.protobuf:protoc:3.21.12:linux-x86_64@exe")
 }
 
 spdxSbom {
@@ -60,16 +61,25 @@ spdxSbom {
 }
                 """);
 
-    var result =
-        test.newGradleRunner()
-            .withArguments("spdxSbomForRelease", "--stacktrace")
-            .withDebug(true)
-            .build();
+    var result = test.newGradleRunner().withArguments("spdxSbomForRelease", "--stacktrace").build();
 
     Path outputFile = test.getFile("build/spdx/release.spdx.json");
     String sbom = test.verifyBasic(outputFile);
 
-    // Let's assert that the output contains the dependency
+    // Let's assert that the output contains both dependencies
     MatcherAssert.assertThat(sbom, Matchers.containsString("org.xmlresolver:xmlresolver"));
+    MatcherAssert.assertThat(sbom, Matchers.containsString("org.xmlresolver:xmlresolver:data"));
+    MatcherAssert.assertThat(
+        sbom,
+        Matchers.containsString(
+            "pkg:maven/org.xmlresolver/xmlresolver@5.2.1?classifier=data&repository_url=repo.maven.apache.org%2Fmaven2"));
+
+    // Assertions for dependency with custom classifier and non-jar type
+    MatcherAssert.assertThat(
+        sbom, Matchers.containsString("com.google.protobuf:protoc:linux-x86_64"));
+    MatcherAssert.assertThat(
+        sbom,
+        Matchers.containsString(
+            "pkg:maven/com.google.protobuf/protoc@3.21.12?classifier=linux-x86_64&repository_url=repo.maven.apache.org%2Fmaven2&type=exe"));
   }
 }

@@ -81,4 +81,38 @@ class URIsTest {
     String purl = URIs.toPurl(URI.create("NOASSERTION"), moduleId);
     Assertions.assertEquals("pkg:maven/com.test/test@1.0.0", purl);
   }
+
+  @Test
+  public void toPurl_withClassifier() {
+    String purl = URIs.toPurl(URI.create("https://repo.maven.org/maven2"), moduleId, "data");
+    Assertions.assertEquals("pkg:maven/com.test/test@1.0.0?classifier=data", purl);
+  }
+
+  @Test
+  public void toPurl_otherRepoWithClassifier() {
+    String purl = URIs.toPurl(URI.create("https://repo.other.org/maven2"), moduleId, "data");
+    Assertions.assertEquals(
+        "pkg:maven/com.test/test@1.0.0?classifier=data&repository_url=repo.other.org%2Fmaven2",
+        purl);
+  }
+
+  @Test
+  public void toPurl_withExtension() {
+    String purl = URIs.toPurl(URI.create("https://repo.maven.org/maven2"), moduleId, null, "zip");
+    Assertions.assertEquals("pkg:maven/com.test/test@1.0.0?type=zip", purl);
+  }
+
+  @Test
+  public void toPurl_withClassifierAndExtension() {
+    String purl = URIs.toPurl(URI.create("https://repo.maven.org/maven2"), moduleId, "data", "zip");
+    Assertions.assertEquals("pkg:maven/com.test/test@1.0.0?classifier=data&type=zip", purl);
+  }
+
+  @Test
+  public void toPurl_otherRepoWithClassifierAndExtension() {
+    String purl = URIs.toPurl(URI.create("https://repo.other.org/maven2"), moduleId, "data", "zip");
+    Assertions.assertEquals(
+        "pkg:maven/com.test/test@1.0.0?classifier=data&repository_url=repo.other.org%2Fmaven2&type=zip",
+        purl);
+  }
 }
