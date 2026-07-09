@@ -36,6 +36,7 @@ import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.work.DisableCachingByDefault;
 import org.spdx.jacksonstore.MultiFormatStore;
 import org.spdx.jacksonstore.MultiFormatStore.Format;
 import org.spdx.library.model.SpdxDocument;
@@ -50,6 +51,8 @@ import org.spdx.sbom.gradle.utils.SpdxKnownLicensesService;
 import org.spdx.storage.ISerializableModelStore;
 import org.spdx.storage.simple.InMemSpdxStore;
 
+@DisableCachingByDefault(
+    because = "Generates SBOM which is not easily cacheable due to varying external dependencies")
 public abstract class SpdxSbomTask extends DefaultTask {
 
   @ServiceReference
