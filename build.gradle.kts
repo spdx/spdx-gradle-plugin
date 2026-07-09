@@ -1,6 +1,8 @@
+import org.gradle.api.plugins.jvm.JvmTestSuite
+
 plugins {
-    id("com.gradle.plugin-publish") version "1.3.1"
-    id("com.diffplug.spotless") version "8.1.0"
+    id("com.gradle.plugin-publish") version "2.1.1"
+    id("com.diffplug.spotless") version "8.8.0"
     signing
     id("org.spdx.sbom") version "0.11.0"
 }
@@ -13,23 +15,17 @@ repositories {
 }
 
 dependencies {
-    compileOnly(platform("org.immutables:bom:2.10.1"))
-    annotationProcessor(platform("org.immutables:bom:2.10.1"))
+    compileOnly(platform("org.immutables:bom:2.12.2"))
+    annotationProcessor(platform("org.immutables:bom:2.12.2"))
     compileOnly("org.immutables:serial")
     compileOnly("org.immutables:value-annotations")
     annotationProcessor("org.immutables:value")
 
     implementation("org.spdx:java-spdx-library:1.1.12")
     implementation("org.spdx:spdx-jackson-store:1.1.9.1")
-    implementation("org.apache.maven:maven-model-builder:3.9.9")
-    implementation("org.apache.maven:maven-model:3.9.9")
-    implementation("com.google.guava:guava:33.4.6-jre")
-
-    testImplementation(platform("org.junit:junit-bom:5.12.1"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher") // https://github.com/junit-team/junit5/issues/4374
-    testImplementation("org.hamcrest:hamcrest-library:3.0")
-    testImplementation("org.spdx:tools-java:1.1.8")
+    implementation("org.apache.maven:maven-model-builder:3.9.16")
+    implementation("org.apache.maven:maven-model:3.9.16")
+    implementation("com.google.guava:guava:33.6.0-jre")
 }
 
 gradlePlugin {
@@ -58,27 +54,28 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-val functionalTestSourceSet = sourceSets.create("functionalTest") {}
-
-configurations["functionalTestImplementation"].extendsFrom(configurations["testImplementation"])
-configurations["functionalTestRuntimeOnly"].extendsFrom(configurations["testRuntimeOnly"])
-
-val functionalTest by tasks.registering(Test::class) {
-    testClassesDirs = functionalTestSourceSet.output.classesDirs
-    classpath = functionalTestSourceSet.runtimeClasspath
-    useJUnitPlatform()
+testing {
+    suites {
+        withType<JvmTestSuite>().configureEach {
+            useJUnitJupiter()
+            dependencies {
+                implementation(platform("org.junit:junit-bom:6.1.1"))
+                implementation("org.junit.jupiter:junit-jupiter")
+                runtimeOnly("org.junit.platform:junit-platform-launcher")
+                implementation("org.hamcrest:hamcrest-library:3.0")
+                implementation("org.spdx:tools-java:1.1.8")
+                implementation(gradleApi())
+            }
+        }
+        val test = named<JvmTestSuite>("test")
+        val functionalTest = register<JvmTestSuite>("functionalTest")
+    }
 }
 
-gradlePlugin.testSourceSets(functionalTestSourceSet)
+gradlePlugin.testSourceSets(sourceSets.getByName("functionalTest"))
 
 tasks.named<Task>("check") {
-    // Run the functional tests as part of `check`
-    dependsOn(functionalTest)
-}
-
-tasks.named<Test>("test") {
-    // Use JUnit Jupiter for unit tests.
-    useJUnitPlatform()
+    dependsOn(tasks.named("functionalTest"))
 }
 
 tasks.named<Javadoc>("javadoc") {
@@ -115,8 +112,8 @@ tasks.withType<Sign> {
 }
 
 signing {
-    val signingKey: String? by project
-    val signingPassword: String? by project
+    val signingKey = project.findProperty("signingKey") as String?
+    val signingPassword = project.findProperty("signingPassword") as String?
     useInMemoryPgpKeys(signingKey, signingPassword)
 }
 
