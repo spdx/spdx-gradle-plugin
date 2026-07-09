@@ -18,6 +18,8 @@ package org.spdx.sbom.gradle.uri;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import org.gradle.api.artifacts.ModuleVersionIdentifier;
 
 public class URIs {
@@ -41,14 +43,42 @@ public class URIs {
   }
 
   public static String toPurl(URI repoUri, ModuleVersionIdentifier moduleId) {
+    return toPurl(repoUri, moduleId, null, null);
+  }
+
+  public static String toPurl(URI repoUri, ModuleVersionIdentifier moduleId, String classifier) {
+    return toPurl(repoUri, moduleId, classifier, null);
+  }
+
+  public static String toPurl(
+      URI repoUri, ModuleVersionIdentifier moduleId, String classifier, String extension) {
     var repo = repoUri.toString();
     var locator =
         "pkg:maven/" + moduleId.getGroup() + "/" + moduleId.getName() + "@" + moduleId.getVersion();
+
+    List<String> params = new ArrayList<>();
+    if (classifier != null && !classifier.isEmpty()) {
+      params.add("classifier=" + classifier);
+    }
+    if (extension != null && !extension.isEmpty() && !extension.equals("jar")) {
+      params.add("type=" + extension);
+    }
+
     repo = trimTrailingSlashes(repo);
     if (!repo.equals("https://repo.maven.org/maven2") && !repo.equals("NOASSERTION")) {
       repo = trimPrefix(repo, "http://");
       repo = trimPrefix(repo, "https://");
-      locator = locator + ("?repository_url=" + URLEncoder.encode(repo, StandardCharsets.UTF_8));
+      params.add("repository_url=" + URLEncoder.encode(repo, StandardCharsets.UTF_8));
+    }
+
+    if (!params.isEmpty()) {
+      params.sort(
+          (p1, p2) -> {
+            String k1 = p1.split("=", 2)[0];
+            String k2 = p2.split("=", 2)[0];
+            return k1.compareTo(k2);
+          });
+      locator = locator + "?" + String.join("&", params);
     }
     return locator;
   }
