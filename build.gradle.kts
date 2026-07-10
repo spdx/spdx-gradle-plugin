@@ -21,8 +21,8 @@ dependencies {
     compileOnly("org.immutables:value-annotations")
     annotationProcessor("org.immutables:value")
 
-    implementation("org.spdx:java-spdx-library:1.1.12")
-    implementation("org.spdx:spdx-jackson-store:1.1.9.1")
+    implementation("org.spdx:java-spdx-library:2.0.4")
+    implementation("org.spdx:spdx-jackson-store:2.0.6")
     implementation("org.apache.maven:maven-model-builder:3.9.16")
     implementation("org.apache.maven:maven-model:3.9.16")
     implementation("com.google.guava:guava:33.6.0-jre")
@@ -63,7 +63,7 @@ testing {
                 implementation("org.junit.jupiter:junit-jupiter")
                 runtimeOnly("org.junit.platform:junit-platform-launcher")
                 implementation("org.hamcrest:hamcrest-library:3.0")
-                implementation("org.spdx:tools-java:1.1.8")
+                implementation("org.spdx:tools-java:2.0.7")
                 implementation(gradleApi())
             }
         }
