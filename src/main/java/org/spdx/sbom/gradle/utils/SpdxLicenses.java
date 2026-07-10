@@ -21,14 +21,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.gradle.api.logging.Logger;
-import org.spdx.library.InvalidSPDXAnalysisException;
-import org.spdx.library.ModelCopyManager;
-import org.spdx.library.model.SpdxDocument;
-import org.spdx.library.model.license.AnyLicenseInfo;
-import org.spdx.library.model.license.ExtractedLicenseInfo;
-import org.spdx.library.model.license.LicenseInfoFactory;
-import org.spdx.library.model.license.ListedLicenses;
-import org.spdx.library.model.license.SpdxNoAssertionLicense;
+import org.spdx.core.IModelCopyManager;
+import org.spdx.core.InvalidSPDXAnalysisException;
+import org.spdx.library.LicenseInfoFactory;
+import org.spdx.library.model.v2.SpdxDocument;
+import org.spdx.library.model.v2.license.AnyLicenseInfo;
+import org.spdx.library.model.v2.license.ExtractedLicenseInfo;
+import org.spdx.library.model.v2.license.SpdxNoAssertionLicense;
 import org.spdx.sbom.gradle.maven.PomInfo.LicenseInfo;
 import org.spdx.storage.IModelStore;
 import org.spdx.storage.IModelStore.IdType;
@@ -37,17 +36,16 @@ public class SpdxLicenses {
 
   private final Logger logger;
   private final Map<String, AnyLicenseInfo> projectLicenses = new HashMap<>();
-
   private final SpdxDocument doc;
   private final IModelStore modelStore;
-  private final ModelCopyManager copyManager;
+  private final IModelCopyManager copyManager;
   private final SpdxKnownLicenses knownLicenses;
 
   private SpdxLicenses(
       Logger logger,
       SpdxDocument doc,
       IModelStore modelStore,
-      ModelCopyManager copyManager,
+      IModelCopyManager copyManager,
       SpdxKnownLicenses knownLicenses) {
     this.logger = logger;
     this.doc = doc;
@@ -57,16 +55,14 @@ public class SpdxLicenses {
   }
 
   public static SpdxLicenses newSpdxLicenes(
-      Logger logger, SpdxDocument doc, SpdxKnownLicenses spdxKnownLicenses)
-      throws InvalidSPDXAnalysisException {
-    ListedLicenses.initializeListedLicenses(new SpdxListedLicenseEmbeddedStore());
+      Logger logger, SpdxDocument doc, SpdxKnownLicenses spdxKnownLicenses) {
     return new SpdxLicenses(
         logger, doc, doc.getModelStore(), doc.getCopyManager(), spdxKnownLicenses);
   }
 
   public AnyLicenseInfo asSpdxLicense(List<LicenseInfo> licenses)
       throws InvalidSPDXAnalysisException {
-    if (licenses.size() == 0) {
+    if (licenses.isEmpty()) {
       return new SpdxNoAssertionLicense();
     }
     if (licenses.size() == 1) {
@@ -97,7 +93,7 @@ public class SpdxLicenses {
       AnyLicenseInfo knownLicense;
       try {
         knownLicense =
-            LicenseInfoFactory.parseSPDXLicenseString(
+            LicenseInfoFactory.parseSPDXLicenseStringCompatV2(
                 knownLicenses.getIdFor(license), modelStore, doc.getDocumentUri(), copyManager);
       } catch (InvalidSPDXAnalysisException e) {
         throw new InvalidSPDXAnalysisException("license: " + license, e);
@@ -116,14 +112,14 @@ public class SpdxLicenses {
 
   private AnyLicenseInfo createNewUnknownLicense(LicenseInfo license)
       throws InvalidSPDXAnalysisException {
-    var licenseId = modelStore.getNextId(IdType.LicenseRef, doc.getDocumentUri());
+    var licenseId = modelStore.getNextId(IdType.LicenseRef);
     ExtractedLicenseInfo unknown =
         new ExtractedLicenseInfo(modelStore, doc.getDocumentUri(), licenseId, copyManager, true);
     unknown.setName(license.getName());
     unknown.setExtractedText(license.getName());
     unknown.setSeeAlso(Collections.singleton(SpdxKnownLicenses.normalize(license.getUrl())));
     doc.addExtractedLicenseInfos(unknown);
-    return LicenseInfoFactory.parseSPDXLicenseString(
+    return LicenseInfoFactory.parseSPDXLicenseStringCompatV2(
         licenseId, modelStore, doc.getDocumentUri(), copyManager);
   }
 }

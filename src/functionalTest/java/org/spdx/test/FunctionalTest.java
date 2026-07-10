@@ -99,6 +99,7 @@ public class FunctionalTest {
     assertTrue(Files.isRegularFile(outputFile));
     var sbom = Files.readString(outputFile);
     System.out.println(sbom);
+    SpdxToolsHelper.initialize();
     Verify.verify(outputFile.toFile().getAbsolutePath(), SpdxToolsHelper.SerFileType.JSON);
     return sbom;
   }

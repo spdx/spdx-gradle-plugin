@@ -42,11 +42,26 @@ public class SpdxKnownLicenses {
     this.licenses = ImmutableMap.copyOf(licenses);
   }
 
-  public static SpdxKnownLicenses knownLicenses() throws IOException, JsonParseException {
-    InputStream inputStream =
-        SpdxKnownLicenses.class
-            .getClassLoader()
-            .getResourceAsStream("standard_licenses/licenses.json");
+  public static SpdxKnownLicenses knownLicenses(boolean onlyUseLocalLicenses)
+      throws IOException, JsonParseException {
+    InputStream inputStream = null;
+    if (!onlyUseLocalLicenses) {
+      try {
+        java.net.URL url = new java.net.URL(REMOTE_LICENSES);
+        inputStream = url.openStream();
+      } catch (IOException e) {
+        // Fallback to local cache if offline
+      }
+    }
+    if (inputStream == null) {
+      inputStream =
+          SpdxKnownLicenses.class
+              .getClassLoader()
+              .getResourceAsStream("resources/stdlicenses/licenses.json");
+    }
+    if (inputStream == null) {
+      throw new IOException("Could not load licenses.json from web or classpath resources");
+    }
     return fromStream(inputStream);
   }
 

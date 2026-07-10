@@ -39,7 +39,8 @@ import org.gradle.api.tasks.TaskAction;
 import org.gradle.work.DisableCachingByDefault;
 import org.spdx.jacksonstore.MultiFormatStore;
 import org.spdx.jacksonstore.MultiFormatStore.Format;
-import org.spdx.library.model.SpdxDocument;
+import org.spdx.library.SpdxModelFactory;
+import org.spdx.library.model.v2.SpdxDocument;
 import org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension;
 import org.spdx.sbom.gradle.maven.PomInfo;
 import org.spdx.sbom.gradle.project.DocumentInfo;
@@ -102,6 +103,7 @@ public abstract class SpdxSbomTask extends DefaultTask {
 
   @TaskAction
   public void generateSbom() throws Exception {
+    SpdxModelFactory.init();
     ISerializableModelStore modelStore =
         new MultiFormatStore(new InMemSpdxStore(), Format.JSON_PRETTY);
 
@@ -134,6 +136,6 @@ public abstract class SpdxSbomTask extends DefaultTask {
     verificationErrors.forEach(errors -> getLogger().warn(errors));
 
     FileOutputStream out = new FileOutputStream(getOutputFile().get().getAsFile());
-    modelStore.serialize(doc.getDocumentUri(), out);
+    modelStore.serialize(out, doc);
   }
 }

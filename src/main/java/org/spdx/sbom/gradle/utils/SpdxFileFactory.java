@@ -20,12 +20,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collections;
-import org.spdx.library.InvalidSPDXAnalysisException;
-import org.spdx.library.model.Checksum;
-import org.spdx.library.model.SpdxDocument;
-import org.spdx.library.model.SpdxFile;
-import org.spdx.library.model.enumerations.ChecksumAlgorithm;
-import org.spdx.library.model.license.SpdxNoAssertionLicense;
+import org.spdx.core.InvalidSPDXAnalysisException;
+import org.spdx.library.model.v2.Checksum;
+import org.spdx.library.model.v2.SpdxDocument;
+import org.spdx.library.model.v2.SpdxFile;
+import org.spdx.library.model.v2.enumerations.ChecksumAlgorithm;
+import org.spdx.library.model.v2.license.SpdxNoAssertionLicense;
 import org.spdx.storage.IModelStore.IdType;
 
 public class SpdxFileFactory {
@@ -43,7 +43,7 @@ public class SpdxFileFactory {
     Path relativePath = projectDir.relativize(file);
     Checksum checksum = doc.createChecksum(ChecksumAlgorithm.SHA1, sha1);
     return doc.createSpdxFile(
-            doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
+            doc.getModelStore().getNextId(IdType.SpdxId),
             relativePath.toString(),
             new SpdxNoAssertionLicense(),
             Collections.emptyList(),

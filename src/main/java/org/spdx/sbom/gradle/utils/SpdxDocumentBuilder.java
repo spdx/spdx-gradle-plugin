@@ -49,20 +49,20 @@ import org.gradle.api.internal.artifacts.result.ResolvedComponentResultInternal;
 import org.gradle.api.logging.Logger;
 import org.gradle.util.GradleVersion;
 import org.jetbrains.annotations.NotNull;
-import org.spdx.library.InvalidSPDXAnalysisException;
+import org.spdx.core.InvalidSPDXAnalysisException;
 import org.spdx.library.ModelCopyManager;
-import org.spdx.library.SpdxConstants;
-import org.spdx.library.model.ReferenceType;
-import org.spdx.library.model.SpdxDocument;
-import org.spdx.library.model.SpdxItem;
-import org.spdx.library.model.SpdxModelFactory;
-import org.spdx.library.model.SpdxPackage;
-import org.spdx.library.model.SpdxPackage.SpdxPackageBuilder;
-import org.spdx.library.model.enumerations.ChecksumAlgorithm;
-import org.spdx.library.model.enumerations.ReferenceCategory;
-import org.spdx.library.model.enumerations.RelationshipType;
-import org.spdx.library.model.license.AnyLicenseInfo;
-import org.spdx.library.model.license.SpdxNoAssertionLicense;
+import org.spdx.library.model.v2.ReferenceType;
+import org.spdx.library.model.v2.SpdxConstantsCompatV2;
+import org.spdx.library.model.v2.SpdxDocument;
+import org.spdx.library.model.v2.SpdxItem;
+import org.spdx.library.model.v2.SpdxModelFactoryCompatV2;
+import org.spdx.library.model.v2.SpdxPackage;
+import org.spdx.library.model.v2.SpdxPackage.SpdxPackageBuilder;
+import org.spdx.library.model.v2.enumerations.ChecksumAlgorithm;
+import org.spdx.library.model.v2.enumerations.ReferenceCategory;
+import org.spdx.library.model.v2.enumerations.RelationshipType;
+import org.spdx.library.model.v2.license.AnyLicenseInfo;
+import org.spdx.library.model.v2.license.SpdxNoAssertionLicense;
 import org.spdx.sbom.gradle.extensions.SpdxSbomTaskExtension;
 import org.spdx.sbom.gradle.maven.MavenPackageSupplierBuilder;
 import org.spdx.sbom.gradle.maven.PomInfo;
@@ -118,7 +118,7 @@ public class SpdxDocumentBuilder {
       throws InvalidSPDXAnalysisException {
     this.documentInfo = documentInfo;
     doc =
-        SpdxModelFactory.createSpdxDocument(
+        SpdxModelFactoryCompatV2.createSpdxDocumentV2(
             modelStore, documentInfo.getNamespace(), new ModelCopyManager());
     doc.setName(documentInfo.getName());
 
@@ -136,7 +136,7 @@ public class SpdxDocumentBuilder {
       var uberPackageInfo = documentInfo.getUberPackageInfo().get();
       this.rootPackage =
           doc.createPackage(
-                  doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
+                  doc.getModelStore().getNextId(IdType.SpdxId),
                   uberPackageInfo.getName(),
                   new SpdxNoAssertionLicense(),
                   "NOASSERTION",
@@ -297,7 +297,7 @@ public class SpdxDocumentBuilder {
     }
     SpdxPackageBuilder builder =
         doc.createPackage(
-                doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
+                doc.getModelStore().getNextId(IdType.SpdxId),
                 pi.getName(),
                 new SpdxNoAssertionLicense(),
                 "NOASSERTION",
@@ -387,7 +387,7 @@ public class SpdxDocumentBuilder {
     String extension = getExtension(dependencyFile.getName());
     SpdxPackageBuilder spdxPkgBuilder =
         doc.createPackage(
-                doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
+                doc.getModelStore().getNextId(IdType.SpdxId),
                 moduleId.getGroup()
                     + ":"
                     + moduleId.getName()
@@ -405,7 +405,7 @@ public class SpdxDocumentBuilder {
       var externalRef =
           doc.createExternalRef(
               ReferenceCategory.PACKAGE_MANAGER,
-              new ReferenceType(SpdxConstants.SPDX_LISTED_REFERENCE_TYPES_PREFIX + "purl"),
+              new ReferenceType(SpdxConstantsCompatV2.SPDX_LISTED_REFERENCE_TYPES_PREFIX + "purl"),
               URIs.toPurl(repoUri, moduleId, classifier, extension),
               null);
       spdxPkgBuilder.setExternalRefs(List.of(externalRef));
@@ -433,7 +433,7 @@ public class SpdxDocumentBuilder {
       throws InvalidSPDXAnalysisException, IOException {
     SpdxPackageBuilder componentPkgBuilder =
         doc.createPackage(
-                doc.getModelStore().getNextId(IdType.SpdxId, doc.getDocumentUri()),
+                doc.getModelStore().getNextId(IdType.SpdxId),
                 moduleId.getGroup() + ":" + moduleId.getName(),
                 new SpdxNoAssertionLicense(),
                 "NOASSERTION",
