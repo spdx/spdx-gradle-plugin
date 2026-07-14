@@ -34,7 +34,7 @@ Apply and configure the plugin
 plugins {
   `java`
   ...
-  id("org.spdx.sbom") version "0.11.0"
+  id("org.spdx.sbom") version "0.12.0"
 }
 ...
 // there is no default build, you *must* specify a target
@@ -111,8 +111,6 @@ spdxSbom {
 }
 ```
 
-<!-- uncomment after release
-
 #### Offline Mode / Local Licenses
 
 By default, the plugin will attempt to connect to `https://spdx.org/licenses/` to fetch the latest standard licenses list.
@@ -133,8 +131,6 @@ This can be configured in two ways:
    ```bash
    ./gradlew spdxSbom --offline
    ```
-
--->
 
 ### Notes
 - Licensing and copyright is somewhat incomplete (works well for maven deps)
@@ -159,7 +155,7 @@ The preferred way to handle this is to apply the `org.spdx.sbom.settings` plugin
 ```kotlin
 // settings.gradle.kts
 plugins {
-    id("org.spdx.sbom.settings") version "0.11.0"
+    id("org.spdx.sbom.settings") version "0.12.0"
 }
 ```
 
