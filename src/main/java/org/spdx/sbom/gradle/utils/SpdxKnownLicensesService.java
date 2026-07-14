@@ -16,17 +16,28 @@
 package org.spdx.sbom.gradle.utils;
 
 import java.io.IOException;
+import javax.inject.Inject;
+import org.gradle.api.provider.Property;
 import org.gradle.api.services.BuildService;
 import org.gradle.api.services.BuildServiceParameters;
+import org.spdx.library.ListedLicenses;
 
 /** A shared service for loading remote spdx license list. */
 public abstract class SpdxKnownLicensesService
-    implements BuildService<BuildServiceParameters.None> {
+    implements BuildService<SpdxKnownLicensesService.Params> {
+
+  public interface Params extends BuildServiceParameters {
+    Property<Boolean> getOnlyUseLocalLicenses();
+  }
 
   private final SpdxKnownLicenses spdxKnownLicenses;
 
+  @Inject
   public SpdxKnownLicensesService() throws IOException {
-    this.spdxKnownLicenses = SpdxKnownLicenses.knownLicenses();
+    boolean offline = getParameters().getOnlyUseLocalLicenses().getOrElse(false);
+    System.setProperty("org.spdx.useJARLicenseInfoOnly", String.valueOf(offline));
+    ListedLicenses.getListedLicenses();
+    this.spdxKnownLicenses = SpdxKnownLicenses.knownLicenses(offline);
   }
 
   public SpdxKnownLicenses getKnownLicenses() {

@@ -66,6 +66,9 @@ Example output for the plugin run on this project is [example.spdx.json](example
 Tasks can be configured via the extension
 ```kotlin
 spdxSbom {
+  // don't download remote license data (defaults to false)
+  onlyUseLocalLicenses.set(true)
+
   targets {
     // create a target named "release",
     // this is used for the task name (spdxSbomForRelease)
@@ -107,6 +110,31 @@ spdxSbom {
   }
 }
 ```
+
+<!-- uncomment after release
+
+#### Offline Mode / Local Licenses
+
+By default, the plugin will attempt to connect to `https://spdx.org/licenses/` to fetch the latest standard licenses list.
+
+If you are running in an offline environment or want to speed up builds by avoiding network requests, you can force the plugin to use the standard licenses cached locally inside the `java-spdx-library` dependency.
+
+This can be configured in two ways:
+
+1. **Via the Extension (Project level)**:
+   ```kotlin
+   spdxSbom {
+     onlyUseLocalLicenses.set(true)
+   }
+   ```
+
+2. **Via Gradle `--offline` flag**:
+   Running a Gradle build in offline mode automatically defaults `onlyUseLocalLicenses` to `true`:
+   ```bash
+   ./gradlew spdxSbom --offline
+   ```
+
+-->
 
 ### Notes
 - Licensing and copyright is somewhat incomplete (works well for maven deps)

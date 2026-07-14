@@ -24,6 +24,8 @@ import org.gradle.api.tasks.Nested;
 
 public interface SpdxSbomExtension {
 
+  Property<Boolean> getOnlyUseLocalLicenses();
+
   NamedDomainObjectContainer<Target> getTargets();
 
   abstract class Target {

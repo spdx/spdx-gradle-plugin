@@ -59,13 +59,8 @@ public class SpdxSbomPlugin implements Plugin<Project> {
     this.buildFeatures = buildFeatures;
   }
 
+  @Override
   public void apply(Project project) {
-    Provider<SpdxKnownLicensesService> knownLicenseServiceProvider =
-        project
-            .getGradle()
-            .getSharedServices()
-            .registerIfAbsent(
-                "spdxKnownLicensesService", SpdxKnownLicensesService.class, spec -> {});
     Provider<ProjectInfoService> projectInfoService =
         project
             .getGradle()
@@ -82,7 +77,26 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                                     ProjectInfo.from(
                                         project.getRootProject().getAllprojects(),
                                         buildFeatures.getIsolatedProjects().getActive()))));
-    var extension = project.getExtensions().create("spdxSbom", SpdxSbomExtension.class);
+
+    SpdxSbomExtension extension =
+        project.getExtensions().create("spdxSbom", SpdxSbomExtension.class);
+
+    extension
+        .getOnlyUseLocalLicenses()
+        .convention(project.getGradle().getStartParameter().isOffline());
+
+    Provider<SpdxKnownLicensesService> knownLicenseServiceProvider =
+        project
+            .getGradle()
+            .getSharedServices()
+            .registerIfAbsent(
+                "spdxKnownLicensesService",
+                SpdxKnownLicensesService.class,
+                spec -> {
+                  spec.getParameters()
+                      .getOnlyUseLocalLicenses()
+                      .set(extension.getOnlyUseLocalLicenses());
+                });
     extension
         .getTargets()
         .configureEach(
@@ -110,10 +124,13 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                   t.setGroup("Spdx sbom tasks");
                   t.setDescription("Run all sbom tasks in this project");
                 });
-    extension.getTargets().all(target -> createTaskForTarget(project, target, aggregate));
+    extension
+        .getTargets()
+        .all(target -> createTaskForTarget(project, target, extension, aggregate));
   }
 
-  private void createTaskForTarget(Project project, Target target, TaskProvider<Task> aggregate) {
+  private void createTaskForTarget(
+      Project project, Target target, SpdxSbomExtension extension, TaskProvider<Task> aggregate) {
     String name =
         (target.getName().length() <= 1)
             ? target.getName().toUpperCase()
