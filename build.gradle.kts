@@ -59,7 +59,7 @@ testing {
         withType<JvmTestSuite>().configureEach {
             useJUnitJupiter()
             dependencies {
-                implementation(platform("org.junit:junit-bom:6.1.1"))
+                implementation(platform("org.junit:junit-bom:6.1.2"))
                 implementation("org.junit.jupiter:junit-jupiter")
                 runtimeOnly("org.junit.platform:junit-platform-launcher")
                 implementation("org.hamcrest:hamcrest-library:3.0")
