@@ -2,7 +2,7 @@ import org.gradle.api.plugins.jvm.JvmTestSuite
 
 plugins {
     id("com.gradle.plugin-publish") version "2.1.1"
-    id("com.diffplug.spotless") version "8.8.0"
+    id("com.diffplug.spotless") version "8.9.0"
     signing
     id("org.spdx.sbom") version "0.12.0"
 }
@@ -59,7 +59,7 @@ testing {
         withType<JvmTestSuite>().configureEach {
             useJUnitJupiter()
             dependencies {
-                implementation(platform("org.junit:junit-bom:6.1.2"))
+                implementation(platform("org.junit:junit-bom:6.1.3"))
                 implementation("org.junit.jupiter:junit-jupiter")
                 runtimeOnly("org.junit.platform:junit-platform-launcher")
                 implementation("org.hamcrest:hamcrest-library:3.0")
