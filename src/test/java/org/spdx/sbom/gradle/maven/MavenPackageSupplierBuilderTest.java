@@ -110,6 +110,21 @@ public class MavenPackageSupplierBuilderTest {
   }
 
   @Test
+  void useTheDevelopersNameIfPresentAndOrganizationNameIsNull() {
+    var nullNameOrganization = new Organization();
+
+    PomInfo pomInfo =
+        ImmutablePomInfo.builder()
+            .homepage("https://example.com")
+            .organization(nullNameOrganization)
+            .addDevelopers(ImmutableDeveloperInfo.builder().name("loosebazooka").build())
+            .build();
+
+    Assertions.assertEquals(
+        "Person: loosebazooka", MavenPackageSupplierBuilder.buildPackageSupplier(pomInfo));
+  }
+
+  @Test
   void useTheDevelopersNameAndEmailIfPresent() {
     PomInfo pomInfo =
         ImmutablePomInfo.builder()

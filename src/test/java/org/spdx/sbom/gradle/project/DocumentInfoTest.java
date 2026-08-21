@@ -68,6 +68,79 @@ class DocumentInfoTest {
   }
 
   @Test
+  void from_trimmedWhitespace() {
+    Project project = ProjectBuilder.builder().build();
+    project.getPlugins().apply("org.spdx.sbom");
+    project
+        .getExtensions()
+        .getByType(SpdxSbomExtension.class)
+        .getTargets()
+        .create(
+            "test",
+            target ->
+                target.document(
+                    d -> {
+                      d.getName().set(" test-name ");
+                      d.getCreator().set(" Person: Goose Moose ");
+                      d.getPackageSupplier().set(" Person: Goose Moose ");
+                      d.getNamespace().set(" https://example.com/test ");
+                      d.uberPackage(
+                          uber -> {
+                            uber.getVersion().set(" 1.0.0 ");
+                            uber.getName().set(" test-uber ");
+                            uber.getSupplier().set(" Person: Goose Moose ");
+                          });
+                    }));
+    DocumentInfo di =
+        DocumentInfo.from(
+            project
+                .getExtensions()
+                .getByType(SpdxSbomExtension.class)
+                .getTargets()
+                .getByName("test"));
+    Assertions.assertEquals("test-name", di.getName());
+    Assertions.assertEquals("https://example.com/test", di.getNamespace());
+    Assertions.assertEquals(Optional.of("Person: Goose Moose"), di.getCreator());
+    Assertions.assertEquals(Optional.of("Person: Goose Moose"), di.getSupplier());
+    Optional<UberPackageInfo> rp = di.getUberPackageInfo();
+    Assertions.assertTrue(rp.isPresent());
+    Assertions.assertEquals("1.0.0", rp.get().getVersion());
+    Assertions.assertEquals("test-uber", rp.get().getName());
+    Assertions.assertEquals("Person: Goose Moose", rp.get().getSupplier());
+  }
+
+  @Test
+  void from_blankCreatorAndSupplierIgnored() {
+    Project project = ProjectBuilder.builder().build();
+    project.getPlugins().apply("org.spdx.sbom");
+    project
+        .getExtensions()
+        .getByType(SpdxSbomExtension.class)
+        .getTargets()
+        .create(
+            "test",
+            target ->
+                target.document(
+                    d -> {
+                      d.getName().set("test-name");
+                      d.getNamespace().set("test-namespace");
+                      d.getCreator().set("   ");
+                      d.getPackageSupplier().set("   ");
+                    }));
+    DocumentInfo di =
+        DocumentInfo.from(
+            project
+                .getExtensions()
+                .getByType(SpdxSbomExtension.class)
+                .getTargets()
+                .getByName("test"));
+    Assertions.assertEquals("test-name", di.getName());
+    Assertions.assertEquals("test-namespace", di.getNamespace());
+    Assertions.assertTrue(di.getCreator().isEmpty());
+    Assertions.assertTrue(di.getSupplier().isEmpty());
+  }
+
+  @Test
   void from_requiredSet() {
     Project project = ProjectBuilder.builder().build();
     project.getPlugins().apply("org.spdx.sbom");

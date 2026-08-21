@@ -45,13 +45,17 @@ public abstract class ScmInfo {
 
   public static ScmInfo from(SpdxSbomExtension.Target target) {
     return ImmutableScmInfo.builder()
-        .tool(target.getScm().getTool().get())
-        .uri(target.getScm().getUri().get())
-        .revision(target.getScm().getRevision().get())
+        .tool(target.getScm().getTool().get().trim())
+        .uri(target.getScm().getUri().get().trim())
+        .revision(target.getScm().getRevision().get().trim())
         .build();
   }
 
   public static ScmInfo from(String tool, String uri, String revision) {
-    return ImmutableScmInfo.builder().tool(tool).uri(uri).revision(revision).build();
+    return ImmutableScmInfo.builder()
+        .tool(tool.trim())
+        .uri(uri.trim())
+        .revision(revision.trim())
+        .build();
   }
 }
