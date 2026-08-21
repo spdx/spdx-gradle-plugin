@@ -19,14 +19,16 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
+import org.apache.maven.model.Organization;
 
 public class MavenPackageSupplierBuilder {
   public static String buildPackageSupplier(PomInfo pomInfo) {
     var organizationName =
         pomInfo
             .getOrganization()
-            .map(o -> o.getName().trim())
-            .flatMap(o -> Optional.ofNullable(o.isEmpty() ? null : o))
+            .map(Organization::getName)
+            .map(String::trim)
+            .filter(o -> !o.isEmpty())
             .map(n -> "Organization: " + n);
 
     // if all the developers have the same organization, use it as the supplier

@@ -189,7 +189,7 @@ public class PomResolver {
     if (trimmed.isEmpty()) {
       return Optional.empty();
     } else {
-      return Optional.of(s);
+      return Optional.of(trimmed);
     }
   }
 

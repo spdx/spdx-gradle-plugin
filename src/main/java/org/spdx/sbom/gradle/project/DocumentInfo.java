@@ -17,6 +17,7 @@ package org.spdx.sbom.gradle.project;
 
 import java.util.Optional;
 import org.gradle.api.GradleException;
+import org.gradle.api.provider.Provider;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value.Immutable;
 import org.spdx.sbom.gradle.SpdxSbomExtension;
@@ -48,10 +49,10 @@ public interface DocumentInfo {
     var document = target.getDocument();
     var builder =
         ImmutableDocumentInfo.builder()
-            .name(document.getName().get())
-            .namespace(document.getNamespace().get())
-            .creator(Optional.ofNullable(document.getCreator().getOrNull()))
-            .supplier(Optional.ofNullable(document.getPackageSupplier().getOrNull()));
+            .name(document.getName().get().trim())
+            .namespace(document.getNamespace().get().trim())
+            .creator(trimmedOptional(document.getCreator()))
+            .supplier(trimmedOptional(document.getPackageSupplier()));
     var uberPackage = target.getDocument().getUberPackage();
     if (!uberPackage.getName().isPresent()
         && !uberPackage.getSupplier().isPresent()
@@ -63,9 +64,9 @@ public interface DocumentInfo {
       return builder
           .uberPackageInfo(
               ImmutableUberPackageInfo.builder()
-                  .name(uberPackage.getName().get())
-                  .version(uberPackage.getVersion().get())
-                  .supplier(uberPackage.getSupplier().get())
+                  .name(uberPackage.getName().get().trim())
+                  .version(uberPackage.getVersion().get().trim())
+                  .supplier(uberPackage.getSupplier().get().trim())
                   .build())
           .build();
     } else {
@@ -73,5 +74,9 @@ public interface DocumentInfo {
           "Must configure all properties of uberPackage if setting uberPackage on sbom target:"
               + target.getName());
     }
+  }
+
+  private static Optional<String> trimmedOptional(Provider<String> property) {
+    return Optional.ofNullable(property.getOrNull()).map(String::trim).filter(s -> !s.isEmpty());
   }
 }
