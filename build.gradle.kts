@@ -25,7 +25,7 @@ dependencies {
     implementation("org.spdx:spdx-jackson-store:2.0.6")
     implementation("org.apache.maven:maven-model-builder:3.9.16")
     implementation("org.apache.maven:maven-model:3.9.16")
-    implementation("com.google.guava:guava:33.7.0-jre")
+    implementation("com.google.guava:guava:33.7.1-jre")
 }
 
 gradlePlugin {
