@@ -23,10 +23,17 @@ import java.util.List;
 import org.gradle.api.artifacts.ModuleVersionIdentifier;
 
 public class URIs {
+  private static final URI NOASSERTION = URI.create("NOASSERTION");
+
   public static URI toDownloadLocation(
       URI repoUri, ModuleVersionIdentifier moduleId, String filename) {
     if ("NOASSERTION".equals(repoUri.toString())) {
       return repoUri;
+    }
+    // A local repository (mavenLocal(), or maven { url = uri("file:...") })
+    // gives a file: URL, which SPDX 2 rejects as a download location.
+    if ("file".equals(repoUri.getScheme())) {
+      return NOASSERTION;
     }
     if (!repoUri.toString().endsWith("/")) {
       repoUri = URI.create(repoUri.toString().concat("/"));

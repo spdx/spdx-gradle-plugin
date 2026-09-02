@@ -57,6 +57,13 @@ class URIsTest {
   }
 
   @Test
+  public void toDownloadLocation_localRepository() {
+    URI downloadLocation =
+        URIs.toDownloadLocation(URI.create("file:/home/user/.m2/repository"), moduleId, filename);
+    Assertions.assertEquals("NOASSERTION", downloadLocation.toString());
+  }
+
+  @Test
   public void toPurl_mavenCentral() {
     String purl = URIs.toPurl(URI.create("https://repo.maven.org/maven2"), moduleId);
     Assertions.assertEquals("pkg:maven/com.test/test@1.0.0", purl);
