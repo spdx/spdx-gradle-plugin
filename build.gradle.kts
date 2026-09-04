@@ -2,7 +2,7 @@ import org.gradle.api.plugins.jvm.JvmTestSuite
 
 plugins {
     id("com.gradle.plugin-publish") version "2.1.1"
-    id("com.diffplug.spotless") version "8.10.0"
+    id("com.diffplug.spotless") version "8.10.1"
     signing
     id("org.spdx.sbom") version "0.12.0"
 }
@@ -25,7 +25,7 @@ dependencies {
     implementation("org.spdx:spdx-jackson-store:2.0.6")
     implementation("org.apache.maven:maven-model-builder:3.9.16")
     implementation("org.apache.maven:maven-model:3.9.16")
-    implementation("com.google.guava:guava:33.7.0-jre")
+    implementation("com.google.guava:guava:33.7.1-jre")
 }
 
 gradlePlugin {
