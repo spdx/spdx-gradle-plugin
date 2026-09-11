@@ -1,8 +1,8 @@
 import org.gradle.api.plugins.jvm.JvmTestSuite
 
 plugins {
-    id("com.gradle.plugin-publish") version "2.1.1"
-    id("com.diffplug.spotless") version "8.10.1"
+    id("com.gradle.plugin-publish") version "2.2.0"
+    id("com.diffplug.spotless") version "8.10.2"
     signing
     id("org.spdx.sbom") version "0.12.0"
 }
