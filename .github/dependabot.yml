@@ -18,3 +18,11 @@ updates:
           - "*"
         exclude-patterns:
           - "org.spdx:*"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
