@@ -21,8 +21,8 @@ dependencies {
     compileOnly("org.immutables:value-annotations")
     annotationProcessor("org.immutables:value")
 
-    implementation("org.spdx:java-spdx-library:2.0.4")
-    implementation("org.spdx:spdx-jackson-store:2.0.6")
+    implementation("org.spdx:java-spdx-library:2.0.5")
+    implementation("org.spdx:spdx-jackson-store:2.0.7")
     implementation("org.apache.maven:maven-model-builder:3.9.16")
     implementation("org.apache.maven:maven-model:3.9.16")
     implementation("com.google.guava:guava:33.7.1-jre")
