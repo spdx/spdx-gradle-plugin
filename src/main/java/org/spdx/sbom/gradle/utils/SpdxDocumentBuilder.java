@@ -363,11 +363,7 @@ public class SpdxDocumentBuilder {
         currentRepoUri = taskExtension.mapRepoUri(currentRepoUri, moduleId);
       }
 
-      // An artifact resolved from a local repository (mavenLocal(), or
-      // maven { url = uri("file:...") }) has no location a consumer can fetch it from.
-      // Its file: URL is neither a valid SPDX download location nor a usable purl
-      // repository_url, so treat the repository as unknown: the null path below already
-      // renders that as NOASSERTION with no package-manager external reference.
+      // A file: repo is not somewhere a consumer can fetch from, so treat it as unknown.
       if (currentRepoUri != null && "file".equals(currentRepoUri.getScheme())) {
         currentRepoUri = null;
       }
