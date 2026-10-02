@@ -363,6 +363,11 @@ public class SpdxDocumentBuilder {
         currentRepoUri = taskExtension.mapRepoUri(currentRepoUri, moduleId);
       }
 
+      // A file: repo is not somewhere a consumer can fetch from, so treat it as unknown.
+      if (currentRepoUri != null && "file".equals(currentRepoUri.getScheme())) {
+        currentRepoUri = null;
+      }
+
       if (dependencyFiles.size() == 1) {
         return Optional.of(
             createFlatMavenPackage(
