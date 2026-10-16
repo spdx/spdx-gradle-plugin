@@ -2,7 +2,7 @@ import org.gradle.api.plugins.jvm.JvmTestSuite
 
 plugins {
     id("com.gradle.plugin-publish") version "2.2.1"
-    id("com.diffplug.spotless") version "8.10.3"
+    id("com.diffplug.spotless") version "8.10.4"
     signing
     id("org.spdx.sbom") version "0.12.0"
 }
@@ -15,8 +15,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly(platform("org.immutables:bom:2.12.2"))
-    annotationProcessor(platform("org.immutables:bom:2.12.2"))
+    compileOnly(platform("org.immutables:bom:2.12.3"))
+    annotationProcessor(platform("org.immutables:bom:2.12.3"))
     compileOnly("org.immutables:serial")
     compileOnly("org.immutables:value-annotations")
     annotationProcessor("org.immutables:value")
