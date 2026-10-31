@@ -21,12 +21,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.gradle.api.Project;
 import org.gradle.api.provider.Provider;
+import org.gradle.api.publish.PublishingExtension;
+import org.gradle.api.publish.maven.MavenPublication;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value.Immutable;
 import org.spdx.sbom.gradle.internal.AndroidVersionLoader;
 
 @Immutable
-@Serial.Version(1)
+@Serial.Version(2)
 public interface ProjectInfo {
 
   String VERSION_UNKNOWN = "unknown";
@@ -47,6 +49,19 @@ public interface ProjectInfo {
   // is not required and is not available in project isolation mode
   Optional<String> getGroup();
 
+  // only set when the project has exactly one resolvable Maven publication
+  Optional<MavenCoordinates> getMavenCoordinates();
+
+  @Immutable
+  @Serial.Version(1)
+  interface MavenCoordinates {
+    String getGroup();
+
+    String getArtifact();
+
+    String getVersion();
+  }
+
   static ProjectInfo from(Project project) {
     return ImmutableProjectInfo.builder()
         .name(project.getName())
@@ -55,7 +70,37 @@ public interface ProjectInfo {
         .projectDirectory(project.getProjectDir())
         .path(project.getPath())
         .group(project.getGroup().toString())
+        .mavenCoordinates(mavenCoordinates(project))
         .build();
+  }
+
+  static Optional<MavenCoordinates> mavenCoordinates(Project project) {
+    var publishing = project.getExtensions().findByType(PublishingExtension.class);
+    if (publishing == null) {
+      return Optional.empty();
+    }
+    var publications = publishing.getPublications().withType(MavenPublication.class);
+    if (publications.size() != 1) {
+      return Optional.empty();
+    }
+    var publication = publications.iterator().next();
+    String group = publication.getGroupId();
+    String artifact = publication.getArtifactId();
+    String version = publication.getVersion();
+    if (group == null
+        || group.isBlank()
+        || artifact == null
+        || artifact.isBlank()
+        || version == null
+        || version.isBlank()) {
+      return Optional.empty();
+    }
+    return Optional.of(
+        ImmutableMavenCoordinates.builder()
+            .group(group)
+            .artifact(artifact)
+            .version(version)
+            .build());
   }
 
   static ProjectInfo from(Project project, Provider<Boolean> isProjectIsolated) {
