@@ -50,6 +50,8 @@ public interface SpdxSbomExtension {
     public void document(Action<? super Document> configure) {
       configure.execute(getDocument());
     }
+
+    public abstract Property<String> getLicense();
   }
 
   abstract class Scm {

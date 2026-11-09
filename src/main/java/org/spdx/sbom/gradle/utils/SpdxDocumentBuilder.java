@@ -89,6 +89,7 @@ public class SpdxDocumentBuilder {
   private final Map<String, PomInfo> poms;
   private final Logger logger;
   private final DocumentInfo documentInfo;
+  private final AnyLicenseInfo thisProjectLicense;
 
   @Nullable private final SpdxSbomTaskExtension taskExtension;
   private final ScmInfo scmInfo;
@@ -113,6 +114,7 @@ public class SpdxDocumentBuilder {
       @Nullable SpdxSbomTaskExtension spdxSbomTaskExtension,
       DocumentInfo documentInfo,
       ScmInfo scmInfo,
+      @Nullable String declaredLicense,
       SpdxKnownLicenses knownLicenses,
       boolean ignoreNonMavenDependencies)
       throws InvalidSPDXAnalysisException {
@@ -132,6 +134,14 @@ public class SpdxDocumentBuilder {
             ZonedDateTime.now(ZoneOffset.UTC)
                 .truncatedTo(ChronoUnit.SECONDS)
                 .format(DateTimeFormatter.ISO_DATE_TIME)));
+    this.licenses = SpdxLicenses.newSpdxLicenes(logger, doc, knownLicenses);
+    this.logger = logger;
+    this.thisProject = thisProject;
+    this.thisProjectLicense =
+        declaredLicense != null
+            ? licenses.parseSpdxLicense(declaredLicense)
+            : new SpdxNoAssertionLicense();
+
     if (documentInfo.getUberPackageInfo().isPresent()) {
       var uberPackageInfo = documentInfo.getUberPackageInfo().get();
       this.rootPackage =
@@ -140,7 +150,7 @@ public class SpdxDocumentBuilder {
                   uberPackageInfo.getName(),
                   new SpdxNoAssertionLicense(),
                   "NOASSERTION",
-                  new SpdxNoAssertionLicense())
+                  thisProjectLicense)
               .setSupplier(uberPackageInfo.getSupplier())
               .setVersionInfo(uberPackageInfo.getVersion())
               .setDownloadLocation("NOASSERTION")
@@ -155,11 +165,7 @@ public class SpdxDocumentBuilder {
       this.rootPackageId = null;
     }
 
-    this.licenses = SpdxLicenses.newSpdxLicenes(logger, doc, knownLicenses);
-
-    this.logger = logger;
     this.scmInfo = scmInfo;
-    this.thisProject = thisProject;
     this.allProjectInfo = allProjectInfo;
 
     this.resolvedExternalArtifacts =
@@ -301,7 +307,7 @@ public class SpdxDocumentBuilder {
                 pi.getName(),
                 new SpdxNoAssertionLicense(),
                 "NOASSERTION",
-                new SpdxNoAssertionLicense())
+                declaredLicense(pi))
             .setFilesAnalyzed(false)
             .setDescription(pi.getDescription().orElse(""))
             .setDownloadLocation("NOASSERTION")
@@ -490,6 +496,13 @@ public class SpdxDocumentBuilder {
       return filename.substring(extIndex + 1);
     }
     return "";
+  }
+
+  private AnyLicenseInfo declaredLicense(ProjectInfo projectInfo)
+      throws InvalidSPDXAnalysisException {
+    return projectInfo.getPath().equals(thisProject.getPath())
+        ? thisProjectLicense
+        : new SpdxNoAssertionLicense();
   }
 
   public SpdxDocument getSpdxDocument() {

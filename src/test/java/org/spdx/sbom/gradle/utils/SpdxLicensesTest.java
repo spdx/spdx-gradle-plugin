@@ -15,16 +15,23 @@
  */
 package org.spdx.sbom.gradle.utils;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.spdx.sbom.gradle.maven.PomInfo.LicenseInfo.of;
 
 import java.util.List;
 import java.util.Set;
+import org.gradle.api.GradleException;
 import org.gradle.api.logging.Logging;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.spdx.library.ModelCopyManager;
 import org.spdx.library.SpdxModelFactory;
 import org.spdx.library.model.v2.SpdxDocument;
@@ -33,6 +40,7 @@ import org.spdx.library.model.v2.license.AnyLicenseInfo;
 import org.spdx.library.model.v2.license.ConjunctiveLicenseSet;
 import org.spdx.library.model.v2.license.DisjunctiveLicenseSet;
 import org.spdx.library.model.v2.license.ExtractedLicenseInfo;
+import org.spdx.library.model.v2.license.InvalidLicenseExpression;
 import org.spdx.library.model.v2.license.SpdxListedLicense;
 import org.spdx.library.model.v2.license.SpdxNoAssertionLicense;
 import org.spdx.library.model.v2.license.WithExceptionOperator;
@@ -49,9 +57,67 @@ class SpdxLicensesTest {
     knownLicenses = SpdxKnownLicenses.knownLicenses(true);
   }
 
+  private static SpdxLicenses newLicenses() throws Exception {
+    SpdxDocument doc =
+        SpdxModelFactoryCompatV2.createSpdxDocumentV2(
+            new InMemSpdxStore(), "https://example.com/test", new ModelCopyManager());
+    return newLicenses(doc);
+  }
+
   private static SpdxLicenses newLicenses(SpdxDocument doc) {
     return SpdxLicenses.newSpdxLicenes(
         Logging.getLogger(SpdxLicensesTest.class), doc, knownLicenses);
+  }
+
+  @ParameterizedTest
+  @ValueSource(
+      strings = {
+        "Apache-2.0",
+        "  MIT  ",
+        "Apache-2.0 OR MIT",
+        "(Apache-2.0 AND MIT) OR BSD-3-Clause",
+        "GPL-2.0-only WITH Classpath-exception-2.0",
+        "LGPL-2.1+",
+        "( Apache-2.0 OR (LGPL-2.1+) )",
+        "LGPL-2.1+ WITH WxWindows-exception-3.1",
+        "NONE",
+        "NOASSERTION"
+      })
+  void parseSpdxLicense_validExpressions(String expr) throws Exception {
+    AnyLicenseInfo parsed = newLicenses().parseSpdxLicense(expr);
+    assertFalse(parsed instanceof InvalidLicenseExpression);
+  }
+
+  @ParameterizedTest
+  @ValueSource(
+      strings = {
+        "",
+        "   ",
+        "apache-2.0",
+        "Apache-2.0 or MIT",
+        "GPL-2.0-only WITH classpath-exception-2.0",
+        "LicenseRef-custom",
+        "DocumentRef-ext:LicenseRef-custom",
+        "Apache-2.0 OR NONE",
+        "Apache-2.0 AND NOASSERTION",
+        "()",
+        "(Apache-2.0",
+        "Apache-2.0)",
+        "Apache-2.0 AND",
+        "AND Apache-2.0",
+        "Apache-2.0 MIT",
+        "(Apache-2.0) WITH Classpath-exception-2.0",
+        "(Apache-2.0)+",
+        "LGPL-2.1++",
+        "LGPL-2.1 +",
+        "GPL-2.0-only WITH MIT"
+      })
+  void parseSpdxLicense_invalidExpressionsRejected(String expr) throws Exception {
+    SpdxLicenses licenses = newLicenses();
+    GradleException ex = assertThrows(GradleException.class, () -> licenses.parseSpdxLicense(expr));
+    if ("apache-2.0".equals(expr)) {
+      assertThat(ex.getMessage(), containsString("(did you mean 'Apache-2.0'?)"));
+    }
   }
 
   @Test
