@@ -50,11 +50,14 @@ public class URIs {
     return toPurl(repoUri, moduleId, classifier, null);
   }
 
+  public static String toPurl(String group, String name, String version) {
+    return "pkg:maven/" + group + "/" + name + "@" + version;
+  }
+
   public static String toPurl(
       URI repoUri, ModuleVersionIdentifier moduleId, String classifier, String extension) {
     var repo = repoUri.toString();
-    var locator =
-        "pkg:maven/" + moduleId.getGroup() + "/" + moduleId.getName() + "@" + moduleId.getVersion();
+    var locator = toPurl(moduleId.getGroup(), moduleId.getName(), moduleId.getVersion());
 
     List<String> params = new ArrayList<>();
     if (classifier != null && !classifier.isEmpty()) {
