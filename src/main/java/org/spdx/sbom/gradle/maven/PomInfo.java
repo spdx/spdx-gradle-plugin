@@ -15,14 +15,16 @@
  */
 package org.spdx.sbom.gradle.maven;
 
+import com.google.common.base.Strings;
 import java.util.List;
 import java.util.Optional;
+import javax.annotation.Nullable;
 import org.apache.maven.model.Organization;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value.Immutable;
 
 @Immutable
-@Serial.Version(1)
+@Serial.Version(2)
 public interface PomInfo {
   List<LicenseInfo> getLicenses();
 
@@ -34,9 +36,21 @@ public interface PomInfo {
 
   @Immutable
   interface LicenseInfo {
+    @Nullable
     String getUrl();
 
+    @Nullable
     String getName();
+
+    static LicenseInfo of(@Nullable String name, @Nullable String url) {
+      return ImmutableLicenseInfo.builder().name(clean(name)).url(clean(url)).build();
+    }
+
+    @Nullable
+    private static String clean(@Nullable String value) {
+      String trimmed = Strings.nullToEmpty(value).trim();
+      return trimmed.isEmpty() || "NOASSERTION".equals(trimmed) ? null : trimmed;
+    }
   }
 
   @Immutable

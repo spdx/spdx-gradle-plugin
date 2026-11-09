@@ -18,12 +18,18 @@ package org.spdx.sbom.gradle.utils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.regex.Pattern;
+import javax.annotation.Nullable;
 import org.gradle.api.logging.Logger;
 import org.spdx.core.IModelCopyManager;
 import org.spdx.core.InvalidSPDXAnalysisException;
 import org.spdx.library.LicenseInfoFactory;
+import org.spdx.library.ListedLicenses;
 import org.spdx.library.model.v2.SpdxDocument;
 import org.spdx.library.model.v2.license.AnyLicenseInfo;
 import org.spdx.library.model.v2.license.ExtractedLicenseInfo;
@@ -34,8 +40,12 @@ import org.spdx.storage.IModelStore.IdType;
 
 public class SpdxLicenses {
 
+  private static final Pattern WHITESPACE = Pattern.compile("\\s+");
+
+  private record LicenseCacheKey(@Nullable String name, @Nullable String normalizedUrl) {}
+
   private final Logger logger;
-  private final Map<String, AnyLicenseInfo> projectLicenses = new HashMap<>();
+  private final Map<LicenseCacheKey, AnyLicenseInfo> projectLicenses = new HashMap<>();
   private final SpdxDocument doc;
   private final IModelStore modelStore;
   private final IModelCopyManager copyManager;
@@ -62,64 +72,160 @@ public class SpdxLicenses {
 
   public AnyLicenseInfo asSpdxLicense(List<LicenseInfo> licenses)
       throws InvalidSPDXAnalysisException {
-    if (licenses.isEmpty()) {
+    Set<AnyLicenseInfo> spdxLicenses = new LinkedHashSet<>();
+    for (var license : licenses) {
+      AnyLicenseInfo resolved = getOrCreateLicense(license);
+      if (!(resolved instanceof SpdxNoAssertionLicense)) {
+        spdxLicenses.add(resolved);
+      }
+    }
+    if (spdxLicenses.isEmpty()) {
       return new SpdxNoAssertionLicense();
     }
-    if (licenses.size() == 1) {
-      return getOrCreateLicense(licenses.get(0));
-    }
-    List<AnyLicenseInfo> spdxLicenses = new ArrayList<>();
-    for (var license : licenses) {
-      spdxLicenses.add(getOrCreateLicense(license));
+    if (spdxLicenses.size() == 1) {
+      return spdxLicenses.iterator().next();
     }
     return doc.createConjunctiveLicenseSet(spdxLicenses);
   }
 
   private AnyLicenseInfo getOrCreateLicense(LicenseInfo license)
       throws InvalidSPDXAnalysisException {
-    // convert all license
-
-    if (license.getUrl() == null) {
-      logger.warn("Ignoring unusual license " + license);
+    String name = license.getName();
+    String rawUrl = license.getUrl();
+    if (name == null && rawUrl == null) {
+      logger.warn("Ignoring unusual license {}", license);
       return new SpdxNoAssertionLicense();
     }
 
-    String normalizedLicenseUrl = SpdxKnownLicenses.normalize(license.getUrl());
-    if (projectLicenses.containsKey(normalizedLicenseUrl)) {
-      return projectLicenses.get(normalizedLicenseUrl);
-    }
-    // it's a known license
-    if (knownLicenses.contains(license)) {
-      AnyLicenseInfo knownLicense;
-      try {
-        knownLicense =
-            LicenseInfoFactory.parseSPDXLicenseStringCompatV2(
-                knownLicenses.getIdFor(license), modelStore, doc.getDocumentUri(), copyManager);
-      } catch (InvalidSPDXAnalysisException e) {
-        throw new InvalidSPDXAnalysisException("license: " + license, e);
-      }
-      projectLicenses.put(normalizedLicenseUrl, knownLicense);
-      return knownLicense;
+    String normalizedUrl = rawUrl != null ? SpdxKnownLicenses.normalize(rawUrl) : null;
+    LicenseCacheKey cacheKey = new LicenseCacheKey(name, normalizedUrl);
+    AnyLicenseInfo cached = projectLicenses.get(cacheKey);
+    if (cached != null) {
+      return cached;
     }
 
-    // handle new unknown licenses
-    // this is maybe not preferable, alternative is the user defining all the licenses
-    logger.debug("Non spdx-standard license detected in package: " + license);
-    var unknownLicense = createNewUnknownLicense(license);
-    projectLicenses.put(normalizedLicenseUrl, unknownLicense);
-    return unknownLicense;
+    AnyLicenseInfo resolved = resolveUncached(license, name, rawUrl, normalizedUrl);
+    projectLicenses.put(cacheKey, resolved);
+    return resolved;
   }
 
-  private AnyLicenseInfo createNewUnknownLicense(LicenseInfo license)
+  /**
+   * Resolves a POM license by: (1) exact SPDX ID/expression in name, (2) normalized URL, (3)
+   * standard license name from licenses.json, or (4) a generated ExtractedLicenseInfo preserving
+   * the raw URL.
+   */
+  private AnyLicenseInfo resolveUncached(
+      LicenseInfo license,
+      @Nullable String name,
+      @Nullable String rawUrl,
+      @Nullable String normalizedUrl)
+      throws InvalidSPDXAnalysisException {
+    if (name != null && isValidListedExpression(name)) {
+      return parseCompatV2(name);
+    }
+
+    Optional<String> knownId =
+        (normalizedUrl != null
+                ? knownLicenses.getIdForNormalizedUrl(normalizedUrl)
+                : Optional.<String>empty())
+            .or(() -> name != null ? knownLicenses.getIdForName(name) : Optional.empty());
+    if (knownId.isPresent()) {
+      return parseCompatV2(knownId.get());
+    }
+
+    logger.debug("Non spdx-standard license detected in package: {}", license);
+    return createNewUnknownLicense(name, rawUrl);
+  }
+
+  private AnyLicenseInfo parseCompatV2(String expression) throws InvalidSPDXAnalysisException {
+    return LicenseInfoFactory.parseSPDXLicenseStringCompatV2(
+        expression, modelStore, doc.getDocumentUri(), copyManager);
+  }
+
+  private AnyLicenseInfo createNewUnknownLicense(@Nullable String name, @Nullable String url)
       throws InvalidSPDXAnalysisException {
     var licenseId = modelStore.getNextId(IdType.LicenseRef);
     ExtractedLicenseInfo unknown =
         new ExtractedLicenseInfo(modelStore, doc.getDocumentUri(), licenseId, copyManager, true);
-    unknown.setName(license.getName());
-    unknown.setExtractedText(license.getName());
-    unknown.setSeeAlso(Collections.singleton(SpdxKnownLicenses.normalize(license.getUrl())));
+    if (name != null) {
+      unknown.setName(name);
+    }
+    unknown.setExtractedText(name != null ? name : url);
+    if (url != null) {
+      unknown.setSeeAlso(Collections.singleton(url));
+    }
     doc.addExtractedLicenseInfos(unknown);
-    return LicenseInfoFactory.parseSPDXLicenseStringCompatV2(
-        licenseId, modelStore, doc.getDocumentUri(), copyManager);
+    return unknown;
+  }
+
+  private static boolean isValidListedExpression(String expression) {
+    if (expression.isBlank()) {
+      return false;
+    }
+    ListedLicenses listed = ListedLicenses.getListedLicenses();
+    boolean expectOperand = true;
+    int depth = 0;
+    List<String> tokens = tokenize(expression);
+    for (int i = 0; i < tokens.size(); i++) {
+      String token = tokens.get(i);
+      if (expectOperand) {
+        if ("(".equals(token)) {
+          depth++;
+        } else if (isExactListedLicense(token, listed)) {
+          if (i + 1 < tokens.size() && "WITH".equals(tokens.get(i + 1))) {
+            if (i + 2 >= tokens.size() || !isExactListedException(tokens.get(i + 2), listed)) {
+              return false;
+            }
+            i += 2;
+          }
+          expectOperand = false;
+        } else {
+          return false;
+        }
+      } else if (")".equals(token)) {
+        if (--depth < 0) {
+          return false;
+        }
+      } else if ("AND".equals(token) || "OR".equals(token)) {
+        expectOperand = true;
+      } else {
+        return false;
+      }
+    }
+    return !expectOperand && depth == 0;
+  }
+
+  private static List<String> tokenize(String expr) {
+    List<String> tokens = new ArrayList<>();
+    for (String part : WHITESPACE.split(expr)) {
+      int start = 0;
+      while (start < part.length() && part.charAt(start) == '(') {
+        tokens.add("(");
+        start++;
+      }
+      int end = part.length();
+      int trailingParens = 0;
+      while (end > start && part.charAt(end - 1) == ')') {
+        trailingParens++;
+        end--;
+      }
+      if (start < end) {
+        tokens.add(part.substring(start, end));
+      }
+      for (int i = 0; i < trailingParens; i++) {
+        tokens.add(")");
+      }
+    }
+    return tokens;
+  }
+
+  private static boolean isExactListedLicense(String token, ListedLicenses listed) {
+    String id = token.endsWith("+") ? token.substring(0, token.length() - 1) : token;
+    return !id.endsWith("+")
+        && listed.listedLicenseIdCaseSensitive(id).filter(id::equals).isPresent();
+  }
+
+  private static boolean isExactListedException(String token, ListedLicenses listed) {
+    return listed.listedExceptionIdCaseSensitive(token).filter(token::equals).isPresent();
   }
 }
