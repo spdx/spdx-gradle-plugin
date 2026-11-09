@@ -158,13 +158,8 @@ public class PomResolver {
           ImmutablePomInfo.builder()
               .addAllLicenses(
                   model.getLicenses().stream()
-                      .map(
-                          l ->
-                              ImmutableLicenseInfo.builder()
-                                  .name(OptionalOfNonEmpty(l.getName()).orElse("NOASSERTION"))
-                                  .url(OptionalOfNonEmpty(l.getUrl()).orElse("NOASSERTION"))
-                                  .build())
-                      .collect(Collectors.toList()))
+                      .map(l -> PomInfo.LicenseInfo.of(l.getName(), l.getUrl()))
+                      .toList())
               .homepage(extractHomepage(model, ra.getId().getComponentIdentifier()))
               .organization(Optional.ofNullable(model.getOrganization()))
               .addAllDevelopers(
