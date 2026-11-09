@@ -16,17 +16,23 @@
 package org.spdx.sbom.gradle.project;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.gradle.api.Project;
 import org.gradle.api.provider.Provider;
+import org.gradle.api.publish.PublishingExtension;
+import org.gradle.api.publish.maven.MavenPublication;
+import org.gradle.api.publish.maven.internal.publication.MavenPomInternal;
 import org.immutables.serial.Serial;
 import org.immutables.value.Value.Immutable;
 import org.spdx.sbom.gradle.internal.AndroidVersionLoader;
+import org.spdx.sbom.gradle.maven.PomInfo;
 
 @Immutable
-@Serial.Version(1)
+@Serial.Version(2)
 public interface ProjectInfo {
 
   String VERSION_UNKNOWN = "unknown";
@@ -47,15 +53,50 @@ public interface ProjectInfo {
   // is not required and is not available in project isolation mode
   Optional<String> getGroup();
 
+  // populated from maven-publish POM licenses when available
+  List<PomInfo.LicenseInfo> getLicenses();
+
   static ProjectInfo from(Project project) {
-    return ImmutableProjectInfo.builder()
-        .name(project.getName())
-        .description(Optional.ofNullable(project.getDescription()))
-        .version(version(project))
-        .projectDirectory(project.getProjectDir())
-        .path(project.getPath())
-        .group(project.getGroup().toString())
-        .build();
+    ImmutableProjectInfo.Builder builder =
+        ImmutableProjectInfo.builder()
+            .name(project.getName())
+            .description(Optional.ofNullable(project.getDescription()))
+            .version(version(project))
+            .projectDirectory(project.getProjectDir())
+            .path(project.getPath())
+            .group(project.getGroup().toString());
+    populateMavenPublishLicenses(project, builder);
+    return builder.build();
+  }
+
+  private static void populateMavenPublishLicenses(
+      Project project, ImmutableProjectInfo.Builder builder) {
+    PublishingExtension publishing = project.getExtensions().findByType(PublishingExtension.class);
+    if (publishing == null) {
+      return;
+    }
+    Set<List<PomInfo.LicenseInfo>> distinct = new HashSet<>();
+    for (MavenPublication pub : publishing.getPublications().withType(MavenPublication.class)) {
+      if (pub.getPom() instanceof MavenPomInternal pom) {
+        List<PomInfo.LicenseInfo> licenses =
+            pom.getLicenses().stream()
+                .map(l -> PomInfo.LicenseInfo.of(l.getName().getOrNull(), l.getUrl().getOrNull()))
+                .filter(l -> l.getName() != null || l.getUrl() != null)
+                .toList();
+        if (!licenses.isEmpty()) {
+          distinct.add(licenses);
+        }
+      }
+    }
+    if (distinct.size() == 1) {
+      builder.addAllLicenses(distinct.iterator().next());
+    } else if (distinct.size() > 1) {
+      project
+          .getLogger()
+          .warn(
+              "Multiple MavenPublications in {} declare different licenses; using NOASSERTION",
+              project.getPath());
+    }
   }
 
   static ProjectInfo from(Project project, Provider<Boolean> isProjectIsolated) {

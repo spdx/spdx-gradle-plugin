@@ -87,7 +87,7 @@ spdxSbom {
         revision.set("asdfasdfasdf...")
       }
 
-      // SPDX license or expression for this project (defaults to NOASSERTION)
+      // SPDX license or expression for this project (defaults to maven-publish POM licenses, else NOASSERTION)
       license.set("Apache-2.0") // or e.g. "Apache-2.0 OR MIT"
 
       // adjust properties of the document
