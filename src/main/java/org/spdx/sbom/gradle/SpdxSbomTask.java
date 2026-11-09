@@ -96,6 +96,10 @@ public abstract class SpdxSbomTask extends DefaultTask {
   abstract Property<ScmInfo> getScmInfo();
 
   @Input
+  @Optional
+  abstract Property<String> getLicense();
+
+  @Input
   abstract Property<ProjectInfo> getThisProject();
 
   @Internal
@@ -122,6 +126,7 @@ public abstract class SpdxSbomTask extends DefaultTask {
             getTaskExtension().getOrNull(),
             getDocumentInfo().get(),
             getScmInfo().get(),
+            getLicense().getOrNull(),
             getSpdxKnownLicensesService().get().getKnownLicenses(),
             getIgnoreNonMavenDependencies().getOrElse(false));
 
@@ -135,7 +140,8 @@ public abstract class SpdxSbomTask extends DefaultTask {
     List<String> verificationErrors = doc.verify();
     verificationErrors.forEach(errors -> getLogger().warn(errors));
 
-    FileOutputStream out = new FileOutputStream(getOutputFile().get().getAsFile());
-    modelStore.serialize(out, doc);
+    try (FileOutputStream out = new FileOutputStream(getOutputFile().get().getAsFile())) {
+      modelStore.serialize(out, doc);
+    }
   }
 }
