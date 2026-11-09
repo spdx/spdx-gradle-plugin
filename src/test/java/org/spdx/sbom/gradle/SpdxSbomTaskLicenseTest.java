@@ -28,14 +28,19 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.gradle.api.Action;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
+import org.gradle.api.publish.PublishingExtension;
+import org.gradle.api.publish.maven.MavenPublication;
 import org.gradle.testfixtures.ProjectBuilder;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.spdx.sbom.gradle.SpdxSbomExtension.Target;
+import org.spdx.sbom.gradle.maven.PomInfo;
+import org.spdx.sbom.gradle.project.ProjectInfo;
 
 class SpdxSbomTaskLicenseTest {
 
@@ -74,6 +79,25 @@ class SpdxSbomTaskLicenseTest {
     return result;
   }
 
+  private static void addPublicationLicense(Project project, String pubName, String licenseName) {
+    project.getPlugins().apply("maven-publish");
+    project
+        .getExtensions()
+        .configure(
+            PublishingExtension.class,
+            publishing ->
+                publishing
+                    .getPublications()
+                    .create(
+                        pubName,
+                        MavenPublication.class,
+                        pub ->
+                            pub.pom(
+                                pom ->
+                                    pom.licenses(
+                                        ls -> ls.license(l -> l.getName().set(licenseName))))));
+  }
+
   @Test
   void projectWithInvalidLicenseFails() throws Exception {
     Project project = newProjectWithTarget(target -> target.getLicense().set("apache-2.0"));
@@ -104,5 +128,21 @@ class SpdxSbomTaskLicenseTest {
     assertEquals(
         Map.of("my-uber-package", expected, project.getName(), expected),
         generateDeclaredLicenses(project));
+  }
+
+  @Test
+  void multipleMavenPublicationsDeduplicateMatchingAndRejectConflicting() throws Exception {
+    Project project = newProjectWithTarget(target -> {});
+    // Configure maven-publish AFTER target creation to verify lazy ProjectInfo evaluation
+    addPublicationLicense(project, "main", "MIT");
+    addPublicationLicense(project, "pluginMarker", "MIT");
+    addPublicationLicense(project, "blank", "   ");
+
+    assertEquals(
+        List.of(PomInfo.LicenseInfo.of("MIT", null)), ProjectInfo.from(project).getLicenses());
+    assertEquals(Map.of(project.getName(), "MIT"), generateDeclaredLicenses(project));
+
+    addPublicationLicense(project, "conflicting", "Apache-2.0");
+    assertTrue(ProjectInfo.from(project).getLicenses().isEmpty());
   }
 }

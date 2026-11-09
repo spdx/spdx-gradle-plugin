@@ -140,7 +140,7 @@ public class SpdxDocumentBuilder {
     this.thisProjectLicense =
         declaredLicense != null
             ? licenses.parseSpdxLicense(declaredLicense)
-            : new SpdxNoAssertionLicense();
+            : licenses.asSpdxLicense(thisProject.getLicenses());
 
     if (documentInfo.getUberPackageInfo().isPresent()) {
       var uberPackageInfo = documentInfo.getUberPackageInfo().get();
@@ -502,7 +502,7 @@ public class SpdxDocumentBuilder {
       throws InvalidSPDXAnalysisException {
     return projectInfo.getPath().equals(thisProject.getPath())
         ? thisProjectLicense
-        : new SpdxNoAssertionLicense();
+        : licenses.asSpdxLicense(projectInfo.getLicenses());
   }
 
   public SpdxDocument getSpdxDocument() {

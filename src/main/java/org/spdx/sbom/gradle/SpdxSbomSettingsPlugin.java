@@ -15,28 +15,29 @@
  */
 package org.spdx.sbom.gradle;
 
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.inject.Inject;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.ProjectEvaluationListener;
 import org.gradle.api.ProjectState;
 import org.gradle.api.initialization.Settings;
-import org.gradle.api.model.ObjectFactory;
-import org.gradle.api.provider.SetProperty;
+import org.gradle.api.provider.ProviderFactory;
 import org.spdx.sbom.gradle.project.ProjectInfo;
 import org.spdx.sbom.gradle.project.ProjectInfoService;
 
 public abstract class SpdxSbomSettingsPlugin implements Plugin<Settings> {
-  private final ObjectFactory objectFactory;
+  private final ProviderFactory providerFactory;
 
   @Inject
-  public SpdxSbomSettingsPlugin(ObjectFactory objectFactory) {
-    this.objectFactory = objectFactory;
+  public SpdxSbomSettingsPlugin(ProviderFactory providerFactory) {
+    this.providerFactory = providerFactory;
   }
 
   @Override
   public void apply(Settings settings) {
-    SetProperty<ProjectInfo> allProjects = objectFactory.setProperty(ProjectInfo.class);
+    Set<ProjectInfo> allProjects = ConcurrentHashMap.newKeySet();
 
     settings
         .getGradle()
@@ -48,7 +49,8 @@ public abstract class SpdxSbomSettingsPlugin implements Plugin<Settings> {
               @Override
               public void afterEvaluate(Project project, ProjectState state) {
                 if (state.getFailure() == null) {
-                  allProjects.add(ProjectInfo.from(project));
+                  // Defer to pass 2 so build-script afterEvaluate runs first.
+                  project.afterEvaluate(p -> allProjects.add(ProjectInfo.from(p)));
                 }
               }
             });
@@ -59,8 +61,9 @@ public abstract class SpdxSbomSettingsPlugin implements Plugin<Settings> {
         .registerIfAbsent(
             ProjectInfoService.SERVICE_NAME,
             ProjectInfoService.class,
-            spec -> {
-              spec.getParameters().getAllProjects().set(allProjects);
-            });
+            spec ->
+                spec.getParameters()
+                    .getAllProjects()
+                    .set(providerFactory.provider(() -> Set.copyOf(allProjects))));
   }
 }
