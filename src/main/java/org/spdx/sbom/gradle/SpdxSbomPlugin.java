@@ -144,7 +144,7 @@ public class SpdxSbomPlugin implements Plugin<Project> {
                 t -> {
                   t.setGroup("Spdx sbom tasks");
                   t.getOutputFile().set(target.getOutputFile());
-                  t.getThisProject().set(ProjectInfo.from(project));
+                  t.getThisProject().set(project.provider(() -> ProjectInfo.from(project)));
                   t.getDocumentInfo().set(DocumentInfo.from(target));
                   t.getScmInfo().set(ScmInfo.from(target));
                   t.getLicense().set(target.getLicense());
