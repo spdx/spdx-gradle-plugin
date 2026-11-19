@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
 import javax.annotation.Nullable;
+import org.gradle.api.GradleException;
 import org.gradle.api.logging.Logger;
 import org.spdx.core.IModelCopyManager;
 import org.spdx.core.InvalidSPDXAnalysisException;
@@ -68,6 +69,28 @@ public class SpdxLicenses {
       Logger logger, SpdxDocument doc, SpdxKnownLicenses spdxKnownLicenses) {
     return new SpdxLicenses(
         logger, doc, doc.getModelStore(), doc.getCopyManager(), spdxKnownLicenses);
+  }
+
+  /**
+   * Validates and parses an explicit {@code license} string configured on an SBOM target, enforcing
+   * exact case-sensitivity for listed IDs, {@code WITH} exceptions, operators ({@code AND}, {@code
+   * OR}, {@code +}), and standalone {@code NONE}/{@code NOASSERTION}, while rejecting {@code
+   * LicenseRef-*} identifiers.
+   */
+  public AnyLicenseInfo parseSpdxLicense(String expression) throws InvalidSPDXAnalysisException {
+    String trimmed = expression.trim();
+    if (!"NONE".equals(trimmed)
+        && !"NOASSERTION".equals(trimmed)
+        && !isValidListedExpression(trimmed)) {
+      Optional<String> hint =
+          ListedLicenses.getListedLicenses().listedLicenseIdCaseSensitive(trimmed);
+      throw new GradleException(
+          "Invalid SPDX license expression '"
+              + trimmed
+              + "'"
+              + hint.map(id -> " (did you mean '" + id + "'?)").orElse(""));
+    }
+    return parseCompatV2(trimmed);
   }
 
   public AnyLicenseInfo asSpdxLicense(List<LicenseInfo> licenses)
