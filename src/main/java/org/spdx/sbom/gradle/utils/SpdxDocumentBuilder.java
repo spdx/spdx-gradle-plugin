@@ -315,6 +315,18 @@ public class SpdxDocumentBuilder {
     } else {
       builder.setSourceInfo(scmInfo.getDownloadLocation(pi));
     }
+
+    if (pi.getMavenCoordinates().isPresent()) {
+      var coordinates = pi.getMavenCoordinates().get();
+      var externalRef =
+          doc.createExternalRef(
+              ReferenceCategory.PACKAGE_MANAGER,
+              new ReferenceType(SpdxConstantsCompatV2.SPDX_LISTED_REFERENCE_TYPES_PREFIX + "purl"),
+              URIs.toPurl(
+                  coordinates.getGroup(), coordinates.getArtifact(), coordinates.getVersion()),
+              null);
+      builder.setExternalRefs(List.of(externalRef));
+    }
     return builder.build();
   }
 
