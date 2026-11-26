@@ -57,6 +57,12 @@ class URIsTest {
   }
 
   @Test
+  public void toPurl_fromCoordinates() {
+    String purl = URIs.toPurl("com.test", "test", "1.0.0");
+    Assertions.assertEquals("pkg:maven/com.test/test@1.0.0", purl);
+  }
+
+  @Test
   public void toPurl_mavenCentral() {
     String purl = URIs.toPurl(URI.create("https://repo.maven.org/maven2"), moduleId);
     Assertions.assertEquals("pkg:maven/com.test/test@1.0.0", purl);
